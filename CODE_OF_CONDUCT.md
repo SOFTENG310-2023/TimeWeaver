@@ -65,10 +65,11 @@ representative at an online or offline event.
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at any of the following emails
 
-- scor728@aucklanduni.ac.nz
-- leas002@aucklanduni.ac.nz
-- vdav604@aucklanduni.ac.nz
-- skau811@aucklanduni.ac.nz
+- [scor728@aucklanduni.ac.nz](mailto:scor728@aucklanduni.ac.nz)
+- [leas002@aucklanduni.ac.nz](mailto:leas002@aucklanduni.ac.nz)
+- [vdav604@aucklanduni.ac.nz](mailto:vdav604@aucklanduni.ac.nz)
+- [skau811@aucklanduni.ac.nz](mailto:skau811@aucklanduni.ac.nz)
+- [klam656@aucklanduni.ac.nz](mailto:klam656@aucklanduni.ac.nz)
 
 All complaints will be reviewed and investigated promptly and fairly.
 
