@@ -24,5 +24,8 @@
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
   }
 }
