@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/leas022/assignment-1.git"
+    "url": "git+https://github.com/SOFTENG310-2023/assignment-1.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/leas022/assignment-1/issues"
+    "url": "https://github.com/SOFTENG310-2023/assignment-1/issues"
   },
-  "homepage": "https://github.com/leas022/assignment-1#readme",
+  "homepage": "https://github.com/SOFTENG310-2023/assignment-1#readme",
   "devDependencies": {
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
