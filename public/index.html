@@ -10,6 +10,24 @@
   <body>
     <h1>TimeWeaver</h1>
 
+    <div>
+      <h2>Calendars</h2>
+      <div>
+        <input type="text" id="ical-input-box" placeholder="Add Calendar" />
+        <input type="text" id="name-input-box" placeholder="Add Name" />
+        <button onclick="addTask()">Add</button>
+      </div>
+      <ul id="calendar-list"></ul>
+    </div>
+    <button onclick="generateCheckedList()">Create List</button>
+    <div>
+      <h2>Generate Combination Modal</h2>
+
+      <ul id="calendar-select-list">
+        <li><input type="checkbox" id="1403317" /></li>
+      </ul>
+    </div>
+
     <script src="assets/js/main.js"></script>
   </body>
 </html>
