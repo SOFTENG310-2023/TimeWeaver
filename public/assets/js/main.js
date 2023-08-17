@@ -16,8 +16,7 @@ function icalFromURLToJSON(url) {
             const comp = new ical.Component(jcalData);
 
             const events = comp.getAllSubcomponents('vevent').map(eventComp => {
-                return {
-                    summary: eventComp.getFirstPropertyValue('summary'),
+                return {                    
                     start: extractDayAndTime(eventComp.getFirstPropertyValue('dtstart').toJSDate()),
                     end: extractDayAndTime(eventComp.getFirstPropertyValue('dtend').toJSDate()),
                     
