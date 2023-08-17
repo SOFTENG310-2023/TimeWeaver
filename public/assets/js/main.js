@@ -1,6 +1,13 @@
 const axios = require('axios');
 const ical = require('ical.js');
 
+// displaying the date into a more human readable form
+function extractDayAndTime(dateTimeStr) {
+    const options = { weekday: 'long', hour: '2-digit', minute: '2-digit' };
+    const dateObj = new Date(dateTimeStr);
+    return dateObj.toLocaleDateString('en-US', options);
+}
+
 // parses the ical file into JSON
 function icalFromURLToJSON(url) {
     return axios.get(url)
@@ -11,8 +18,8 @@ function icalFromURLToJSON(url) {
             const events = comp.getAllSubcomponents('vevent').map(eventComp => {
                 return {
                     summary: eventComp.getFirstPropertyValue('summary'),
-                    start: eventComp.getFirstPropertyValue('dtstart').toJSDate(),
-                    end: eventComp.getFirstPropertyValue('dtend').toJSDate(),
+                    start: extractDayAndTime(eventComp.getFirstPropertyValue('dtstart').toJSDate()),
+                    end: extractDayAndTime(eventComp.getFirstPropertyValue('dtend').toJSDate()),
                     
                 };
             });
