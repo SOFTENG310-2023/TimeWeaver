@@ -55,9 +55,8 @@ const addIcalModal = $.modal({
   content: `
     <div class="ui labeled input">
     <div class="ui blue label">Name</div>
-    <input id "ical-name-input" type="text" placeholder="Eg. Sam">
+    <input id="ical-name-input" type="text" placeholder="Eg. Sam">
     </div>
-
 
     <h5>Paste your Ical Link Here:</h5>
 
@@ -72,9 +71,52 @@ const addIcalModal = $.modal({
 });
 
 function setupNewCalendar() {
-  addIcalModal.modal("hide");
+  console.log(document);
   const name = document.getElementById("ical-name-input");
   const ical = document.getElementById("ical-input");
+  console.log(name.value);
+  addIcalModal.modal("hide");
+  console.log(name);
+  calList.push(name.value);
+  updateCalList();
+}
+
+const NON_DYNAMIC_CHILDREN = 3;
+
+function updateCalList() {
+  const dynamicSection = document.getElementById("dynamicTabs");
+
+  const referenceNode = dynamicSection.children[1];
+
+  console.log("adding children");
+
+  // dynamicSection.innerHTML = "";
+  for (
+    let element = dynamicSection.children.length - NON_DYNAMIC_CHILDREN;
+    element < calList.length;
+    element++
+  ) {
+    // const div = document.createElement("div");
+    //div.setAttribute("class", "header item");
+    const title = document.createElement("span");
+    title.innerHTML = calList[element];
+    console.log("Element = " + element);
+    const link = document.createElement("a");
+    link.setAttribute("class", "item");
+    link.appendChild(title);
+    link.setAttribute("onclick", `openCalendar(event, '${calList[element]}')`);
+
+    dynamicSection.insertBefore(link, referenceNode);
+  }
+  console.log(document);
+
+  //<a class="item" onclick="addCalendar()">
+  // <span>Add Person</span></a>
+}
+
+function openCalendar(event, name) {
+  console.log(event);
+  console.log(name);
 }
 
 function addCalendar() {
