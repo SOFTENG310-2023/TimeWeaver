@@ -1,0 +1,17 @@
+name: FOSSA Action
+
+on:
+  workflow_run:
+    workflows: [SonarCloud]
+    types: [completed]
+jobs:
+  fossa-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout Code"
+        uses: actions/checkout@v3
+
+      - name: "Run FOSSA Scan"
+        uses: fossas/fossa-action@main
+        with:
+          api-key: ${{secrets.FOSSA_TOKEN}}
