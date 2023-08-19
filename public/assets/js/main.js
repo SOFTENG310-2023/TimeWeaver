@@ -67,17 +67,44 @@ const addIcalModal = $.modal({
     <input type="text" placeholder="<Ical Link>">
     </div>
     <br></br>
-    <div class="ui approve button green" onclick="setupNewCalendar()">Done</div>`,
+    <div class="ui approve button green" onclick="setupNewCalendar('Ical')">Done</div>`,
 });
 
-function setupNewCalendar() {
+const addManualModal = $.modal({
+  title: "Add Ical Link",
+  class: "mini",
+  closeIcon: true,
+  classContent: "centered",
+  content: `
+    <div class="ui labeled input">
+    <div class="ui blue label">Name</div>
+    <input id="manual-name-input" type="text" placeholder="Eg. Sam">
+    </div>
+
+    <h5>Add your Calendar Manually</h5>
+
+    <div class="ui labeled input">
+    <h4>Insert Manual Addition Here</h4></div>
+    <br></br>
+    <div class="ui approve button green" onclick="setupNewCalendar('Manual')">Done</div>`,
+});
+
+function setupNewCalendar(mode) {
   console.log(document);
-  const name = document.getElementById("ical-name-input");
+  const icalName = document.getElementById("ical-name-input");
+  const manualName = document.getElementById("manual-name-input");
   const ical = document.getElementById("ical-input");
-  console.log(name.value);
   addIcalModal.modal("hide");
-  console.log(name);
-  calList.push(name.value);
+  addManualModal.modal("hide");
+
+  if (mode == "Ical") {
+    calList.push(icalName.value);
+    icalName.textContent = "";
+    icalName.innerHTML = "";
+  } else {
+    calList.push(manualName.value);
+    manualName.textContent = "";
+  }
   updateCalList();
 }
 
@@ -89,15 +116,11 @@ function updateCalList() {
   const referenceNode = dynamicSection.children[1];
 
   console.log("adding children");
-
-  // dynamicSection.innerHTML = "";
   for (
     let element = dynamicSection.children.length - NON_DYNAMIC_CHILDREN;
     element < calList.length;
     element++
   ) {
-    // const div = document.createElement("div");
-    //div.setAttribute("class", "header item");
     const title = document.createElement("span");
     title.innerHTML = calList[element];
     console.log("Element = " + element);
@@ -109,14 +132,13 @@ function updateCalList() {
     dynamicSection.insertBefore(link, referenceNode);
   }
   console.log(document);
-
-  //<a class="item" onclick="addCalendar()">
-  // <span>Add Person</span></a>
 }
 
 function openCalendar(event, name) {
   console.log(event);
   console.log(name);
+  const title = document.getElementById("calendar-title");
+  title.textContent = name + "'s Calendar";
 }
 
 function addCalendar() {
@@ -132,4 +154,10 @@ function uploadIcal() {
 function uploadManual() {
   console.log("Uploading Manually");
   formatModal.modal("hide");
+  addManualModal.modal("show");
+}
+
+function viewCombinedCalendar() {
+  const title = document.getElementById("calendar-title");
+  title.textContent = "Combined Calendar";
 }
