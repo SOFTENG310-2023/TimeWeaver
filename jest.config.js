@@ -9,7 +9,7 @@ const config = {
   coverageProvider: "v8",
 
   // The test environment that will be used for testing
-  testEnvironment: "jsdom",
+  testEnvironment: "node",
 };
 
 module.exports = config;
