@@ -9,5 +9,5 @@ const port = process.env.port || 8080;
 app.use(express.static("public"));
 
 app.listen(port, () => {
-  console.log(`TimeWeaver is running on port ${port}`);
+    console.log(`TimeWeaver is running on port ${port}`);
 });
