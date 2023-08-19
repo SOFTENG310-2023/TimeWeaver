@@ -18,8 +18,8 @@ describe("Check main files are accessible", () => {
     expect(res.statusCode).toBe(200);
   });
 
-  test("Responds to /assets/js/main.js", async () => {
-    const res = await request(app).get("/assets/js/main.js");
+  test("Responds to /assets/js/bundle.js", async () => {
+    const res = await request(app).get("/assets/js/bundle.js");
     expect(res.statusCode).toBe(200);
   });
 });
