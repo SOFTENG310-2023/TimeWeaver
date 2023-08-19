@@ -75,7 +75,7 @@ function addWeek(date) {
  * @param {Array} events - Array of parsed events.
  */
 function writeEventsToFile(events) {
-    fs.writeFileSync('JIFD.json', JSON.stringify(events, null, 4), 'utf8');
+    fs.writeFileSync('eventsOutput.json', JSON.stringify(events, null, 4), 'utf8');
 }
 
 /**
