@@ -1,0 +1,41 @@
+name: Test
+
+on:
+  push:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Install
+        run: |
+          npm install
+        env:
+          CI: true
+
+      - name: Test
+        run: |
+          npm run test
+          cat ./coverage/lcov.info
+        env:
+          CI: true
+
+      - name: Upload code coverage to GitHub Artifacts (for SonarCloud)
+        uses: actions/upload-artifact@v2
+        with:
+          name: timeweaver-lcov-file
+          path: coverage/lcov.info
