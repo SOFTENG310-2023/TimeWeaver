@@ -64,7 +64,6 @@ const addManualModal = $.modal({
 const title = document.getElementById("calendar-title");
 const icalName = document.getElementById("ical-name-input");
 const manualName = document.getElementById("manual-name-input");
-const ical = document.getElementById("ical-input");
 const dynamicSection = document.getElementById("dynamicTabs");
 
 const NON_DYNAMIC_NAV_ELEMENTS = 3;
