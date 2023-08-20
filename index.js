@@ -8,6 +8,8 @@ const port = process.env.port || 8080;
 // Routes all files in public relative to the root url
 app.use(express.static("public"));
 
-app.listen(port, () => {
-    console.log(`TimeWeaver is running on port ${port}`);
+const server = app.listen(port, () => {
+  console.log(`TimeWeaver is running on port ${port}`);
 });
+
+module.exports = { app, server };
