@@ -19,13 +19,13 @@
         <span>TimeWeaver</span>
       </div>
 
-      <a class="item" onclick="addCalendar()">
+      <a id="add-calendar-modal-open" class="item">
         <i class="plus icon"></i>
         <span>Add Person</span></a
       >
 
       <div class="right menu">
-        <a onclick="viewCombinedCalendar()" class="item"
+        <a id="view-combination-button" class="item"
           ><i class="hammer icon"></i>Combined Calendar</a
         >
       </div>
@@ -344,26 +344,8 @@
       </div>
     </div>
 
-    <!--  <div>
-      <h2>Calendars</h2>
-      <div>
-        <input type="text" id="ical-input-box" placeholder="Add Calendar" />
-        <input type="text" id="name-input-box" placeholder="Add Name" />
-        <button onclick="addTask()">Add</button>
-      </div>
-      <ul id="calendar-list"></ul>
-    </div>
-    <button onclick="generateCheckedList()">Create List</button>
-    <div>
-      <h2>Generate Combination Modal</h2>
-
-      <ul id="calendar-select-list">
-        <li><input type="checkbox" id="1403317" /></li>
-      </ul>
-    </div>-->
-
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script src="assets/js/bundle.js"></script>
   </body>
 </html>
