@@ -10,9 +10,11 @@ const {
   uploadIcal,
   uploadManual,
   openCalendar,
+  setupNewIcal,
+  setupNewManual,
   formatModal,
   addManualModal,
   addIcalModal,
-} = require("./addCalendar");
+} = require("./manageCalendars");
 
 console.log(onePlusTwo());

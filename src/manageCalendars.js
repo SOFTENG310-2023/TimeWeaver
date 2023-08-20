@@ -1,8 +1,3 @@
-/** HTML Element Declarations */
-
-/** List of Uploaded Calendars */
-let calList = [];
-
 const commonModalAttributes = {
   class: "mini",
   closeIcon: true,
@@ -65,7 +60,15 @@ const addManualModal = $.modal({
     <div class="ui approve button green" id="setup-new-calendar-manual">Done</div>`,
 });
 
+/** HTML Element Declarations */
 const title = document.getElementById("calendar-title");
+const icalName = document.getElementById("ical-name-input");
+const manualName = document.getElementById("manual-name-input");
+const ical = document.getElementById("ical-input");
+const dynamicSection = document.getElementById("dynamicTabs");
+
+const NON_DYNAMIC_NAV_ELEMENTS = 3;
+
 document
   .getElementById("add-calendar-modal-open")
   .addEventListener("click", addCalendar);
@@ -76,8 +79,17 @@ document.getElementById("upload-ical").addEventListener("click", uploadIcal);
 document
   .getElementById("upload-manual")
   .addEventListener("click", uploadManual);
+document
+  .getElementById("setup-new-calendar-manual")
+  .addEventListener("click", setupNewManual);
+document
+  .getElementById("setup-new-calendar-ical")
+  .addEventListener("click", setupNewIcal);
 
-/** Handles the Display of the Given Calendar When Nav Element is Clicked */
+/** List of Uploaded Calendars */
+let calList = [];
+
+/** Handles the Display of the Given Individual Calendar When Nav Element is Clicked */
 function openCalendar(name) {
   title.textContent = name + "'s Calendar";
 }
@@ -95,48 +107,23 @@ function uploadManual() {
   formatModal.modal("hide");
   addManualModal.modal("show");
 }
+
 /** Handles the Display of the Combined Calendar When Nav Element is Clicked */
 function viewCombinedCalendar() {
   title.textContent = "Combined Calendar";
 }
 
-/** HTML Element Declarations */
-const icalName = document.getElementById("ical-name-input");
-const manualName = document.getElementById("manual-name-input");
-const ical = document.getElementById("ical-input");
-const dynamicSection = document.getElementById("dynamicTabs");
-
-const NON_DYNAMIC_NAV_ELEMENTS = 3;
-
-/** Handles Creation of Calendar Item 
-function setupNewCalendar (mode) {
-  addIcalModal.modal("hide");
-  addManualModal.modal("hide");
-
-  if (mode == "Ical") {
-    calList.push(icalName.value);
-    icalName.textContent = "";
-    icalName.innerHTML = "";
-  } else {
-    calList.push(manualName.value);
-    manualName.textContent = "";
-  }
-  updateCalList();
-}
-*/
-
 function setupNewIcal() {
   addIcalModal.modal("hide");
   calList.push(icalName.value);
-  icalName.textContent = "";
-  icalName.innerHTML = "";
+  icalName.value = "";
   updateCalList();
 }
 
 function setupNewManual() {
   addManualModal.modal("hide");
   calList.push(manualName.value);
-  manualName.textContent = "";
+  manualName.value = "";
   updateCalList();
 }
 
@@ -164,15 +151,10 @@ function updateCalList() {
   }
 }
 
-document
-  .getElementById("setup-new-calendar-manual")
-  .addEventListener("click", setupNewManual);
-document
-  .getElementById("setup-new-calendar-ical")
-  .addEventListener("click", setupNewIcal);
-
 module.exports = {
   updateCalList,
+  setupNewIcal,
+  setupNewManual,
   addCalendar,
   viewCombinedCalendar,
   uploadIcal,
@@ -181,4 +163,5 @@ module.exports = {
   formatModal,
   addManualModal,
   addIcalModal,
+  calList,
 };
