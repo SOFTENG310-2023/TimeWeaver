@@ -88,6 +88,10 @@ document
 /** List of Uploaded Calendars */
 let calList = [];
 
+function getNumberOfCalendars() {
+  return calList.length;
+}
+
 /** Handles the Display of the Given Individual Calendar When Nav Element is Clicked */
 function openCalendar(name) {
   title.textContent = name + "'s Calendar";
@@ -133,7 +137,7 @@ function updateCalList() {
   // Repeats for However many items in the calList are not already represented as navigation tabs
   for (
     let i = dynamicSection.children.length - NON_DYNAMIC_NAV_ELEMENTS;
-    i < calList.length;
+    i < getNumberOfCalendars();
     i++
   ) {
     const title = document.createElement("span");
@@ -151,6 +155,7 @@ function updateCalList() {
 }
 
 module.exports = {
+  getNumberOfCalendars,
   updateCalList,
   setupNewIcal,
   setupNewManual,

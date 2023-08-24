@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "browserify src/main.js --standalone addCalendar > public/assets/js/bundle.js",
+    "build": "browserify src/main.js public/assets/js/bundle.js",
     "test": "npm run build && jest --coverage",
     "prepare": "husky install"
   },

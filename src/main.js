@@ -4,6 +4,7 @@
 
 const onePlusTwo = require("./onePlusTwo");
 const {
+  getNumberOfCalendars,
   addCalendar,
   viewCombinedCalendar,
   updateCalList,
