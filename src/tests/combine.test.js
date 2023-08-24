@@ -1,4 +1,4 @@
-const combineObjects = require("./combine");
+const combineObjects = require("../combine");
 /* Test case 1: Both users have empty cells */
 describe("combineObjects", () => {
     test("Both users have empty cells", () => {
