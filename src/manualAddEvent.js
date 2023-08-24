@@ -8,6 +8,8 @@ function initializeCellListeners() {
     const rowCells = row.getElementsByTagName("td");
 
     for (const cell of rowCells) {
+      cell.classList.remove("cellSelected");
+      cell.style.backgroundColor = "white";
       cell.addEventListener("click", function () {
         setCell(cell);
       });

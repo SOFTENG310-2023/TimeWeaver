@@ -3,6 +3,7 @@
 // This enables everything to be run in the web browser
 
 const onePlusTwo = require("./onePlusTwo");
+const { initializeCellListeners, cellList } = require("./manualAddEvent");
 const {
   getNumberOfCalendars,
   addCalendar,

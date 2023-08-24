@@ -408,7 +408,9 @@ function getNumberOfCalendars() {
 // Returns iCal
 async function getICalFromURL(url) {
   // const webEvents = await ical.async.fromURL(url);
-  const res = await fetch(url);
+  const res = await fetch(
+    `http://localhost:8080/api/get-ical?ical=${encodeURIComponent(url)}`,
+  );
   return await res.text();
 }
 
@@ -503,16 +505,9 @@ function setupNewManual() {
     calendarJson: {},
   });
   manualName.value = "";
-  // const userCellList = cellList;
-  /**
-    const formattedCellList = userCellList.map(cell => {
-    return {
-      user: manualName.value,
-      cells: userCellList
-    }
-  } )
+  const userCellList = cellList;
 
-   */
+  console.log(cellList);
 
   updateCalList();
 }
