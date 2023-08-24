@@ -1,3 +1,8 @@
 .border-left-none {
   border-left: hidden !important;
 }
+
+.calendarTitle {
+  font-weight: bolder;
+  text-align: center;
+}
