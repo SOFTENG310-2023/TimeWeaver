@@ -1,32 +1,32 @@
 [
-    {
-        "summary": "SOFTENG 250 Recurring",
-        "start": "Tuesday 2nd May 10:00 AM",
-        "end": "Tuesday 2nd May 11:00 AM"
-    },
-    {
-        "summary": "SOFTENG 250 Recurring",
-        "start": "Tuesday 9th May 10:00 AM",
-        "end": "Tuesday 9th May 11:00 AM"
-    },
-    {
-        "summary": "SOFTENG 250 Recurring",
-        "start": "Tuesday 16th May 10:00 AM",
-        "end": "Tuesday 16th May 11:00 AM"
-    },
-    {
-        "summary": "SOFTENG 350 Recurring",
-        "start": "Tuesday 2nd May 12:00 PM",
-        "end": "Tuesday 2nd May 1:00 PM"
-    },
-    {
-        "summary": "SOFTENG 350 Recurring",
-        "start": "Tuesday 9th May 12:00 PM",
-        "end": "Tuesday 9th May 1:00 PM"
-    },
-    {
-        "summary": "SOFTENG 350 Recurring",
-        "start": "Tuesday 16th May 12:00 PM",
-        "end": "Tuesday 16th May 1:00 PM"
-    }
+  {
+    "summary": "SOFTENG 250 Recurring",
+    "start": "Tuesday 2nd May 10:00 AM",
+    "end": "Tuesday 2nd May 11:00 AM"
+  },
+  {
+    "summary": "SOFTENG 250 Recurring",
+    "start": "Tuesday 9th May 10:00 AM",
+    "end": "Tuesday 9th May 11:00 AM"
+  },
+  {
+    "summary": "SOFTENG 250 Recurring",
+    "start": "Tuesday 16th May 10:00 AM",
+    "end": "Tuesday 16th May 11:00 AM"
+  },
+  {
+    "summary": "SOFTENG 350 Recurring",
+    "start": "Tuesday 2nd May 12:00 PM",
+    "end": "Tuesday 2nd May 1:00 PM"
+  },
+  {
+    "summary": "SOFTENG 350 Recurring",
+    "start": "Tuesday 9th May 12:00 PM",
+    "end": "Tuesday 9th May 1:00 PM"
+  },
+  {
+    "summary": "SOFTENG 350 Recurring",
+    "start": "Tuesday 16th May 12:00 PM",
+    "end": "Tuesday 16th May 1:00 PM"
+  }
 ]
