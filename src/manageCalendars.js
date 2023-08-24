@@ -1,7 +1,7 @@
-const { initializeCellListeners, cellList } = require("./manualAddEvent");
 const { icalToJSON, formatEventDate } = require("./icalToJSON");
 const converter = require("./converter");
 const onDisplay = require("./onDisplay");
+const createCellInstance = require("./addCellTimetable");
 
 const commonModalAttributes = {
   class: "mini",
@@ -399,6 +399,7 @@ document
 
 /** List of Uploaded Calendars */
 let calList = [];
+let cellList = [];
 
 function getNumberOfCalendars() {
   return calList.length;
@@ -532,16 +533,22 @@ function newFormat(date) {
 }
 
 function setupNewManual() {
+  console.log("cellList");
+  console.log(cellList);
   addManualModal.modal("hide");
+
+  const cells = cellList.map((cell) =>
+    createCellInstance(cell, manualName.value, 1),
+  );
+
+  emptyCellList();
+
   calList.push({
     user: manualName.value,
     icalUrl: "",
-    calendarJson: {},
+    calendarJson: JSON.stringify({ cells: cells }),
   });
   manualName.value = "";
-  const userCellList = cellList;
-
-  console.log(cellList);
 
   updateCalList();
 }
@@ -570,6 +577,46 @@ function updateCalList() {
   }
 }
 
+/** Heavy Inspiration from https://stackoverflow.com/questions/1207939/adding-an-onclick-event-to-a-table-row */
+function initializeCellListeners() {
+  emptyCellList();
+  const table = document.getElementById("calendar-table");
+  const rows = table.getElementsByTagName("tr");
+  for (const row of rows) {
+    const rowCells = row.getElementsByTagName("td");
+
+    for (const cell of rowCells) {
+      cell.classList.remove("cellSelected");
+      cell.style.backgroundColor = "white";
+      cell.addEventListener("click", function () {
+        setCell(cell);
+      });
+    }
+  }
+}
+
+function emptyCellList() {
+  cellList = [];
+}
+
+function setCell(cell) {
+  console.log(cell);
+  const id = cell.id;
+  console.log(id);
+
+  if (cell.classList.contains("cellSelected")) {
+    cell.classList.remove("cellSelected");
+    cell.style.backgroundColor = "white";
+    cellList = cellList.filter((x) => x != id);
+    console.log(cellList);
+  } else {
+    cell.classList.add("cellSelected");
+    cell.style.backgroundColor = "purple";
+    cellList.push(id);
+    console.log(cellList);
+  }
+}
+
 module.exports = {
   getNumberOfCalendars,
   updateCalList,
@@ -584,4 +631,7 @@ module.exports = {
   addManualModal,
   addIcalModal,
   calList,
+  cellList,
+  setCell,
+  initializeCellListeners,
 };

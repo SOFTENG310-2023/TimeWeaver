@@ -3,20 +3,23 @@
 // This enables everything to be run in the web browser
 
 const onePlusTwo = require("./onePlusTwo");
-const { initializeCellListeners, cellList } = require("./manualAddEvent");
 const {
   getNumberOfCalendars,
+  updateCalList,
+  setupNewIcal,
+  setupNewManual,
   addCalendar,
   viewCombinedCalendar,
-  updateCalList,
   uploadIcal,
   uploadManual,
   openCalendar,
-  setupNewIcal,
-  setupNewManual,
   formatModal,
   addManualModal,
   addIcalModal,
+  calList,
+  cellList,
+  setCell,
+  initializeCellListeners,
 } = require("./manageCalendars");
 
 const onDisplay = require("./onDisplay");

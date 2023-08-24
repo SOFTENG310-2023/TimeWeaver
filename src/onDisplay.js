@@ -20,11 +20,16 @@ function onDisplay(json, personCount) {
   const jsonData = JSON.parse(json);
   // Loop through each Cell object in the JSON data
   for (const cell of jsonData.cells) {
+    console.log(cell);
+    console.log(cell.id);
+
     // Calculate the opacity based on the ratio of numPeople and users array length
     const opacity = cell.numPeople === 0 ? 0 : cell.numPeople / personCount;
 
     // Find the corresponding table cell in the HTML
     const cellElement = document.getElementById(cell.id);
+
+    console.log(cellElement);
 
     // Apply the calculated background color and opacity to the cell if found
     if (cellElement) {
