@@ -4,7 +4,6 @@
  * @param {object} user2 - The second user object containing cells.
  * @returns {object} The combined result object with cells.
  */
-// This function takes two user objects as input and combines their cells into a single result object.
 function combineObjects(user1, user2) {
     // Initialize the result object with an empty array for cells.
     const result = {
@@ -47,8 +46,6 @@ function combineObjects(user1, user2) {
             result.cells.push(cellInstance);
         }
     }
-
-    // Return the final combined result object.
     return result;
 }
 
