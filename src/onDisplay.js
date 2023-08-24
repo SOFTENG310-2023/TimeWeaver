@@ -1,9 +1,11 @@
+const { getNumberOfCalendars } = require("./manageCalendars");
+
 function onDisplay(jsonData) {
   // Loop through each Cell object in the JSON data
   for (const cell of jsonData) {
     // Calculate the opacity based on the ratio of numPeople and users array length
     const opacity =
-      cell.numPeople === 0 ? 0 : cell.users.length / cell.numPeople;
+      cell.numPeople === 0 ? 0 : cell.numPeople / getNumberOfCalendars();
 
     // Find the corresponding table cell in the HTML
     const cellElement = document.getElementById(cell.id);
