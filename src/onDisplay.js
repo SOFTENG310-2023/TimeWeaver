@@ -1,11 +1,27 @@
-const { getNumberOfCalendars } = require("./manageCalendars");
+const {
+  getNumberOfCalendars,
+  updateCalList,
+  setupNewIcal,
+  setupNewManual,
+  addCalendar,
+  viewCombinedCalendar,
+  uploadIcal,
+  uploadManual,
+  openCalendar,
+  formatModal,
+  addManualModal,
+  addIcalModal,
+  calList,
+} = require("./manageCalendars");
 
-function onDisplay(jsonData) {
+function onDisplay(json, personCount) {
+  console.log("display json");
+  console.log(json);
+  const jsonData = JSON.parse(json);
   // Loop through each Cell object in the JSON data
   for (const cell of jsonData.cells) {
     // Calculate the opacity based on the ratio of numPeople and users array length
-    const opacity =
-      cell.numPeople === 0 ? 0 : cell.numPeople / getNumberOfCalendars();
+    const opacity = cell.numPeople === 0 ? 0 : cell.numPeople / personCount;
 
     // Find the corresponding table cell in the HTML
     const cellElement = document.getElementById(cell.id);
@@ -17,3 +33,5 @@ function onDisplay(jsonData) {
     }
   }
 }
+
+module.exports = onDisplay;

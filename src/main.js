@@ -18,4 +18,6 @@ const {
   addIcalModal,
 } = require("./manageCalendars");
 
+const onDisplay = require("./onDisplay");
+
 console.log(onePlusTwo());

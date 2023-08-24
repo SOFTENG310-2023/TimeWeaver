@@ -1,4 +1,7 @@
 const { initializeCellListeners, cellList } = require("./manualAddEvent");
+const { icalToJSON, formatEventDate } = require("./icalToJSON");
+const converter = require("./converter");
+const onDisplay = require("./onDisplay");
 
 const commonModalAttributes = {
   class: "mini",
@@ -400,9 +403,34 @@ function getNumberOfCalendars() {
   return calList.length;
 }
 
+// const ical = require("ical.js");
+
+// Returns iCal
+async function getICalFromURL(url) {
+  // const webEvents = await ical.async.fromURL(url);
+  const res = await fetch(url);
+  return await res.text();
+}
+
+// Returns JSON
+async function urlToJSON(url) {
+  console.log(url);
+  const ical = await getICalFromURL(url);
+  return await icalToJSON(ical);
+}
+
 /** Handles the Display of the Given Individual Calendar When Nav Element is Clicked */
 function openCalendar(name) {
   title.textContent = name + "'s Calendar";
+  console.log(calList);
+  console.log(name);
+  console.log(calList[0].user);
+
+  const [userInfo] = calList.filter((x) => x.user === name);
+
+  console.log(userInfo);
+  console.log(userInfo.calendarJson);
+  onDisplay(userInfo.calendarJson, 1);
 }
 
 function addCalendar() {
@@ -425,18 +453,46 @@ function viewCombinedCalendar() {
   title.textContent = "Combined Calendar";
 }
 
-function setupNewIcal() {
+async function setupNewIcal() {
   addIcalModal.modal("hide");
+
+  const icalUrl = icalInput.value;
+  const json = await urlToJSON(icalUrl);
+
+  const formatted = json.map((x) => {
+    return {
+      start: newFormat(x.start),
+      end: newFormat(x.end),
+    };
+  });
+
+  console.log(json);
+  console.log(formatted);
+
+  const userJson = converter(
+    JSON.stringify({ events: formatted }),
+    icalName.value,
+  );
+
+  console.log(userJson);
+
   const info = {
     user: icalName.value,
     icalUrl: icalInput.value,
-    calendarJson: {},
+    calendarJson: userJson,
   };
   calList.push(info);
 
   icalName.value = "";
   icalInput.value = "";
   updateCalList();
+}
+
+// Friday 3rd March 10:00 AM
+function newFormat(date) {
+  const arr = date.split(" ");
+  const output = `${arr[0]} ${arr[3]} ${arr[4]}`;
+  return output;
 }
 
 function setupNewManual() {
