@@ -3,5 +3,19 @@
 // This enables everything to be run in the web browser
 
 const onePlusTwo = require("./onePlusTwo");
+const {
+  getNumberOfCalendars,
+  addCalendar,
+  viewCombinedCalendar,
+  updateCalList,
+  uploadIcal,
+  uploadManual,
+  openCalendar,
+  setupNewIcal,
+  setupNewManual,
+  formatModal,
+  addManualModal,
+  addIcalModal,
+} = require("./manageCalendars");
 
 console.log(onePlusTwo());
