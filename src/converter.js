@@ -3,14 +3,13 @@ function converter(json, user) {
   console.log(obj);
   console.log(obj.events);
   const newObj = [];
-  for (let event = 0; event < obj.events.length; event++) {
+  for (const event of obj.events) {
     // const event : obj.events
-    console.log(obj.events[event]);
-    console.log(obj.events[event].start);
-    const startDayID = dayID(obj.events[event].start);
-    const startTimeID = timeID(obj.events[event].start);
-    const endDayID = dayID(obj.events[event].end);
-    const endTimeID = timeID(obj.events[event].end);
+    console.log(event);
+    console.log(event.start);
+    const DayID = dayID(event.start);
+    const startTimeID = timeID(event.start);
+    const endTimeID = timeID(event.end);
     const eventLength = numThirties(endTimeID) - numThirties(startTimeID);
     let dif = 0;
     for (let i = 0; i < eventLength; i++) {
@@ -19,7 +18,7 @@ function converter(json, user) {
         (startTimeID[2] === "0" && i % 2 !== 0)
       ) {
         const newCell = {
-          id: `${startDayID}-${String(parseInt(startTimeID) + dif)}`,
+          id: `${DayID}-${String(parseInt(startTimeID) + dif)}`,
           users: [user],
           numPeople: 1,
         };
@@ -27,7 +26,7 @@ function converter(json, user) {
         dif = dif + 30;
       } else {
         const newCell = {
-          id: `${startDayID}-${String(parseInt(startTimeID) + dif)}`,
+          id: `${DayID}-${String(parseInt(startTimeID) + dif)}`,
           users: [user],
           numPeople: 1,
         };
@@ -49,7 +48,6 @@ function timeID(eventTime) {
 }
 
 function dayID(day) {
-  const array = day.split(" ");
   return day.slice(0, 3).toLowerCase();
 }
 
