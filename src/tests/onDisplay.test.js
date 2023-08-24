@@ -8,13 +8,15 @@ jest.mock("../manageCalendars", () => ({
 
 describe.skip("onDisplay.js test suite", () => {
   test("onDisplay applies correct background color and opacity", () => {
-    const jsonData = [
-      {
-        id: "mon-0730",
-        users: ["Alex"],
-        numPeople: 1,
-      },
-    ];
+    const jsonData = {
+      cells: [
+        {
+          id: "mon-0730",
+          users: ["Alex"],
+          numPeople: 1,
+        },
+      ],
+    };
 
     // Run the onDisplay function with the cell
     onDisplay(jsonData);
@@ -25,18 +27,20 @@ describe.skip("onDisplay.js test suite", () => {
   });
 
   test("onDisplay applies correct background color and opacity for multiple cells", () => {
-    const jsonData = [
-      {
-        id: "mon-0730",
-        users: ["Alex"],
-        numPeople: 1,
-      },
-      {
-        id: "tue-0930",
-        users: ["Alice", "Bob"],
-        numPeople: 2,
-      },
-    ];
+    const jsonData = {
+      cells: [
+        {
+          id: "mon-0730",
+          users: ["Alex"],
+          numPeople: 1,
+        },
+        {
+          id: "tue-0930",
+          users: ["Alice", "Bob"],
+          numPeople: 2,
+        },
+      ],
+    };
 
     onDisplay(jsonData);
 
@@ -48,13 +52,15 @@ describe.skip("onDisplay.js test suite", () => {
   });
 
   test("onDisplay applies zero opacity when numPeople is 0", () => {
-    const jsonData = [
-      {
-        id: "wed-1100",
-        users: [],
-        numPeople: 0,
-      },
-    ];
+    const jsonData = {
+      cells: [
+        {
+          id: "wed-1100",
+          users: [],
+          numPeople: 0,
+        },
+      ],
+    };
 
     onDisplay(jsonData);
 
@@ -63,13 +69,15 @@ describe.skip("onDisplay.js test suite", () => {
   });
 
   test("onDisplay handles missing cell elements gracefully", () => {
-    const jsonData = [
-      {
-        id: "thu-1500",
-        users: ["Eva"],
-        numPeople: 1,
-      },
-    ];
+    const jsonData = {
+      cells: [
+        {
+          id: "thu-1500",
+          users: ["Eva"],
+          numPeople: 1,
+        },
+      ],
+    };
 
     // Mocking a scenario where getElementById returns null
     document.getElementById = jest.fn((id) => null);
