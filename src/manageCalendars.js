@@ -1,6 +1,7 @@
 const { icalToJSON, formatEventDate } = require("./icalToJSON");
 const converter = require("./converter");
 const onDisplay = require("./onDisplay");
+const combineObjects = require("./combine");
 const createCellInstance = require("./addCellTimetable");
 
 const commonModalAttributes = {
@@ -425,6 +426,7 @@ async function urlToJSON(url) {
 
 /** Handles the Display of the Given Individual Calendar When Nav Element is Clicked */
 function openCalendar(name) {
+  resetDisplayCells();
   title.textContent = name + "'s Calendar";
   console.log(calList);
   console.log(name);
@@ -454,7 +456,19 @@ function uploadManual() {
 
 /** Handles the Display of the Combined Calendar When Nav Element is Clicked */
 function viewCombinedCalendar() {
+  resetDisplayCells();
   title.textContent = "Combined Calendar";
+  let combination = { cells: [] };
+  console.log(calList);
+  for (let cal in calList) {
+    const obj = calList[cal];
+    console.log(obj);
+    console.log(obj.calendarJson);
+    console.log(JSON.parse(obj.calendarJson));
+    combination = combineObjects(combination, JSON.parse(obj.calendarJson));
+  }
+
+  onDisplay(combination);
 }
 
 function selectWeek(json) {
@@ -574,6 +588,17 @@ function updateCalList() {
     });
 
     dynamicSection.insertBefore(link, referenceNode);
+  }
+}
+
+function resetDisplayCells() {
+  const table = document.getElementById("calendar-display-table");
+  const rows = table.getElementsByTagName("tr");
+  for (const row of rows) {
+    const rowCells = row.getElementsByTagName("td");
+    for (const cell of rowCells) {
+      cell.style.backgroundColor = "white";
+    }
   }
 }
 
