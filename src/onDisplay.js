@@ -33,6 +33,7 @@ function onDisplay(json, personCount) {
 
     // Apply the calculated background color and opacity to the cell if found
     if (cellElement) {
+      console.log("changing element color");
       // Set background color with dynamic opacity using rgba
       cellElement.style.backgroundColor = "rgba(128, 0, 0, " + opacity + ")"; // setting colour to red with specified opacity
     }

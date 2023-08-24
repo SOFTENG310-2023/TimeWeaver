@@ -468,7 +468,11 @@ function viewCombinedCalendar() {
     combination = combineObjects(combination, JSON.parse(obj.calendarJson));
   }
 
-  onDisplay(combination);
+  console.log("after combination");
+  console.log(combination);
+  console.log(JSON.stringify(combination));
+
+  onDisplay(JSON.stringify(combination), calList.length);
 }
 
 function selectWeek(json) {
@@ -597,7 +601,7 @@ function resetDisplayCells() {
   for (const row of rows) {
     const rowCells = row.getElementsByTagName("td");
     for (const cell of rowCells) {
-      cell.style.backgroundColor = "white";
+      cell.style.backgroundColor = null;
     }
   }
 }
@@ -612,7 +616,7 @@ function initializeCellListeners() {
 
     for (const cell of rowCells) {
       cell.classList.remove("cellSelected");
-      cell.style.backgroundColor = "white";
+      cell.style.backgroundColor = null;
       cell.addEventListener("click", function () {
         setCell(cell);
       });
@@ -631,7 +635,7 @@ function setCell(cell) {
 
   if (cell.classList.contains("cellSelected")) {
     cell.classList.remove("cellSelected");
-    cell.style.backgroundColor = "white";
+    cell.style.backgroundColor = null;
     cellList = cellList.filter((x) => x != id);
     console.log(cellList);
   } else {
