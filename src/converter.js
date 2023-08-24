@@ -29,7 +29,7 @@ function converter(json, user) {
 function getTimeID(eventTime) {
   const array = eventTime.split(" ");
   eventTime = array[1].replace(":", "");
-  if (array[2] === "PM") {
+  if (array[2] === "PM" && parseInt(eventTime.substring(0, 2)) != 12) {
     // converts to 24 hour time standard
     return (parseInt(eventTime) + 1200).toString();
   }

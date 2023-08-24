@@ -2,6 +2,7 @@ let cellList = [];
 
 /** Heavy Inspiration from https://stackoverflow.com/questions/1207939/adding-an-onclick-event-to-a-table-row */
 function initializeCellListeners() {
+  emptyCellList();
   const table = document.getElementById("calendar-table");
   const rows = table.getElementsByTagName("tr");
   for (const row of rows) {
