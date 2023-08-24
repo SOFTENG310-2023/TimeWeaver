@@ -23,12 +23,15 @@ Finding a common time slot for group projects, given varied class schedules, ele
 
 - To install dependencies run `npm install` from root directory
 
-### Testing/Deployment:
+### Deployment:
 
-- To start the web server run `node index.js` from the root directory
+- Before you start the web server you have to build it, this can be done by running `npm run build` from the root directory
+- Once the server has been built, start the web server by running `node index.js` from the root directory
 - Then navigate to http://localhost:port in your web browser (using the port specified in the command line output - this will usually be 8080)
 
-Follow the user guide provided for comprehensive testing procedures.
+### Testing:
+
+- To run the project's testing framework, run `npm test` from the root folder.
 
 ## Usage (License details)
 
@@ -56,5 +59,6 @@ The major contributions of the following individuals towards this project are hi
 
 - Frontend: HTML,CSS
 - Backend: Javascript
+- Testing: Jest
 
 Thank you for considering TimeWeaver.

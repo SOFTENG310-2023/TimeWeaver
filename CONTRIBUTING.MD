@@ -43,7 +43,7 @@ We use Github to host the code of this project, track features requests and bug 
 6. Another member of the team will review the pull request, leaving a comment on whether it should be merged, or whether changes need to be made.
 7. If the pull request is approved, you may merge the branch into the main branch.
 
-## Setting up your environment and running tests
+## Setting up your environment
 
 - You will need Node.js installed (we recommend version 18.7.1)
 - You will also need NPM (however this should be installed automatically with Node.js)
@@ -51,7 +51,18 @@ We use Github to host the code of this project, track features requests and bug 
 - A git pre-commit hook will automatically run Prettier but we recommend installing it in your IDE as your formatter for the project (to minimise changes when the pre-commit hook runs)
 - Follow instructions in the README to run the app
 
-Add tests here once finalised.
+## Testing
+
+We strongly reccomend that each Pull Request contains accompanying tests for the changes made in the Pull Request. Each commit will be automatically tested using the Projects test suite.
+
+- Tests can be run by running `npm test` from the root folder.
+
+### Writing Tests
+
+- When making changes, please create a file `src/<fileName>.js` for each new section of code
+- Tests should be added for each applicable file by creating a new file `src/test/<fileName>.test.js`
+
+- Tests are implemented using Jest, follow this [link](https://jestjs.io/docs/using-matchers) for tips on using the framework
 
 ## License
 

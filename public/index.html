@@ -338,23 +338,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.js"></script>
-    <script src="assets/js/main.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll("td.cell").forEach((cell) => {
-          cell.addEventListener("click", (event) => {
-            console.log(`CLICKED: ${event.target.id}`);
-          });
-
-          cell.addEventListener("mouseover", (event) => {
-            document.querySelectorAll("td.cell").forEach((cell) => {
-              cell.addEventListener("mouseover", (event) => {
-                console.log(`MOUSEOVER: ${event.target.id}`);
-              });
-            });
-          });
-        });
-      });
-    </script>
+    <script src="assets/js/bundle.js"></script>
   </body>
 </html>
