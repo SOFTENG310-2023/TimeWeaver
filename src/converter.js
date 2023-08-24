@@ -1,53 +1,52 @@
 function converter(json, user) {
   const obj = JSON.parse(json);
-  console.log(obj);
-  console.log(obj.events);
   const newObj = [];
   for (const event of obj.events) {
-    // const event : obj.events
-    console.log(event);
-    console.log(event.start);
-    const DayID = dayID(event.start);
-    const startTimeID = timeID(event.start);
-    const endTimeID = timeID(event.end);
+    const dayID = getDayID(event.start);
+    const startTimeID = getTimeID(event.start);
+    const endTimeID = getTimeID(event.end);
     const eventLength = numThirties(endTimeID) - numThirties(startTimeID);
-    let dif = 0;
+    let timeID = startTimeID;
     for (let i = 0; i < eventLength; i++) {
-      if (
-        (startTimeID[2] === "3" && i % 2 === 0) ||
-        (startTimeID[2] === "0" && i % 2 !== 0)
-      ) {
-        const newCell = {
-          id: `${DayID}-${String(parseInt(startTimeID) + dif)}`,
-          users: [user],
-          numPeople: 1,
-        };
-        newObj.push(newCell);
-        dif = dif + 30;
+      const newCell = {
+        id: `${dayID}-${timeID}`,
+        users: [user],
+        numPeople: 1,
+      };
+      newObj.push(newCell);
+
+      const hours = parseInt(timeID.substring(0, 2));
+      const minutes = parseInt(timeID.substring(2, 4));
+
+      if (minutes === 30) {
+        if (hours < 10) {
+          timeID = `0${hours + 1}00`;
+        } else {
+          timeID = `${hours + 1}00`;
+        }
       } else {
-        const newCell = {
-          id: `${DayID}-${String(parseInt(startTimeID) + dif)}`,
-          users: [user],
-          numPeople: 1,
-        };
-        newObj.push(newCell);
-        dif = dif + 70;
+        if (hours < 10) {
+          timeID = `0${hours}30`;
+        } else {
+          timeID = `${hours}30`;
+        }
       }
     }
   }
   return JSON.stringify({ cells: newObj });
 }
 
-function timeID(eventTime) {
+function getTimeID(eventTime) {
   const array = eventTime.split(" ");
   eventTime = array[1].replace(":", "");
   if (array[2] === "PM") {
-    return toString(parseInt(eventTime) + 1200);
+    return (parseInt(eventTime) + 1200).toString();
   }
   return eventTime;
 }
 
-function dayID(day) {
+function getDayID(day) {
+  const array = day.split(" ");
   return day.slice(0, 3).toLowerCase();
 }
 

@@ -1,7 +1,7 @@
 const converter = require("../converter");
 
 describe("Unit tests for converter function", () => {
-  test("Function should return 3", async () => {
+  test("Checks if it can make a single cell correctly for AM events", async () => {
     user = "Alex";
     const injson = {
       events: [
@@ -26,7 +26,7 @@ describe("Unit tests for converter function", () => {
     );
   });
 
-  test("Function should return 3", async () => {
+  test("Checks if the function can produce a spread of cells for AM events", async () => {
     user = "Alex";
     const injson = {
       events: [
@@ -56,7 +56,7 @@ describe("Unit tests for converter function", () => {
     );
   });
 
-  test("Function should return 3", async () => {
+  test("Checks if it can make a single cell correctly for PM events", async () => {
     user = "Alex";
     const injson = {
       events: [
@@ -70,7 +70,7 @@ describe("Unit tests for converter function", () => {
     const outjson = {
       cells: [
         {
-          id: "mon-0730",
+          id: "mon-1930",
           users: ["Alex"],
           numPeople: 1,
         },
@@ -81,7 +81,7 @@ describe("Unit tests for converter function", () => {
     );
   });
 
-  test("Function should return 3", async () => {
+  test("Checks if the function can produce a spread of cells for PM events", async () => {
     user = "Alex";
     const injson = {
       events: [
@@ -95,12 +95,12 @@ describe("Unit tests for converter function", () => {
     const outjson = {
       cells: [
         {
-          id: "mon-0730",
+          id: "mon-1930",
           users: ["Alex"],
           numPeople: 1,
         },
         {
-          id: "mon-0800",
+          id: "mon-2000",
           users: ["Alex"],
           numPeople: 1,
         },
@@ -111,7 +111,7 @@ describe("Unit tests for converter function", () => {
     );
   });
 
-  test("Function should return 3", async () => {
+  test("Checks if the function can produce a spread of cells which tranistion from AM to PM", async () => {
     user = "Alex";
     const injson = {
       events: [
