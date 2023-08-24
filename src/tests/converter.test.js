@@ -2,7 +2,7 @@ const converter = require("../converter");
 
 describe("Unit tests for converter function", () => {
   test("Checks if it can make a single cell correctly for AM events", async () => {
-    user = "Alex";
+    const user = "Alex";
     const injson = {
       events: [
         {
@@ -27,7 +27,7 @@ describe("Unit tests for converter function", () => {
   });
 
   test("Checks if the function can produce a spread of cells for AM events", async () => {
-    user = "Alex";
+    const user = "Alex";
     const injson = {
       events: [
         {
@@ -57,7 +57,7 @@ describe("Unit tests for converter function", () => {
   });
 
   test("Checks if it can make a single cell correctly for PM events", async () => {
-    user = "Alex";
+    const user = "Alex";
     const injson = {
       events: [
         {
@@ -82,7 +82,7 @@ describe("Unit tests for converter function", () => {
   });
 
   test("Checks if the function can produce a spread of cells for PM events", async () => {
-    user = "Alex";
+    const user = "Alex";
     const injson = {
       events: [
         {
@@ -112,7 +112,7 @@ describe("Unit tests for converter function", () => {
   });
 
   test("Checks if the function can produce a spread of cells which tranistion from AM to PM", async () => {
-    user = "Alex";
+    const user = "Alex";
     const injson = {
       events: [
         {
