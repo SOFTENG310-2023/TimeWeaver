@@ -1,5 +1,4 @@
 const combineObjects = require("../combine");
-/* Test case 1: Both users have empty cells */
 describe("combineObjects", () => {
     test("Both users have empty cells", () => {
         const user1 = { cells: [] };
@@ -7,7 +6,6 @@ describe("combineObjects", () => {
         expect(combineObjects(user1, user2)).toEqual({ cells: [] });
     });
 
-    /* Test case 2: One user has empty cells, the other has cells */
     test("One user has empty cells, the other has cells", () => {
         const user1 = { cells: [] };
         const user2 = {
@@ -18,7 +16,6 @@ describe("combineObjects", () => {
         });
     });
 
-    /* Test case 3: Both users have cells with unique IDs */
     test("Both users have cells with unique IDs", () => {
         const user1 = {
             cells: [{ ID: "mon-0730", users: ["Alice"], numPeople: 1 }],
@@ -34,14 +31,12 @@ describe("combineObjects", () => {
         });
     });
 
-    /* Test case 4: Both users have empty cells and undefined values */
     test("Both users have empty cells and undefined values", () => {
         const user1 = { cells: [undefined] };
         const user2 = { cells: [undefined] };
         expect(combineObjects(user1, user2)).toEqual({ cells: [] });
     });
 
-    /* Test case 5: Both users have overlapping cells */
     test("Both users have overlapping cells", () => {
         const user1 = {
             cells: [
@@ -64,7 +59,6 @@ describe("combineObjects", () => {
         });
     });
 
-    /* Test case 6: Both users have overlapping and unique cells */
     test("Both users have overlapping and unique cells", () => {
         const user1 = {
             cells: [
@@ -89,7 +83,6 @@ describe("combineObjects", () => {
         });
     });
 
-    /* Test case 7: Both users have empty cells and undefined values */
     test("Both users have empty cells and undefined values", () => {
         const user1 = {
             cells: [
@@ -112,7 +105,6 @@ describe("combineObjects", () => {
         });
     });
 
-    /* Test case 8: Users have cells with matching numPeople and overlapping IDs */
     test("Users have cells with matching numPeople and overlapping IDs", () => {
         const user1 = {
             cells: [
@@ -139,7 +131,6 @@ describe("combineObjects", () => {
         });
     });
 
-    /* Test case 9: Users have cells with matching numPeople and overlapping IDs (reordered) */
     test("Users have cells with matching numPeople and overlapping IDs (reordered)", () => {
         const user1 = {
             cells: [
@@ -166,7 +157,6 @@ describe("combineObjects", () => {
         });
     });
 
-    /* Test case 10: Users have cells with matching numPeople and unique cells */
     test("Users have cells with matching numPeople and unique cells", () => {
         const user1 = {
             cells: [
@@ -190,7 +180,6 @@ describe("combineObjects", () => {
         });
     });
 
-    /* Test case 11: Users have cells with matching numPeople and overlapping IDs (different order) */
     test("Users have cells with matching numPeople and overlapping IDs (different order)", () => {
         const user1 = {
             cells: [
@@ -214,7 +203,6 @@ describe("combineObjects", () => {
         });
     });
 
-    /* Test case 12: Users have cells with matching numPeople (min 5) and overlapping IDs */
     test("Users have cells with matching numPeople (min 5) and overlapping IDs", () => {
         const user1 = {
             cells: [
@@ -260,7 +248,6 @@ describe("combineObjects", () => {
         });
     });
 
-    /* Test case 13: Users have cells with matching numPeople (min 5) and overlapping IDs (reordered) */
     test("Users have cells with matching numPeople (min 5) and overlapping IDs (reordered)", () => {
         const user1 = {
             cells: [
@@ -306,7 +293,6 @@ describe("combineObjects", () => {
         });
     });
 
-    /* Test case 14: Users have cells with matching numPeople (min 5) and unique cells */
     test("Users have cells with matching numPeople (min 5) and unique cells", () => {
         const user1 = {
             cells: [
@@ -346,7 +332,6 @@ describe("combineObjects", () => {
         });
     });
 
-    /* Test case 15: Users have cells with matching numPeople (min 5) and overlapping IDs (different order) */
     test("Users have cells with matching numPeople (min 5) and overlapping IDs (different order)", () => {
         const user1 = {
             cells: [
