@@ -13,18 +13,26 @@
   </head>
 
   <body>
-    <div class="ui huge menu">
+    <div class="ui huge menu" id="dynamicTabs">
       <div class="header item">
         <i class="calendar check icon"></i>
         <span>TimeWeaver</span>
       </div>
-      <a class="item">
+
+      <a id="add-calendar-modal-open" class="item">
         <i class="plus icon"></i>
         <span>Add Person</span></a
       >
+
       <div class="right menu">
-        <a class="item">Help</a>
+        <a id="view-combination-button" class="item"
+          ><i class="hammer icon"></i>Combined Calendar</a
+        >
       </div>
+    </div>
+
+    <div id="page-content" class="ui container">
+      <h1 id="calendar-title" class="calendarTitle">No Calendar Selected</h1>
     </div>
 
     <div class="ui container">
