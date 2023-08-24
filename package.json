@@ -4,23 +4,30 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+
+    "build": "browserify src/main.js > public/assets/js/bundle.js",
+    "test": "npm run build && jest --coverage",
+
     "prepare": "husky install"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SOFTENG310-2023/assignment-1.git"
+    "url": "git+https://github.com/SOFTENG310-2023/TimeWeaver.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SOFTENG310-2023/assignment-1/issues"
+    "url": "https://github.com/SOFTENG310-2023/TimeWeaver/issues"
   },
-  "homepage": "https://github.com/SOFTENG310-2023/assignment-1#readme",
+  "homepage": "https://github.com/SOFTENG310-2023/TimeWeaver#readme",
   "devDependencies": {
+    "browserify": "^17.0.0",
     "husky": "^8.0.3",
+    "jest": "^29.6.2",
+    "jest-environment-jsdom": "^29.6.2",
     "lint-staged": "^13.2.3",
-    "prettier": "3.0.1"
+    "prettier": "3.0.1",
+    "supertest": "^6.3.3"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
