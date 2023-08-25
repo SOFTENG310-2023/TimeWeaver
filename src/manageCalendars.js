@@ -401,6 +401,7 @@ document
 /** List of Uploaded Calendars */
 let calList = [];
 let cellList = [];
+let hasInitializedManual = false;
 
 function getNumberOfCalendars() {
   return calList.length;
@@ -436,6 +437,7 @@ function openCalendar(name) {
 
   console.log(userInfo);
   console.log(userInfo.calendarJson);
+
   onDisplay(userInfo.calendarJson, 1);
 }
 
@@ -515,14 +517,6 @@ async function setupNewIcal() {
       end: newFormat(x.end),
     };
   });
-  console.log("json");
-
-  console.log(json);
-
-  console.log("selected");
-  console.log(actual);
-
-  console.log(formatted);
 
   const userJson = converter(
     JSON.stringify({ events: formatted }),
@@ -609,6 +603,7 @@ function resetDisplayCells() {
 /** Heavy Inspiration from https://stackoverflow.com/questions/1207939/adding-an-onclick-event-to-a-table-row */
 function initializeCellListeners() {
   emptyCellList();
+
   const table = document.getElementById("calendar-table");
   const rows = table.getElementsByTagName("tr");
   for (const row of rows) {
@@ -617,9 +612,12 @@ function initializeCellListeners() {
     for (const cell of rowCells) {
       cell.classList.remove("cellSelected");
       cell.style.backgroundColor = null;
-      cell.addEventListener("click", function () {
-        setCell(cell);
-      });
+      if (!hasInitializedManual) {
+        cell.addEventListener("click", function () {
+          setCell(cell);
+          hasInitializedManual = true;
+        });
+      }
     }
   }
 }
