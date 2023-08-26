@@ -54,4 +54,10 @@ function isInCurrentWeek(date) {
   return match.includes(true);
 }
 
-module.exports = isInCurrentWeek;
+function selectCurrentWeek(events) {
+  return events.filter(
+    (x) => isInCurrentWeek(x.start) && isInCurrentWeek(x.end),
+  );
+}
+
+module.exports = selectCurrentWeek;

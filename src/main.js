@@ -4,8 +4,9 @@
  * This enables everything to be run in the web browser
  */
 
+const { addManualModal, addIcalModal, formatModal } = require("./modals");
+
 const {
-  getNumberOfCalendars,
   updateCalList,
   setupNewIcal,
   setupNewManual,
@@ -14,9 +15,6 @@ const {
   uploadIcal,
   uploadManual,
   openCalendar,
-  formatModal,
-  addManualModal,
-  addIcalModal,
   calList,
   cellList,
   setCell,
@@ -25,4 +23,4 @@ const {
 
 const onDisplay = require("./onDisplay");
 
-const isInCurrentWeek = require("./selectCurrentWeek");
+const selectCurrentWeek = require("./selectCurrentWeek");

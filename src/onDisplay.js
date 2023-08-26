@@ -1,4 +1,16 @@
+function resetDisplayCells() {
+  const table = document.getElementById("calendar-display-table");
+  const rows = table.getElementsByTagName("tr");
+  for (const row of rows) {
+    const rowCells = row.getElementsByTagName("td");
+    for (const cell of rowCells) {
+      cell.style.backgroundColor = null;
+    }
+  }
+}
+
 function onDisplay(json, personCount) {
+  resetDisplayCells();
   const jsonData = JSON.parse(json);
   // Loop through each Cell object in the JSON data
   for (const cell of jsonData.cells) {
