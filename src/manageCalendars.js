@@ -420,7 +420,6 @@ async function getICalFromURL(url) {
 
 // Returns JSON
 async function urlToJSON(url) {
-  console.log(url);
   const ical = await getICalFromURL(url);
   return await icalToJSON(ical);
 }
@@ -429,14 +428,8 @@ async function urlToJSON(url) {
 function openCalendar(name) {
   resetDisplayCells();
   title.textContent = name + "'s Calendar";
-  console.log(calList);
-  console.log(name);
-  console.log(calList[0].user);
 
   const [userInfo] = calList.filter((x) => x.user === name);
-
-  console.log(userInfo);
-  console.log(userInfo.calendarJson);
 
   onDisplay(userInfo.calendarJson, 1);
 }
@@ -461,32 +454,23 @@ function viewCombinedCalendar() {
   resetDisplayCells();
   title.textContent = "Combined Calendar";
   let combination = { cells: [] };
-  console.log(calList);
+
   for (let cal in calList) {
     const obj = calList[cal];
-    console.log(obj);
-    console.log(obj.calendarJson);
-    console.log(JSON.parse(obj.calendarJson));
+
     combination = combineObjects(combination, JSON.parse(obj.calendarJson));
   }
-
-  console.log("after combination");
-  console.log(combination);
-  console.log(JSON.stringify(combination));
 
   onDisplay(JSON.stringify(combination), calList.length);
 }
 
 function selectWeek(json) {
-  console.log(json);
   const output = json.filter((x) => {
     const date = x.start.split(" ");
 
     const month = date[2];
     const day = date[1].slice(0, -2);
-    console.log(date);
-    console.log(month);
-    console.log(day);
+
     return !!(
       month == "August" &&
       (day == "26" ||
@@ -523,8 +507,6 @@ async function setupNewIcal() {
     icalName.value,
   );
 
-  console.log(userJson);
-
   const info = {
     user: icalName.value,
     icalUrl: icalInput.value,
@@ -545,8 +527,6 @@ function newFormat(date) {
 }
 
 function setupNewManual() {
-  console.log("cellList");
-  console.log(cellList);
   addManualModal.modal("hide");
 
   const cells = cellList.map((cell) =>
@@ -627,20 +607,16 @@ function emptyCellList() {
 }
 
 function setCell(cell) {
-  console.log(cell);
   const id = cell.id;
-  console.log(id);
 
   if (cell.classList.contains("cellSelected")) {
     cell.classList.remove("cellSelected");
     cell.style.backgroundColor = null;
     cellList = cellList.filter((x) => x != id);
-    console.log(cellList);
   } else {
     cell.classList.add("cellSelected");
     cell.style.backgroundColor = "purple";
     cellList.push(id);
-    console.log(cellList);
   }
 }
 

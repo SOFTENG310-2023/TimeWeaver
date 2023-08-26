@@ -2,7 +2,6 @@
 // Browserify will bundle up everything here and put it in assets/js/main.js
 // This enables everything to be run in the web browser
 
-const onePlusTwo = require("./onePlusTwo");
 const {
   getNumberOfCalendars,
   updateCalList,
@@ -23,5 +22,3 @@ const {
 } = require("./manageCalendars");
 
 const onDisplay = require("./onDisplay");
-
-console.log(onePlusTwo());
