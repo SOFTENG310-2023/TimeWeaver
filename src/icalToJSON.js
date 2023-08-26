@@ -14,7 +14,7 @@ function processEvent(eventComp) {
 
     let iterations = 0;
 
-    while ((!untilDate || start <= untilDate) && iterations < count) {
+    while (( start <= untilDate) && iterations < count) {
       events.push(createEvent(summary, start, end));
 
       if (rrule.freq === "WEEKLY") {
@@ -56,7 +56,7 @@ function icalToJSON(json) {
     });
     return allEvents;
   } catch (error) {
-    new Error("Error fetching or processing iCal data");
+    throw new Error("Error fetching or processing iCal data");
   }
 }
 
@@ -120,7 +120,7 @@ function formatEventDate(date) {
 
 // Returns iCal
 async function getICalFromURL(url) {
-  // const webEvents = await ical.async.fromURL(url);
+  
   const res = await fetch(
     `http://localhost:8080/api/get-ical?ical=${encodeURIComponent(url)}`,
   );
@@ -133,4 +133,4 @@ async function urlToJSON(url) {
   return await icalToJSON(ical);
 }
 
-module.exports = { urlToJSON, icalToJSON, formatEventDate };
+module.exports = { getICalFromURL, urlToJSON, icalToJSON, formatEventDate };
