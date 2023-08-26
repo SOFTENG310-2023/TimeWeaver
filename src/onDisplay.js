@@ -1,19 +1,3 @@
-const {
-  getNumberOfCalendars,
-  updateCalList,
-  setupNewIcal,
-  setupNewManual,
-  addCalendar,
-  viewCombinedCalendar,
-  uploadIcal,
-  uploadManual,
-  openCalendar,
-  formatModal,
-  addManualModal,
-  addIcalModal,
-  calList,
-} = require("./manageCalendars");
-
 function onDisplay(json, personCount) {
   const jsonData = JSON.parse(json);
   // Loop through each Cell object in the JSON data

@@ -3,6 +3,7 @@ const converter = require("./converter");
 const onDisplay = require("./onDisplay");
 const combineObjects = require("./combine");
 const createCellInstance = require("./addCellTimetable");
+const isInCurrentWeek = require("./selectCurrentWeek");
 
 const commonModalAttributes = {
   class: "mini",
@@ -465,7 +466,14 @@ function viewCombinedCalendar() {
 }
 
 function selectWeek(json) {
-  const output = json.filter((x) => {
+  const output = json.filter(
+    (x) => isInCurrentWeek(x.start) && isInCurrentWeek(x.end),
+  );
+
+  /**
+
+  {
+    
     const date = x.start.split(" ");
 
     const month = date[2];
@@ -483,6 +491,8 @@ function selectWeek(json) {
         day == "27")
     );
   });
+
+   */
   return output;
 }
 

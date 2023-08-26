@@ -62,7 +62,6 @@ function addWeek(date) {
 
 async function icalToJSON(json) {
   try {
-    console.log(json);
     //const comp = await fetchDataAndParse(url);
     let allEvents = [];
 
@@ -74,8 +73,6 @@ async function icalToJSON(json) {
       allEvents = [...allEvents, ...eventsFromComp];
     });
 
-    // console.log(formattedEvents);
-
     // writeEventsToFile(allEvents);
     //return "Events written to eventsOutput.json";
     return allEvents;
@@ -86,7 +83,6 @@ async function icalToJSON(json) {
 
 // the format in which date is stored in jCAL component is not easy to comprehend
 function formatEventDate(date) {
-  console.log(date);
   const days = [
     "Sunday",
     "Monday",
