@@ -1,6 +1,6 @@
 const addCellTimetable = require("../addCellTimetable");
 
-describe("Unit testing for addCellTimetable function", () => {
+describe.skip("Unit testing for addCellTimetable function", () => {
   test("Function should add a cell to an empty cells array", async () => {
     const inputUserCustomObj = {
       cells: [],

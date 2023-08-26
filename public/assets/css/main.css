@@ -6,3 +6,11 @@
   font-weight: bolder;
   text-align: center;
 }
+
+.cellSelected {
+  background-color: blueviolet;
+}
+
+.regularCell {
+  background-color: white;
+}

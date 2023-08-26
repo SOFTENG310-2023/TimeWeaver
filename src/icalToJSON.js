@@ -1,13 +1,4 @@
-// external libraries are required for parsing ical file and processing the url link
-const axios = require("axios");
-const fs = require("fs");
 const ical = require("ical.js");
-
-async function fetchDataAndParse(url) {
-  const response = await axios.get(url);
-  const jcalData = ical.parse(response.data);
-  return new ical.Component(jcalData);
-}
 
 // for handling events that are recurring
 function processEvent(eventComp) {
@@ -52,28 +43,20 @@ function addWeek(date) {
   return new Date(date.getTime() + 7 * 24 * 60 * 60 * 1000);
 }
 
-function writeEventsToFile(events) {
-  fs.writeFileSync(
-    "eventsOutput.json",
-    JSON.stringify(events, null, 4),
-    "utf8",
-  );
-}
-
-async function icalToJSON(url) {
+function icalToJSON(json) {
   try {
-    const comp = await fetchDataAndParse(url);
     let allEvents = [];
+
+    const jcalData = ical.parse(json);
+    const comp = new ical.Component(jcalData);
 
     comp.getAllSubcomponents("vevent").forEach((eventComp) => {
       const eventsFromComp = processEvent(eventComp);
       allEvents = [...allEvents, ...eventsFromComp];
     });
-
-    writeEventsToFile(allEvents);
-    return "Events written to eventsOutput.json";
+    return allEvents;
   } catch (error) {
-    throw new Error("Error fetching or processing iCal data");
+    new Error("Error fetching or processing iCal data");
   }
 }
 
@@ -135,19 +118,19 @@ function formatEventDate(date) {
   )} ${monthName} ${hours}:${minutes} ${amOrPm}`;
 }
 
-// get the URL from command line arguments
-if (require.main === module) {
-  const args = process.argv.slice(2);
-
-  if (args.length !== 1) {
-    console.error("Usage: node yourScriptName.js <iCal_URL>");
-    process.exit(1);
-  }
-
-  const icalURL = args[0];
-  icalToJSON(icalURL).then((data) => {
-    console.log(JSON.stringify(data, null, 4));
-  });
+// Returns iCal
+async function getICalFromURL(url) {
+  // const webEvents = await ical.async.fromURL(url);
+  const res = await fetch(
+    `http://localhost:8080/api/get-ical?ical=${encodeURIComponent(url)}`,
+  );
+  return await res.text();
 }
 
-module.exports = icalToJSON;
+// Returns JSON
+async function urlToJSON(url) {
+  const ical = await getICalFromURL(url);
+  return await icalToJSON(ical);
+}
+
+module.exports = { urlToJSON, icalToJSON, formatEventDate };

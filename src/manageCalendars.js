@@ -1,68 +1,15 @@
-const commonModalAttributes = {
-  class: "mini",
-  closeIcon: true,
-  classContent: "centered",
-};
-
-/** Formantic Modal Designs */
-const formatModal = $.modal({
-  title: "Choose Calendar Upload Method",
-  ...commonModalAttributes,
-  content: `
-    <div>
-    <button id="upload-ical" class="ui right labeled icon button green">
-<i class="right arrow icon"></i>
-Upload an Ical Link
-</button>
-    <br/><br/>
-    <button  id="upload-manual" class="ui right labeled icon button green">
-<i class="right arrow icon"></i>
-Add Calendar Manually
-</button>
-    </div>`,
-});
-
-const addIcalModal = $.modal({
-  title: "Add Ical Link",
-  ...commonModalAttributes,
-  content: `
-    <div class="ui labeled input">
-    <div class="ui blue label">Name</div>
-    <input id="ical-name-input" type="text" placeholder="Eg. Sam">
-    </div>
-
-    <h5>Paste your Ical Link Here:</h5>
-
-    <div class="ui labeled input">
-
-    <div id = "ical-input" class="ui blue label">ICal Link</div>
-    
-    <input type="text" placeholder="<Ical Link>">
-    </div>
-    <br></br>
-    <div class="ui approve button green" id="setup-new-calendar-ical" >Done</div>`,
-});
-
-const addManualModal = $.modal({
-  title: "Add Ical Link",
-  ...commonModalAttributes,
-  content: `
-    <div class="ui labeled input">
-    <div class="ui blue label">Name</div>
-    <input id="manual-name-input" type="text" placeholder="Eg. Sam">
-    </div>
-
-    <h5>Add your Calendar Manually</h5>
-
-    <div class="ui labeled input">
-    <h4>Insert Manual Addition Here</h4></div>
-    <br></br>
-    <div class="ui approve button green" id="setup-new-calendar-manual">Done</div>`,
-});
+const { urlToJSON } = require("./icalToJSON");
+const converter = require("./converter");
+const onDisplay = require("./onDisplay");
+const combineObjects = require("./combine");
+const createCellInstance = require("./addCellTimetable");
+const selectCurrentWeek = require("./selectCurrentWeek");
+const { addManualModal, addIcalModal, formatModal } = require("./modals");
 
 /** HTML Element Declarations */
 const title = document.getElementById("calendar-title");
 const icalName = document.getElementById("ical-name-input");
+const icalInput = document.getElementById("ical-link-input");
 const manualName = document.getElementById("manual-name-input");
 const dynamicSection = document.getElementById("dynamicTabs");
 
@@ -87,14 +34,16 @@ document
 
 /** List of Uploaded Calendars */
 let calList = [];
-
-function getNumberOfCalendars() {
-  return calList.length;
-}
+let cellList = [];
+let hasInitializedManual = false;
 
 /** Handles the Display of the Given Individual Calendar When Nav Element is Clicked */
 function openCalendar(name) {
   title.textContent = name + "'s Calendar";
+
+  const [userInfo] = calList.filter((x) => x.user === name);
+
+  onDisplay(userInfo.calendarJson, 1);
 }
 
 function addCalendar() {
@@ -109,24 +58,77 @@ function uploadIcal() {
 function uploadManual() {
   formatModal.modal("hide");
   addManualModal.modal("show");
+  initializeCellListeners();
 }
 
 /** Handles the Display of the Combined Calendar When Nav Element is Clicked */
 function viewCombinedCalendar() {
   title.textContent = "Combined Calendar";
+  let combination = { cells: [] };
+
+  for (let cal in calList) {
+    const obj = calList[cal];
+    combination = combineObjects(combination, JSON.parse(obj.calendarJson));
+  }
+
+  onDisplay(JSON.stringify(combination), calList.length);
 }
 
-function setupNewIcal() {
+async function setupNewIcal() {
   addIcalModal.modal("hide");
-  calList.push(icalName.value);
+
+  const icalUrl = icalInput.value;
+  const json = await urlToJSON(icalUrl);
+
+  const actual = selectCurrentWeek(json);
+
+  const formatted = actual.map((x) => {
+    return {
+      start: applyNewFormat(x.start),
+      end: applyNewFormat(x.end),
+    };
+  });
+
+  const userJson = converter(
+    JSON.stringify({ events: formatted }),
+    icalName.value,
+  );
+
+  const info = {
+    user: icalName.value,
+    icalUrl: icalInput.value,
+    calendarJson: userJson,
+  };
+  calList.push(info);
+
   icalName.value = "";
+  icalInput.value = "";
   updateCalList();
+}
+
+// Friday 3rd March 10:00 AM
+function applyNewFormat(date) {
+  const arr = date.split(" ");
+  const output = `${arr[0]} ${arr[3]} ${arr[4]}`;
+  return output;
 }
 
 function setupNewManual() {
   addManualModal.modal("hide");
-  calList.push(manualName.value);
+
+  const cells = cellList.map((cell) =>
+    createCellInstance(cell, manualName.value, 1),
+  );
+
+  cellList = [];
+
+  calList.push({
+    user: manualName.value,
+    icalUrl: "",
+    calendarJson: JSON.stringify({ cells: cells }),
+  });
   manualName.value = "";
+
   updateCalList();
 }
 
@@ -137,25 +139,60 @@ function updateCalList() {
   // Repeats for However many items in the calList are not already represented as navigation tabs
   for (
     let i = dynamicSection.children.length - NON_DYNAMIC_NAV_ELEMENTS;
-    i < getNumberOfCalendars();
+    i < calList.length;
     i++
   ) {
     const title = document.createElement("span");
-    title.innerHTML = calList[i];
+    title.innerHTML = calList[i].user;
 
     const link = document.createElement("a");
     link.setAttribute("class", "item");
     link.appendChild(title);
     link.addEventListener("click", function () {
-      openCalendar(calList[i]);
+      openCalendar(calList[i].user);
     });
 
     dynamicSection.insertBefore(link, referenceNode);
   }
 }
 
+/** Heavy Inspiration from https://stackoverflow.com/questions/1207939/adding-an-onclick-event-to-a-table-row */
+function initializeCellListeners() {
+  cellList = [];
+
+  const table = document.getElementById("calendar-table");
+  const rows = table.getElementsByTagName("tr");
+  for (const row of rows) {
+    const rowCells = row.getElementsByTagName("td");
+
+    for (const cell of rowCells) {
+      cell.classList.remove("cellSelected");
+      cell.style.backgroundColor = null;
+      if (!hasInitializedManual) {
+        cell.addEventListener("click", function () {
+          setCell(cell);
+          hasInitializedManual = true;
+        });
+      }
+    }
+  }
+}
+
+function setCell(cell) {
+  const id = cell.id;
+
+  if (cell.classList.contains("cellSelected")) {
+    cell.classList.remove("cellSelected");
+    cell.style.backgroundColor = null;
+    cellList = cellList.filter((x) => x != id);
+  } else {
+    cell.classList.add("cellSelected");
+    cell.style.backgroundColor = "purple";
+    cellList.push(id);
+  }
+}
+
 module.exports = {
-  getNumberOfCalendars,
   updateCalList,
   setupNewIcal,
   setupNewManual,
@@ -164,8 +201,8 @@ module.exports = {
   uploadIcal,
   uploadManual,
   openCalendar,
-  formatModal,
-  addManualModal,
-  addIcalModal,
   calList,
+  cellList,
+  setCell,
+  initializeCellListeners,
 };

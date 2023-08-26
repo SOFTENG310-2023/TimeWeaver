@@ -15,8 +15,8 @@ function combineObjects(user1, user2) {
     // Iterate through the cells of the second user.
     for (let j = 0; j < user2.cells.length; j++) {
       // Check if both cell objects exist and have the same ID.
-      if (user1.cells[i] !== undefined && user2.cells[j] !== undefined) {
-        if (user1.cells[i].ID === user2.cells[j].ID) {
+      if (!!user1.cells[i] && !!user2.cells[j]) {
+        if (user1.cells[i].id === user2.cells[j].id) {
           // Create a combined cell instance and add it to the result.
           const combineCellInstance = createCombineCellInstance(
             user1.cells[i],
@@ -32,7 +32,7 @@ function combineObjects(user1, user2) {
     }
 
     // If the cell in the first user still exists, create a cell instance and add it to the result.
-    if (user1.cells[i] !== undefined) {
+    if (!!user1.cells[i]) {
       const cellInstance = createCellInstance(user1.cells[i]);
       result.cells.push(cellInstance);
     }
@@ -40,7 +40,7 @@ function combineObjects(user1, user2) {
 
   // Iterate through the cells of the second user to handle remaining cells not matched.
   for (let i = 0; i < user2.cells.length; i++) {
-    if (user2.cells[i] !== undefined) {
+    if (!!user2.cells[i]) {
       // Create a cell instance and add it to the result.
       const cellInstance = createCellInstance(user2.cells[i]);
       result.cells.push(cellInstance);
@@ -57,7 +57,7 @@ function combineObjects(user1, user2) {
 function createCellInstance(singleUser) {
   return {
     // Copying the ID, users, and numPeople properties from the single user.
-    ID: singleUser.ID,
+    id: singleUser.id,
     users: singleUser.users,
     numPeople: singleUser.numPeople,
   };
@@ -71,7 +71,7 @@ function createCellInstance(singleUser) {
  */
 function createCombineCellInstance(firstUser, secondUser) {
   return {
-    ID: firstUser.ID,
+    id: firstUser.id,
     users: [...firstUser.users, ...secondUser.users],
     numPeople: firstUser.numPeople + secondUser.numPeople,
   };
