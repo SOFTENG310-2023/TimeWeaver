@@ -23,4 +23,4 @@ const {
 
 const onDisplay = require("./onDisplay");
 
-const selectCurrentWeek = require("./selectCurrentWeek");
+const { selectCurrentWeek } = require("./selectCurrentWeek");

@@ -1,6 +1,6 @@
 const ical = require("ical.js");
 
-// for handling events that are recurring
+// Handles Recurring Events
 function processEvent(eventComp) {
   const summary = eventComp.getFirstPropertyValue("summary");
   let start = eventComp.getFirstPropertyValue("dtstart").toJSDate();
@@ -31,6 +31,7 @@ function processEvent(eventComp) {
   return events;
 }
 
+// Objectifies Event Elements
 function createEvent(summary, start, end) {
   return {
     summary: summary,
@@ -39,15 +40,16 @@ function createEvent(summary, start, end) {
   };
 }
 
+// Adds a week to the specific Date
 function addWeek(date) {
   return new Date(date.getTime() + 7 * 24 * 60 * 60 * 1000);
 }
 
-function icalToJSON(json) {
+function icalToJSON(icalInfo) {
   try {
     let allEvents = [];
 
-    const jcalData = ical.parse(json);
+    const jcalData = ical.parse(icalInfo);
     const comp = new ical.Component(jcalData);
 
     comp.getAllSubcomponents("vevent").forEach((eventComp) => {
@@ -118,16 +120,15 @@ function formatEventDate(date) {
   )} ${monthName} ${hours}:${minutes} ${amOrPm}`;
 }
 
-// Returns iCal
+// Fetches the ICalendar Information using the given links
 async function getICalFromURL(url) {
-  // const webEvents = await ical.async.fromURL(url);
   const res = await fetch(
     `http://localhost:8080/api/get-ical?ical=${encodeURIComponent(url)}`,
   );
   return await res.text();
 }
 
-// Returns JSON
+// Handles conversion from Ical Link to JSON information
 async function urlToJSON(url) {
   const ical = await getICalFromURL(url);
   return await icalToJSON(ical);
