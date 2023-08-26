@@ -7,7 +7,7 @@ describe("Unit testing for addCellTimetable function", () => {
         const numPeople = 1;
 
         const expectedOutputUserCustomObj = {
-            ID: "mon-0800",
+            id: "mon-0800",
             users: ["Alex"],
             numPeople: 1,
         };
