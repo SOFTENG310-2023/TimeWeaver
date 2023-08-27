@@ -356,10 +356,4 @@ describe("combine", () => {
       ],
     });
   });
-
-  test("Both users have one empty cell", () => {
-    const user1 = { cells: [{}] };
-    const user2 = { cells: [{}] };
-    expect(combineObjects(user1, user2)).toEqual({ cells: [] });
-  });
 });

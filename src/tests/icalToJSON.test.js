@@ -1,10 +1,14 @@
 const axios = require("axios");
 const nock = require("nock");
 const fs = require("fs");
-const { getICalFromURL,icalToJSON, urlToJSON,formatEventDate } = require("../icalToJSON");
+const {
+  getICalFromURL,
+  icalToJSON,
+  urlToJSON,
+  formatEventDate,
+} = require("../icalToJSON");
 
 describe("icalToJSON tests", () => {
-
   test("Format ical dates", () => {
     const mockData = `BEGIN:VCALENDAR
 VERSION:2.0
@@ -335,7 +339,6 @@ END:VCALENDAR`;
   });
 
   test("Parse multiple weekly recurring events", () => {
-    
     const mockData = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//The University of Auckland//UoACal 2.0//EN
@@ -409,7 +412,6 @@ END:VCALENDAR`;
     expect(result[5].end).toBe("Tuesday 16th May 1:00 PM");
   });
 
-
   test("icalToJSON should throw an error for invalid iCal data", () => {
     // Mocking an invalid iCal data
     const invalidIcalData = `INVALID:VCALENDAR
@@ -419,7 +421,4 @@ INVALIDDATA...`;
       icalToJSON(invalidIcalData);
     }).toThrow("Error fetching or processing iCal data");
   });
-
-
-
 });
