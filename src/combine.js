@@ -39,10 +39,10 @@ function combine(user1, user2) {
   }
 
   // Iterate through the cells of the second user to handle remaining cells not matched.
-  for (let i = 0; i < user2.cells.length; i++) {
-    if (!!user2.cells[i]) {
+  for (const user2cell of user2.cells) {
+    if (user2cell !== null && user2cell !== undefined) {
       // Create a cell instance and add it to the result.
-      const cellInstance = addCellTimetable(user2.cells[i]);
+      const cellInstance = addCellTimetable(user2cell);
       result.cells.push(cellInstance);
     }
   }
