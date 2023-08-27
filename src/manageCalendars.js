@@ -1,8 +1,8 @@
 const { urlToJSON } = require("./icalToJSON");
 const converter = require("./converter");
 const onDisplay = require("./onDisplay");
-const combineObjects = require("./combine");
-const { selectCurrentWeek } = require("./selectCurrentWeek");
+const combine = require("./combine");
+const selectCurrentWeek = require("./selectCurrentWeek");
 const { addManualModal, addIcalModal, formatModal } = require("./modals");
 
 /** HTML Element Declarations */
@@ -70,7 +70,7 @@ function viewCombinedCalendar() {
 
   for (let cal in calList) {
     const obj = calList[cal];
-    combination = combineObjects(combination, JSON.parse(obj.calendarJson));
+    combination = combine(combination, JSON.parse(obj.calendarJson));
   }
 
   onDisplay(JSON.stringify(combination), calList.length);
@@ -94,7 +94,7 @@ async function setupNewIcal() {
 
   const userJson = converter(
     JSON.stringify({ events: formatted }),
-    icalName.value,
+    icalName.value
   );
 
   const info = {

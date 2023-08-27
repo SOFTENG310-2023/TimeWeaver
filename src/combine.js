@@ -4,7 +4,7 @@
  * @param {object} user2 - The second user object containing cells.
  * @returns {object} The combined result object with cells.
  */
-function combineObjects(user1, user2) {
+function combine(user1, user2) {
   // Initialize the result object with an empty array for cells.
   const result = {
     cells: [],
@@ -20,7 +20,7 @@ function combineObjects(user1, user2) {
           // Create a combined cell instance and add it to the result.
           const combineCellInstance = createCombineCellInstance(
             user1.cells[i],
-            user2.cells[j],
+            user2.cells[j]
           );
           result.cells.push(combineCellInstance);
 
@@ -33,7 +33,7 @@ function combineObjects(user1, user2) {
 
     // If the cell in the first user still exists, create a cell instance and add it to the result.
     if (!!user1.cells[i]) {
-      const cellInstance = createCellInstance(user1.cells[i]);
+      const cellInstance = addCellTimetable(user1.cells[i]);
       result.cells.push(cellInstance);
     }
   }
@@ -42,7 +42,7 @@ function combineObjects(user1, user2) {
   for (let i = 0; i < user2.cells.length; i++) {
     if (!!user2.cells[i]) {
       // Create a cell instance and add it to the result.
-      const cellInstance = createCellInstance(user2.cells[i]);
+      const cellInstance = addCellTimetable(user2.cells[i]);
       result.cells.push(cellInstance);
     }
   }
@@ -54,7 +54,7 @@ function combineObjects(user1, user2) {
  * @param {object} singleUser - The user object representing a single cell.
  * @returns {object} A new cell instance with properties from the single user's cell.
  */
-function createCellInstance(singleUser) {
+function addCellTimetable(singleUser) {
   return {
     // Copying the ID, users, and numPeople properties from the single user.
     id: singleUser.id,
@@ -77,4 +77,4 @@ function createCombineCellInstance(firstUser, secondUser) {
   };
 }
 
-module.exports = combineObjects;
+module.exports = combine;
