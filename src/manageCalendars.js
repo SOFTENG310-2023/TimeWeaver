@@ -2,7 +2,7 @@ const { urlToJSON } = require("./icalToJSON");
 const converter = require("./converter");
 const onDisplay = require("./onDisplay");
 const combine = require("./combine");
-const selectCurrentWeek = require("./selectCurrentWeek");
+const { selectCurrentWeek } = require("./selectCurrentWeek");
 const { addManualModal, addIcalModal, formatModal } = require("./modals");
 
 /** HTML Element Declarations */
