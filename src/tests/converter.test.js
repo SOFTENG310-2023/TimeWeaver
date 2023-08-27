@@ -150,4 +150,17 @@ describe("Unit tests for converter function", () => {
       JSON.stringify(outjson),
     );
   });
+
+  test("Empty events array", () => {
+    const user = "Alex";
+    const injson = {
+      events: [],
+    };
+    const outjson = {
+      cells: [],
+    };
+    expect(converter(JSON.stringify(injson), user)).toBe(
+      JSON.stringify(outjson),
+    );
+  });
 });
