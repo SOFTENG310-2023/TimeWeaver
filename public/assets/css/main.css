@@ -9,4 +9,12 @@
 
 .backgroundColour {
   background-color: blanchedalmond !important;
+
+.cellSelected {
+  background-color: blueviolet;
+}
+
+.regularCell {
+  background-color: white;
+
 }

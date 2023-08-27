@@ -1,19 +1,11 @@
 const axios = require("axios");
 const nock = require("nock");
 const fs = require("fs");
-const icalToJSON = require("../icalToJSON");
+const { getICalFromURL,icalToJSON, urlToJSON,formatEventDate } = require("../icalToJSON");
 
 describe("icalToJSON tests", () => {
-  beforeEach(() => {
-    nock.disableNetConnect();
-  });
 
-  afterEach(() => {
-    nock.cleanAll();
-    nock.enableNetConnect();
-  });
-
-  test("Format iCal dates", async () => {
+  test("Format ical dates", () => {
     const mockData = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//The University of Auckland//UoACal 2.0//EN
@@ -49,21 +41,12 @@ SUMMARY:ENGGEN 303
 END:VEVENT
 END:VCALENDAR`;
 
-    // Mocking the request
-    nock("http://example.com").get("/formatting.ical").reply(200, mockData);
-
-    await icalToJSON("http://example.com/formatting.ical");
-
-    const eventsOutput = JSON.parse(
-      fs.readFileSync("eventsOutput.json", "utf8"),
-    );
-
-    expect(eventsOutput[0].start).toBe("Friday 3rd March 10:00 AM");
-    expect(eventsOutput[0].end).toBe("Friday 3rd March 11:00 AM");
+    const result = icalToJSON(mockData);
+    expect(result[0].start).toBe("Friday 3rd March 10:00 AM");
+    expect(result[0].end).toBe("Friday 3rd March 11:00 AM");
   });
 
-  test("Should correctly convert hours to 12-hour AM/PM format", async () => {
-    // Mock data with an event at 14:30 (2:30 PM) and another at 00:00 (12:00 AM)
+  test("Should correctly convert hours to 12-hour AM/PM format", () => {
     const mockData = `
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -82,25 +65,19 @@ SUMMARY:Midnight Event
 END:VEVENT
 END:VCALENDAR`;
 
-    nock("http://example.com").get("/events.ical").reply(200, mockData);
-
-    await icalToJSON("http://example.com/events.ical");
-    const eventsOutput = JSON.parse(
-      fs.readFileSync("eventsOutput.json", "utf8"),
-    );
-
+    const result = icalToJSON(mockData);
     // Test for the afternoon event
-    expect(eventsOutput[0].summary).toBe("Afternoon Event");
-    expect(eventsOutput[0].start).toBe("Monday 1st May 2:30 PM");
-    expect(eventsOutput[0].end).toBe("Monday 1st May 3:30 PM");
+    expect(result[0].summary).toBe("Afternoon Event");
+    expect(result[0].start).toBe("Monday 1st May 2:30 PM");
+    expect(result[0].end).toBe("Monday 1st May 3:30 PM");
 
     // Test for the midnight event
-    expect(eventsOutput[1].summary).toBe("Midnight Event");
-    expect(eventsOutput[1].start).toBe("Tuesday 2nd May 12:00 AM");
-    expect(eventsOutput[1].end).toBe("Tuesday 2nd May 1:00 AM");
+    expect(result[1].summary).toBe("Midnight Event");
+    expect(result[1].start).toBe("Tuesday 2nd May 12:00 AM");
+    expect(result[1].end).toBe("Tuesday 2nd May 1:00 AM");
   });
 
-  test("Detect a single non-recurring event", async () => {
+  test("Detect a simple non-recurring event", () => {
     const mockData = `
 BEGIN:VCALENDAR
 BEGIN:VEVENT
@@ -111,17 +88,12 @@ DTEND;TZID=Pacific/Auckland:20230520T150000
 SUMMARY:Single Event
 END:VEVENT
 END:VCALENDAR`;
-
-    nock("http://example.com").get("/singleEvent.ical").reply(200, mockData);
-
-    await icalToJSON("http://example.com/singleEvent.ical");
-    const eventsOutput = JSON.parse(
-      fs.readFileSync("eventsOutput.json", "utf8"),
-    );
-    expect(eventsOutput.length).toBe(1);
+    const result = icalToJSON(mockData);
+    expect(result.length).toBe(1);
+    expect(result[0].summary).toBe("Single Event");
   });
 
-  test("Detect multiple non-recurring events", async () => {
+  test("Detect multiple non-recurring events", () => {
     const mockData = `
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -167,17 +139,11 @@ SUMMARY:Event 2
 END:VEVENT
 END:VCALENDAR`;
 
-    nock("http://example.com").get("/twoEvents.ical").reply(200, mockData);
-
-    await icalToJSON("http://example.com/twoEvents.ical");
-
-    const eventsOutput = JSON.parse(
-      fs.readFileSync("eventsOutput.json", "utf8"),
-    );
-    expect(eventsOutput.length).toBe(2);
+    const result = icalToJSON(mockData);
+    expect(result.length).toBe(2);
   });
 
-  test("Detect a single recurring event", async () => {
+  test("Detect a single, recurring event", () => {
     const mockData = `
 BEGIN:VCALENDAR
 BEGIN:VEVENT
@@ -190,19 +156,11 @@ SUMMARY:Weekly Recurring Event for 11 weeks
 END:VEVENT
 END:VCALENDAR`;
 
-    nock("http://example.com")
-      .get("/weeklyRecurring10Weeks.ical")
-      .reply(200, mockData);
-
-    await icalToJSON("http://example.com/weeklyRecurring10Weeks.ical");
-    const eventsOutput = JSON.parse(
-      fs.readFileSync("eventsOutput.json", "utf8"),
-    );
-    expect(eventsOutput.length).toBe(11);
+    const result = icalToJSON(mockData);
+    expect(result.length).toBe(11);
   });
 
-  test("Verify that the final event in a recurring series ends exactly on the specified UNTIL date", async () => {
-    // Mock data for a weekly recurring event
+  test("Verify that the final event in a recurring series ends exactly on the specified UNTIL date", () => {
     const mockData = `
 BEGIN:VCALENDAR
 BEGIN:VEVENT
@@ -215,21 +173,11 @@ SUMMARY:Weekly Recurring Event for 11 weeks with End Date Check
 END:VEVENT
 END:VCALENDAR`;
 
-    nock("http://example.com")
-      .get("/weeklyRecurring10WeeksEndCheck.ical")
-      .reply(200, mockData);
-
-    await icalToJSON("http://example.com/weeklyRecurring10WeeksEndCheck.ical");
-    const eventsOutput = JSON.parse(
-      fs.readFileSync("eventsOutput.json", "utf8"),
-    );
-    expect(eventsOutput[eventsOutput.length - 1].end).toBe(
-      "Tuesday 13th June 11:00 AM",
-    );
+    const result = icalToJSON(mockData);
+    expect(result[result.length - 1].end).toBe("Tuesday 13th June 11:00 AM");
   });
 
-  test("Parse a single, non-recurring event", async () => {
-    // Mock data for a single, non-recurring event
+  test("Parse a single, non-recurring event", () => {
     const mockData = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//The University of Auckland//UoACal 2.0//EN
@@ -265,22 +213,14 @@ SUMMARY:SOFTENG 370
 END:VEVENT
 END:VCALENDAR`;
 
-    // Using nock to mock a successful HTTP request.
-    nock("http://example.com").get("/singleEvent.ical").reply(200, mockData);
-
-    await icalToJSON("http://example.com/singleEvent.ical");
-
-    const eventsOutput = JSON.parse(
-      fs.readFileSync("eventsOutput.json", "utf8"),
-    );
-
-    expect(eventsOutput.length).toBe(1); // Expect 1 occurrence of the event
-    expect(eventsOutput[0].summary).toBe("SOFTENG 370");
-    expect(eventsOutput[0].start).toBe("Tuesday 2nd May 2:00 PM");
-    expect(eventsOutput[0].end).toBe("Tuesday 2nd May 3:00 PM");
+    const result = icalToJSON(mockData);
+    expect(result.length).toBe(1); // Expect 1 occurrence of the event
+    expect(result[0].summary).toBe("SOFTENG 370");
+    expect(result[0].start).toBe("Tuesday 2nd May 2:00 PM");
+    expect(result[0].end).toBe("Tuesday 2nd May 3:00 PM");
   });
 
-  test("Parse multiple non-recurring single events", async () => {
+  test("Parse multiple non-recurring single events", () => {
     const mockData = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//The University of Auckland//UoACal 2.0//EN
@@ -325,28 +265,19 @@ SUMMARY:SOFTENG 250
 END:VEVENT
 END:VCALENDAR`;
 
-    // Using nock to mock a successful HTTP request.
-    nock("http://example.com")
-      .get("/multipleSingleEvents.ical")
-      .reply(200, mockData);
+    const result = icalToJSON(mockData);
 
-    await icalToJSON("http://example.com/multipleSingleEvents.ical");
+    expect(result.length).toBe(2);
+    expect(result[0].summary).toBe("SOFTENG 370");
+    expect(result[0].start).toBe("Tuesday 2nd May 2:00 PM");
+    expect(result[0].end).toBe("Tuesday 2nd May 3:00 PM");
 
-    const eventsOutput = JSON.parse(
-      fs.readFileSync("eventsOutput.json", "utf8"),
-    );
-
-    expect(eventsOutput.length).toBe(2);
-    expect(eventsOutput[0].summary).toBe("SOFTENG 370");
-    expect(eventsOutput[0].start).toBe("Tuesday 2nd May 2:00 PM");
-    expect(eventsOutput[0].end).toBe("Tuesday 2nd May 3:00 PM");
-
-    expect(eventsOutput[1].summary).toBe("SOFTENG 250");
-    expect(eventsOutput[1].start).toBe("Wednesday 3rd May 10:00 AM");
-    expect(eventsOutput[1].end).toBe("Wednesday 3rd May 11:00 AM");
+    expect(result[1].summary).toBe("SOFTENG 250");
+    expect(result[1].start).toBe("Wednesday 3rd May 10:00 AM");
+    expect(result[1].end).toBe("Wednesday 3rd May 11:00 AM");
   });
 
-  test("Parse a single weekly recurring event", async () => {
+  test("Parse a single weekly recurring event", () => {
     const mockData = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//The University of Auckland//UoACal 2.0//EN
@@ -383,37 +314,28 @@ SUMMARY:SOFTENG 250 Recurring
 END:VEVENT
 END:VCALENDAR`;
 
-    // Using nock to mock a successful HTTP request.
-    nock("http://example.com")
-      .get("/weeklyRecurringSingleEvent.ical")
-      .reply(200, mockData);
+    const result = icalToJSON(mockData);
 
-    await icalToJSON("http://example.com/weeklyRecurringSingleEvent.ical");
+    expect(result.length).toBe(4);
+    expect(result[0].summary).toBe("SOFTENG 250 Recurring");
+    expect(result[0].start).toBe("Tuesday 2nd May 10:00 AM");
+    expect(result[0].end).toBe("Tuesday 2nd May 11:00 AM");
 
-    const eventsOutput = JSON.parse(
-      fs.readFileSync("eventsOutput.json", "utf8"),
-    );
+    expect(result[1].summary).toBe("SOFTENG 250 Recurring");
+    expect(result[1].start).toBe("Tuesday 9th May 10:00 AM");
+    expect(result[1].end).toBe("Tuesday 9th May 11:00 AM");
 
-    expect(eventsOutput.length).toBe(4);
-    expect(eventsOutput[0].summary).toBe("SOFTENG 250 Recurring");
-    expect(eventsOutput[0].start).toBe("Tuesday 2nd May 10:00 AM");
-    expect(eventsOutput[0].end).toBe("Tuesday 2nd May 11:00 AM");
+    expect(result[2].summary).toBe("SOFTENG 250 Recurring");
+    expect(result[2].start).toBe("Tuesday 16th May 10:00 AM");
+    expect(result[2].end).toBe("Tuesday 16th May 11:00 AM");
 
-    expect(eventsOutput[1].summary).toBe("SOFTENG 250 Recurring");
-    expect(eventsOutput[1].start).toBe("Tuesday 9th May 10:00 AM");
-    expect(eventsOutput[1].end).toBe("Tuesday 9th May 11:00 AM");
-
-    expect(eventsOutput[2].summary).toBe("SOFTENG 250 Recurring");
-    expect(eventsOutput[2].start).toBe("Tuesday 16th May 10:00 AM");
-    expect(eventsOutput[2].end).toBe("Tuesday 16th May 11:00 AM");
-
-    expect(eventsOutput[3].summary).toBe("SOFTENG 250 Recurring");
-    expect(eventsOutput[3].start).toBe("Tuesday 23rd May 10:00 AM");
-    expect(eventsOutput[3].end).toBe("Tuesday 23rd May 11:00 AM");
+    expect(result[3].summary).toBe("SOFTENG 250 Recurring");
+    expect(result[3].start).toBe("Tuesday 23rd May 10:00 AM");
+    expect(result[3].end).toBe("Tuesday 23rd May 11:00 AM");
   });
 
-  test("Parse multiple weekly recurring events", async () => {
-    // Mock data for multiple events that recur weekly for two weeks
+  test("Parse multiple weekly recurring events", () => {
+    
     const mockData = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//The University of Auckland//UoACal 2.0//EN
@@ -460,41 +382,44 @@ SUMMARY:SOFTENG 350 Recurring
 END:VEVENT
 END:VCALENDAR`;
 
-    // Using nock to mock a successful HTTP request.
-    nock("http://example.com")
-      .get("/weeklyRecurringMultipleEventsTwoWeeks.ical")
-      .reply(200, mockData);
+    const result = icalToJSON(mockData);
 
-    await icalToJSON(
-      "http://example.com/weeklyRecurringMultipleEventsTwoWeeks.ical",
-    );
+    expect(result[0].summary).toBe("SOFTENG 250 Recurring");
+    expect(result[0].start).toBe("Tuesday 2nd May 10:00 AM");
+    expect(result[0].end).toBe("Tuesday 2nd May 11:00 AM");
 
-    const eventsOutput = JSON.parse(
-      fs.readFileSync("eventsOutput.json", "utf8"),
-    );
+    expect(result[1].summary).toBe("SOFTENG 250 Recurring");
+    expect(result[1].start).toBe("Tuesday 9th May 10:00 AM");
+    expect(result[1].end).toBe("Tuesday 9th May 11:00 AM");
 
-    expect(eventsOutput[0].summary).toBe("SOFTENG 250 Recurring");
-    expect(eventsOutput[0].start).toBe("Tuesday 2nd May 10:00 AM");
-    expect(eventsOutput[0].end).toBe("Tuesday 2nd May 11:00 AM");
+    expect(result[2].summary).toBe("SOFTENG 250 Recurring");
+    expect(result[2].start).toBe("Tuesday 16th May 10:00 AM");
+    expect(result[2].end).toBe("Tuesday 16th May 11:00 AM");
 
-    expect(eventsOutput[1].summary).toBe("SOFTENG 250 Recurring");
-    expect(eventsOutput[1].start).toBe("Tuesday 9th May 10:00 AM");
-    expect(eventsOutput[1].end).toBe("Tuesday 9th May 11:00 AM");
+    expect(result[3].summary).toBe("SOFTENG 350 Recurring");
+    expect(result[3].start).toBe("Tuesday 2nd May 12:00 PM");
+    expect(result[3].end).toBe("Tuesday 2nd May 1:00 PM");
 
-    expect(eventsOutput[2].summary).toBe("SOFTENG 250 Recurring");
-    expect(eventsOutput[2].start).toBe("Tuesday 16th May 10:00 AM");
-    expect(eventsOutput[2].end).toBe("Tuesday 16th May 11:00 AM");
+    expect(result[4].summary).toBe("SOFTENG 350 Recurring");
+    expect(result[4].start).toBe("Tuesday 9th May 12:00 PM");
+    expect(result[4].end).toBe("Tuesday 9th May 1:00 PM");
 
-    expect(eventsOutput[3].summary).toBe("SOFTENG 350 Recurring");
-    expect(eventsOutput[3].start).toBe("Tuesday 2nd May 12:00 PM");
-    expect(eventsOutput[3].end).toBe("Tuesday 2nd May 1:00 PM");
-
-    expect(eventsOutput[4].summary).toBe("SOFTENG 350 Recurring");
-    expect(eventsOutput[4].start).toBe("Tuesday 9th May 12:00 PM");
-    expect(eventsOutput[4].end).toBe("Tuesday 9th May 1:00 PM");
-
-    expect(eventsOutput[5].summary).toBe("SOFTENG 350 Recurring");
-    expect(eventsOutput[5].start).toBe("Tuesday 16th May 12:00 PM");
-    expect(eventsOutput[5].end).toBe("Tuesday 16th May 1:00 PM");
+    expect(result[5].summary).toBe("SOFTENG 350 Recurring");
+    expect(result[5].start).toBe("Tuesday 16th May 12:00 PM");
+    expect(result[5].end).toBe("Tuesday 16th May 1:00 PM");
   });
+
+
+  test("icalToJSON should throw an error for invalid iCal data", () => {
+    // Mocking an invalid iCal data
+    const invalidIcalData = `INVALID:VCALENDAR
+INVALIDDATA...`;
+
+    expect(() => {
+      icalToJSON(invalidIcalData);
+    }).toThrow("Error fetching or processing iCal data");
+  });
+
+
+
 });

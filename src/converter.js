@@ -1,5 +1,10 @@
-// function converts a json file containing events with a start and end
-// time to discrete cell blocks represetning 30 minute increments of time
+/**
+ * converts a json file containing events with a start and end
+ * time to discrete cell blocks represetning 30 minute increments of time
+ * @param {JSON} json, the users JSON in the event format, eg { events: [{start: "Tuesday 6:00 PM", end: "Tuesday 7:00 PM",}] }
+ * @param {string} user, the users name in the form of a string
+ * @returns {JSON} the users Calendar display JSON in the calendar format, eg {cells: ObjectArray}
+ */
 function converter(json, user) {
   const obj = JSON.parse(json);
   const newObj = [];
@@ -29,7 +34,8 @@ function converter(json, user) {
 function getTimeID(eventTime) {
   const array = eventTime.split(" ");
   eventTime = array[1].replace(":", "");
-  if (array[2] === "PM") {
+  // important that we do not add 12 hours to the 24h format if the time is 12:XX PM
+  if (array[2] === "PM" && parseInt(eventTime.substring(0, 2)) != 12) {
     // converts to 24 hour time standard
     return (parseInt(eventTime) + 1200).toString();
   }

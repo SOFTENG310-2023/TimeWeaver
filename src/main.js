@@ -1,21 +1,26 @@
-// This is the entry point
-// Browserify will bundle up everything here and put it in assets/js/main.js
-// This enables everything to be run in the web browser
+/**
+ * This is the Application Entry Point
+ * Browserify will bundle up everything here and put it in assets/js/main.js
+ * This enables everything to be run in the web browser
+ */
 
-const onePlusTwo = require("./onePlusTwo");
+const { addManualModal, addIcalModal, formatModal } = require("./modals");
+
 const {
-  getNumberOfCalendars,
+  updateCalList,
+  setupNewIcal,
+  setupNewManual,
   addCalendar,
   viewCombinedCalendar,
-  updateCalList,
   uploadIcal,
   uploadManual,
   openCalendar,
-  setupNewIcal,
-  setupNewManual,
-  formatModal,
-  addManualModal,
-  addIcalModal,
+  calList,
+  cellList,
+  setCell,
+  initializeCellListeners,
 } = require("./manageCalendars");
 
-console.log(onePlusTwo());
+const onDisplay = require("./onDisplay");
+
+const { selectCurrentWeek } = require("./selectCurrentWeek");

@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>TimeWeaver</title>
+    <link rel="icon" type="image/png" href="./assets/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
       rel="stylesheet"
@@ -11,36 +12,31 @@
     />
     <link rel="stylesheet" href="assets/css/main.css" />
   </head>
-
   <body>
     <div class="ui huge menu" id="dynamicTabs">
       <div class="header item">
         <i class="calendar check icon"></i>
         <span>TimeWeaver</span>
       </div>
-
       <a id="add-calendar-modal-open" class="item">
         <i class="plus icon"></i>
-        <span>Add Person</span></a
-      >
+
+        <span>Add Person</span></a>
 
       <div class="right menu backgroundColour">
         <div class="ui purple item">
           <a id="view-combination-button"
-            ><i class="hammer icon"></i>Combined Calendar</a
-          >
+            ><i class="hammer icon"></i>Combined Calendar</a>
         </div>
-        v
       </div>
     </div>
-
     <div id="page-content" class="ui container">
       <h1 id="calendar-title" class="calendarTitle">No Calendar Selected</h1>
     </div>
-
     <div class="ui container">
       <div class="ui">
         <table
+          id="calendar-display-table"
           class="ui celled table border-left-none align center"
           aria-label="Availability calendar"
         >
@@ -59,16 +55,6 @@
           <tbody>
             <tr>
               <td class="collapsing border-left-none" rowspan="2">8am</td>
-              <td class="cell" id="mon-0730"></td>
-              <td class="cell" id="tue-0730"></td>
-              <td class="cell" id="wed-0730"></td>
-              <td class="cell" id="thu-0730"></td>
-              <td class="cell" id="fri-0730"></td>
-              <td class="cell" id="sat-0730"></td>
-              <td class="cell" id="sun-0730"></td>
-            </tr>
-
-            <tr>
               <td class="collapsing rowspanned"></td>
               <td class="cell" id="mon-0800"></td>
               <td class="cell" id="tue-0800"></td>
@@ -80,7 +66,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing" rowspan="2">9am</td>
+              <td class="collapsing rowspanned"></td>
               <td class="cell" id="mon-0830"></td>
               <td class="cell" id="tue-0830"></td>
               <td class="cell" id="wed-0830"></td>
@@ -89,9 +75,8 @@
               <td class="cell" id="sat-0830"></td>
               <td class="cell" id="sun-0830"></td>
             </tr>
-
             <tr>
-              <td class="collapsing rowspanned"></td>
+              <td class="collapsing" rowspan="2">9am</td>
               <td class="cell" id="mon-0900"></td>
               <td class="cell" id="tue-0900"></td>
               <td class="cell" id="wed-0900"></td>
@@ -100,9 +85,8 @@
               <td class="cell" id="sat-0900"></td>
               <td class="cell" id="sun-0900"></td>
             </tr>
-
             <tr>
-              <td class="collapsing" rowspan="2">10am</td>
+              <td class="collapsing rowspanned"></td>
               <td class="cell" id="mon-0930"></td>
               <td class="cell" id="tue-0930"></td>
               <td class="cell" id="wed-0930"></td>
@@ -111,9 +95,8 @@
               <td class="cell" id="sat-0930"></td>
               <td class="cell" id="sun-0930"></td>
             </tr>
-
             <tr>
-              <td class="collapsing rowspanned"></td>
+              <td class="collapsing" rowspan="2">10am</td>
               <td class="cell" id="mon-1000"></td>
               <td class="cell" id="tue-1000"></td>
               <td class="cell" id="wed-1000"></td>
@@ -124,7 +107,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing" rowspan="2">11am</td>
+              <td class="collapsing rowspanned"></td>
               <td class="cell" id="mon-1030"></td>
               <td class="cell" id="tue-1030"></td>
               <td class="cell" id="wed-1030"></td>
@@ -135,7 +118,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing rowspanned"></td>
+              <td class="collapsing" rowspan="2">11am</td>
               <td class="cell" id="mon-1100"></td>
               <td class="cell" id="tue-1100"></td>
               <td class="cell" id="wed-1100"></td>
@@ -146,7 +129,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing" rowspan="2">12pm</td>
+              <td class="collapsing rowspanned"></td>
               <td class="cell" id="mon-1130"></td>
               <td class="cell" id="tue-1130"></td>
               <td class="cell" id="wed-1130"></td>
@@ -157,7 +140,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing rowspanned"></td>
+              <td class="collapsing" rowspan="2">12pm</td>
               <td class="cell" id="mon-1200"></td>
               <td class="cell" id="tue-1200"></td>
               <td class="cell" id="wed-1200"></td>
@@ -168,7 +151,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing" rowspan="2">1pm</td>
+              <td class="collapsing rowspanned"></td>
               <td class="cell" id="mon-1230"></td>
               <td class="cell" id="tue-1230"></td>
               <td class="cell" id="wed-1230"></td>
@@ -179,7 +162,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing rowspanned"></td>
+              <td class="collapsing" rowspan="2">1pm</td>
               <td class="cell" id="mon-1300"></td>
               <td class="cell" id="tue-1300"></td>
               <td class="cell" id="wed-1300"></td>
@@ -190,7 +173,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing" rowspan="2">2pm</td>
+              <td class="collapsing rowspanned"></td>
               <td class="cell" id="mon-1330"></td>
               <td class="cell" id="tue-1330"></td>
               <td class="cell" id="wed-1330"></td>
@@ -201,7 +184,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing rowspanned"></td>
+              <td class="collapsing" rowspan="2">2pm</td>
               <td class="cell" id="mon-1400"></td>
               <td class="cell" id="tue-1400"></td>
               <td class="cell" id="wed-1400"></td>
@@ -212,7 +195,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing" rowspan="2">3pm</td>
+              <td class="collapsing rowspanned"></td>
               <td class="cell" id="mon-1430"></td>
               <td class="cell" id="tue-1430"></td>
               <td class="cell" id="wed-1430"></td>
@@ -223,7 +206,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing rowspanned"></td>
+              <td class="collapsing" rowspan="2">3pm</td>
               <td class="cell" id="mon-1500"></td>
               <td class="cell" id="tue-1500"></td>
               <td class="cell" id="wed-1500"></td>
@@ -234,7 +217,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing" rowspan="2">4pm</td>
+              <td class="collapsing rowspanned"></td>
               <td class="cell" id="mon-1530"></td>
               <td class="cell" id="tue-1530"></td>
               <td class="cell" id="wed-1530"></td>
@@ -245,7 +228,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing rowspanned"></td>
+              <td class="collapsing" rowspan="2">4pm</td>
               <td class="cell" id="mon-1600"></td>
               <td class="cell" id="tue-1600"></td>
               <td class="cell" id="wed-1600"></td>
@@ -256,7 +239,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing" rowspan="2">5pm</td>
+              <td class="collapsing rowspanned"></td>
               <td class="cell" id="mon-1630"></td>
               <td class="cell" id="tue-1630"></td>
               <td class="cell" id="wed-1630"></td>
@@ -267,7 +250,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing rowspanned"></td>
+              <td class="collapsing" rowspan="2">5pm</td>
               <td class="cell" id="mon-1700"></td>
               <td class="cell" id="tue-1700"></td>
               <td class="cell" id="wed-1700"></td>
@@ -278,7 +261,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing" rowspan="2">6pm</td>
+              <td class="collapsing rowspanned"></td>
               <td class="cell" id="mon-1730"></td>
               <td class="cell" id="tue-1730"></td>
               <td class="cell" id="wed-1730"></td>
@@ -289,7 +272,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing rowspanned"></td>
+              <td class="collapsing" rowspan="2">6pm</td>
               <td class="cell" id="mon-1800"></td>
               <td class="cell" id="tue-1800"></td>
               <td class="cell" id="wed-1800"></td>
@@ -300,7 +283,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing" rowspan="2">7pm</td>
+              <td class="collapsing rowspanned"></td>
               <td class="cell" id="mon-1830"></td>
               <td class="cell" id="tue-1830"></td>
               <td class="cell" id="wed-1830"></td>
@@ -311,7 +294,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing rowspanned"></td>
+              <td class="collapsing" rowspan="2">7pm</td>
               <td class="cell" id="mon-1900"></td>
               <td class="cell" id="tue-1900"></td>
               <td class="cell" id="wed-1900"></td>
@@ -322,7 +305,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing" rowspan="2">8pm</td>
+              <td class="collapsing rowspanned"></td>
               <td class="cell" id="mon-1930"></td>
               <td class="cell" id="tue-1930"></td>
               <td class="cell" id="wed-1930"></td>
@@ -333,7 +316,7 @@
             </tr>
 
             <tr>
-              <td class="collapsing rowspanned"></td>
+              <td class="collapsing" rowspan="2">8pm</td>
               <td class="cell" id="mon-2000"></td>
               <td class="cell" id="tue-2000"></td>
               <td class="cell" id="wed-2000"></td>
@@ -341,6 +324,17 @@
               <td class="cell" id="fri-2000"></td>
               <td class="cell" id="sat-2000"></td>
               <td class="cell" id="sun-2000"></td>
+            </tr>
+
+            <tr>
+              <td class="collapsing rowspanned"></td>
+              <td class="cell" id="mon-2030"></td>
+              <td class="cell" id="tue-2030"></td>
+              <td class="cell" id="wed-2030"></td>
+              <td class="cell" id="thu-2030"></td>
+              <td class="cell" id="fri-2030"></td>
+              <td class="cell" id="sat-2030"></td>
+              <td class="cell" id="sun-2030"></td>
             </tr>
           </tbody>
         </table>

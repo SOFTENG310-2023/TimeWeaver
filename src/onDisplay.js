@@ -1,11 +1,21 @@
-const { getNumberOfCalendars } = require("./manageCalendars");
+function resetDisplayCells() {
+  const table = document.getElementById("calendar-display-table");
+  const rows = table.getElementsByTagName("tr");
+  for (const row of rows) {
+    const rowCells = row.getElementsByTagName("td");
+    for (const cell of rowCells) {
+      cell.style.backgroundColor = null;
+    }
+  }
+}
 
-function onDisplay(jsonData) {
+function onDisplay(json, personCount) {
+  resetDisplayCells();
+  const jsonData = JSON.parse(json);
   // Loop through each Cell object in the JSON data
   for (const cell of jsonData.cells) {
     // Calculate the opacity based on the ratio of numPeople and users array length
-    const opacity =
-      cell.numPeople === 0 ? 0 : cell.numPeople / getNumberOfCalendars();
+    const opacity = cell.numPeople === 0 ? 0 : cell.numPeople / personCount;
 
     // Find the corresponding table cell in the HTML
     const cellElement = document.getElementById(cell.id);
@@ -17,3 +27,5 @@ function onDisplay(jsonData) {
     }
   }
 }
+
+module.exports = onDisplay;
