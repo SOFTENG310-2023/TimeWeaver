@@ -28,9 +28,14 @@ document
 document
   .getElementById("setup-new-calendar-manual")
   .addEventListener("click", setupNewManual);
-document
-  .getElementById("setup-new-calendar-ical")
-  .addEventListener("click", setupNewIcal);
+document.getElementById("setup-new-calendar-ical").addEventListener(
+  "click",
+  setupNewIcal()
+    .then(() => {})
+    .catch((error) => {
+      console.error("An error occurred:", error);
+    })
+);
 
 /** List of Uploaded Calendars */
 let calList = [];
