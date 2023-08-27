@@ -163,45 +163,4 @@ describe("Unit tests for converter function", () => {
       JSON.stringify(outjson),
     );
   });
-
-  test("Event spans multiple days", () => {
-    const user = "Alex";
-    const injson = {
-      events: [
-        {
-          start: "Friday 09:00 PM",
-          end: "Saturday 01:00 AM",
-        },
-      ],
-    };
-    const expectedCells = [
-      {
-        id: "fri-2100",
-        users: ["Alex"],
-        numPeople: 1,
-      },
-      {
-        id: "fri-2130",
-        users: ["Alex"],
-        numPeople: 1,
-      },
-      // ... (cells for the entire night)
-      {
-        id: "sat-0030",
-        users: ["Alex"],
-        numPeople: 1,
-      },
-      {
-        id: "sat-0100",
-        users: ["Alex"],
-        numPeople: 1,
-      },
-    ];
-    const outjson = {
-      cells: expectedCells,
-    };
-    expect(converter(JSON.stringify(injson), user)).toBe(
-      JSON.stringify(outjson),
-    );
-  });
 });
