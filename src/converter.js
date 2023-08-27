@@ -44,7 +44,6 @@ function getTimeID(eventTime) {
 
 // function outputs the day segment of the id for the cell
 function getDayID(day) {
-  const array = day.split(" ");
   return day.slice(0, 3).toLowerCase();
 }
 
