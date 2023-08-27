@@ -1,9 +1,9 @@
-const combineObjects = require("../combine");
-describe("combineObjects", () => {
+const combine = require("../combine");
+describe("combine", () => {
     test("Both users have empty cells", () => {
         const user1 = { cells: [] };
         const user2 = { cells: [] };
-        expect(combineObjects(user1, user2)).toEqual({ cells: [] });
+        expect(combine(user1, user2)).toEqual({ cells: [] });
     });
 
     test("One user has empty cells, the other has cells", () => {
@@ -11,7 +11,7 @@ describe("combineObjects", () => {
         const user2 = {
             cells: [{ id: "mon-0730", users: ["Alice"], numPeople: 1 }],
         };
-        expect(combineObjects(user1, user2)).toEqual({
+        expect(combine(user1, user2)).toEqual({
             cells: [{ id: "mon-0730", users: ["Alice"], numPeople: 1 }],
         });
     });
@@ -23,7 +23,7 @@ describe("combineObjects", () => {
         const user2 = {
             cells: [{ id: "tue-0730", users: ["Bob"], numPeople: 1 }],
         };
-        expect(combineObjects(user1, user2)).toEqual({
+        expect(combine(user1, user2)).toEqual({
             cells: [
                 { id: "mon-0730", users: ["Alice"], numPeople: 1 },
                 { id: "tue-0730", users: ["Bob"], numPeople: 1 },
@@ -34,7 +34,7 @@ describe("combineObjects", () => {
     test("Both users have empty cells and undefined values", () => {
         const user1 = { cells: [undefined] };
         const user2 = { cells: [undefined] };
-        expect(combineObjects(user1, user2)).toEqual({ cells: [] });
+        expect(combine(user1, user2)).toEqual({ cells: [] });
     });
 
     test("Both users have overlapping cells", () => {
@@ -50,7 +50,7 @@ describe("combineObjects", () => {
                 { id: "tue-1000", users: ["David"], numPeople: 1 },
             ],
         };
-        expect(combineObjects(user1, user2)).toEqual({
+        expect(combine(user1, user2)).toEqual({
             cells: [
                 { id: "mon-0730", users: ["Alice", "Bob"], numPeople: 2 },
                 { id: "tue-0730", users: ["Charlie"], numPeople: 1 },
@@ -73,7 +73,7 @@ describe("combineObjects", () => {
                 { id: "fri-1000", users: ["Eve"], numPeople: 1 },
             ],
         };
-        expect(combineObjects(user1, user2)).toEqual({
+        expect(combine(user1, user2)).toEqual({
             cells: [
                 { id: "mon-0730", users: ["Alice", "Bob"], numPeople: 2 },
                 { id: "tue-0730", users: ["Charlie"], numPeople: 1 },
@@ -96,7 +96,7 @@ describe("combineObjects", () => {
                 { id: "tue-1000", users: ["David"], numPeople: 1 },
             ],
         };
-        expect(combineObjects(user1, user2)).toEqual({
+        expect(combine(user1, user2)).toEqual({
             cells: [
                 { id: "mon-0730", users: ["Alice", "Bob"], numPeople: 2 },
                 { id: "tue-0730", users: ["Charlie"], numPeople: 1 },
@@ -118,7 +118,7 @@ describe("combineObjects", () => {
                 { id: "tue-1000", users: ["Eve"], numPeople: 1 },
             ],
         };
-        expect(combineObjects(user1, user2)).toEqual({
+        expect(combine(user1, user2)).toEqual({
             cells: [
                 { id: "mon-0730", users: ["Alice", "Bob"], numPeople: 2 },
                 {
@@ -144,7 +144,7 @@ describe("combineObjects", () => {
                 { id: "tue-0730", users: ["David", "Eve"], numPeople: 2 },
             ],
         };
-        expect(combineObjects(user1, user2)).toEqual({
+        expect(combine(user1, user2)).toEqual({
             cells: [
                 {
                     id: "tue-0730",
@@ -170,7 +170,7 @@ describe("combineObjects", () => {
                 { id: "fri-1000", users: ["Frank", "Grace"], numPeople: 2 },
             ],
         };
-        expect(combineObjects(user1, user2)).toEqual({
+        expect(combine(user1, user2)).toEqual({
             cells: [
                 { id: "mon-0730", users: ["Alice", "Bob"], numPeople: 2 },
                 { id: "tue-0730", users: ["Charlie"], numPeople: 1 },
@@ -193,7 +193,7 @@ describe("combineObjects", () => {
                 { id: "tue-1000", users: ["David", "Eve"], numPeople: 2 },
             ],
         };
-        expect(combineObjects(user1, user2)).toEqual({
+        expect(combine(user1, user2)).toEqual({
             cells: [
                 { id: "tue-0730", users: ["Charlie"], numPeople: 1 },
                 { id: "mon-0730", users: ["Alice", "Bob"], numPeople: 2 },
@@ -224,7 +224,7 @@ describe("combineObjects", () => {
                 { id: "tue-1000", users: ["Eve"], numPeople: 1 },
             ],
         };
-        expect(combineObjects(user1, user2)).toEqual({
+        expect(combine(user1, user2)).toEqual({
             cells: [
                 {
                     id: "mon-0730",
@@ -269,7 +269,7 @@ describe("combineObjects", () => {
                 },
             ],
         };
-        expect(combineObjects(user1, user2)).toEqual({
+        expect(combine(user1, user2)).toEqual({
             cells: [
                 {
                     id: "tue-0730",
@@ -314,7 +314,7 @@ describe("combineObjects", () => {
                 { id: "fri-1000", users: ["Olivia"], numPeople: 1 },
             ],
         };
-        expect(combineObjects(user1, user2)).toEqual({
+        expect(combine(user1, user2)).toEqual({
             cells: [
                 {
                     id: "mon-0730",
@@ -353,7 +353,7 @@ describe("combineObjects", () => {
                 },
             ],
         };
-        expect(combineObjects(user1, user2)).toEqual({
+        expect(combine(user1, user2)).toEqual({
             cells: [
                 { id: "tue-0730", users: ["Frank"], numPeople: 1 },
                 {

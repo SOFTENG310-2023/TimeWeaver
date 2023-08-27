@@ -1,4 +1,4 @@
-const createCellInstance = require("../addCellTimetable");
+const addCellTimetable = require("../addCellTimetable");
 
 describe("Unit testing for addCellTimetable function", () => {
     test("Function should add a cell to an empty cells array", () => {
@@ -11,7 +11,7 @@ describe("Unit testing for addCellTimetable function", () => {
             users: ["Alex"],
             numPeople: 1,
         };
-        expect(createCellInstance(id, user, numPeople)).toEqual(
+        expect(addCellTimetable(id, user, numPeople)).toEqual(
             expectedOutputUserCustomObj
         );
     });
