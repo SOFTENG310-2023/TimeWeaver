@@ -43,17 +43,9 @@ Currently, TimeWeaver is available in versions:
 
 - 1.0 (Initial Release)
 
-## Where can I get more help, if I need it?
-
-If you would like to get more help or have queries, you can:
-
 ## Contributor Guidelines
 
-Contributions can make TimeWeaver even better. If you're interested in contributing to the project, please check out our [Contributing Guidelines] to understand how you can participate.
-
-## Acknowledgements
-
-The major contributions of the following individuals towards this project are highly appreciated:
+Contributions can make TimeWeaver even better. If you're interested in contributing to the project, please check out our [Contributing Guidelines](https://github.com/SOFTENG310-2023/TimeWeaver/blob/main/CONTRIBUTING.MD) to understand how you can participate.
 
 ## Tech Stack Used:
 
