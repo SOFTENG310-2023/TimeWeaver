@@ -5,48 +5,48 @@
  * @returns {object} The combined result object with cells.
  */
 function combine(user1, user2) {
-    // Initialize the result object with an empty array for cells.
-    const result = {
-        cells: [],
-    };
+  // Initialize the result object with an empty array for cells.
+  const result = {
+    cells: [],
+  };
 
-    // Iterate through the cells of the first user.
-    for (let i = 0; i < user1.cells.length; i++) {
-        // Iterate through the cells of the second user.
-        for (let j = 0; j < user2.cells.length; j++) {
-            // Check if both cell objects exist and have the same ID.
-            if (!!user1.cells[i] && !!user2.cells[j]) {
-                if (user1.cells[i].id === user2.cells[j].id) {
-                    // Create a combined cell instance and add it to the result.
-                    const combineCellInstance = createCombineCellInstance(
-                        user1.cells[i],
-                        user2.cells[j]
-                    );
-                    result.cells.push(combineCellInstance);
+  // Iterate through the cells of the first user.
+  for (let i = 0; i < user1.cells.length; i++) {
+    // Iterate through the cells of the second user.
+    for (let j = 0; j < user2.cells.length; j++) {
+      // Check if both cell objects exist and have the same ID.
+      if (!!user1.cells[i] && !!user2.cells[j]) {
+        if (user1.cells[i].id === user2.cells[j].id) {
+          // Create a combined cell instance and add it to the result.
+          const combineCellInstance = createCombineCellInstance(
+            user1.cells[i],
+            user2.cells[j]
+          );
+          result.cells.push(combineCellInstance);
 
-                    // Delete the processed cells from both user objects.
-                    delete user1.cells[i];
-                    delete user2.cells[j];
-                }
-            }
+          // Delete the processed cells from both user objects.
+          delete user1.cells[i];
+          delete user2.cells[j];
         }
-
-        // If the cell in the first user still exists, create a cell instance and add it to the result.
-        if (!!user1.cells[i]) {
-            const cellInstance = addCellTimetable(user1.cells[i]);
-            result.cells.push(cellInstance);
-        }
+      }
     }
 
-    // Iterate through the cells of the second user to handle remaining cells not matched.
-    for (let i = 0; i < user2.cells.length; i++) {
-        if (!!user2.cells[i]) {
-            // Create a cell instance and add it to the result.
-            const cellInstance = addCellTimetable(user2.cells[i]);
-            result.cells.push(cellInstance);
-        }
+    // If the cell in the first user still exists, create a cell instance and add it to the result.
+    if (!!user1.cells[i]) {
+      const cellInstance = addCellTimetable(user1.cells[i]);
+      result.cells.push(cellInstance);
     }
-    return result;
+  }
+
+  // Iterate through the cells of the second user to handle remaining cells not matched.
+  for (let i = 0; i < user2.cells.length; i++) {
+    if (!!user2.cells[i]) {
+      // Create a cell instance and add it to the result.
+      const cellInstance = addCellTimetable(user2.cells[i]);
+      result.cells.push(cellInstance);
+    }
+  }
+  return result;
 }
 
 /**
@@ -55,12 +55,12 @@ function combine(user1, user2) {
  * @returns {object} A new cell instance with properties from the single user's cell.
  */
 function addCellTimetable(singleUser) {
-    return {
-        // Copying the ID, users, and numPeople properties from the single user.
-        id: singleUser.id,
-        users: singleUser.users,
-        numPeople: singleUser.numPeople,
-    };
+  return {
+    // Copying the ID, users, and numPeople properties from the single user.
+    id: singleUser.id,
+    users: singleUser.users,
+    numPeople: singleUser.numPeople,
+  };
 }
 
 /**
@@ -70,11 +70,11 @@ function addCellTimetable(singleUser) {
  * @returns {object} A new combined cell instance with merged properties.
  */
 function createCombineCellInstance(firstUser, secondUser) {
-    return {
-        id: firstUser.id,
-        users: [...firstUser.users, ...secondUser.users],
-        numPeople: firstUser.numPeople + secondUser.numPeople,
-    };
+  return {
+    id: firstUser.id,
+    users: [...firstUser.users, ...secondUser.users],
+    numPeople: firstUser.numPeople + secondUser.numPeople,
+  };
 }
 
 module.exports = combine;

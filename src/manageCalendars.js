@@ -16,21 +16,21 @@ const NON_DYNAMIC_NAV_ELEMENTS = 3;
 
 /** Mapping buttons to their onClick functions */
 document
-    .getElementById("add-calendar-modal-open")
-    .addEventListener("click", addCalendar);
+  .getElementById("add-calendar-modal-open")
+  .addEventListener("click", addCalendar);
 document
-    .getElementById("view-combination-button")
-    .addEventListener("click", viewCombinedCalendar);
+  .getElementById("view-combination-button")
+  .addEventListener("click", viewCombinedCalendar);
 document.getElementById("upload-ical").addEventListener("click", uploadIcal);
 document
-    .getElementById("upload-manual")
-    .addEventListener("click", uploadManual);
+  .getElementById("upload-manual")
+  .addEventListener("click", uploadManual);
 document
-    .getElementById("setup-new-calendar-manual")
-    .addEventListener("click", setupNewManual);
+  .getElementById("setup-new-calendar-manual")
+  .addEventListener("click", setupNewManual);
 document
-    .getElementById("setup-new-calendar-ical")
-    .addEventListener("click", setupNewIcal);
+  .getElementById("setup-new-calendar-ical")
+  .addEventListener("click", setupNewIcal);
 
 /** List of Uploaded Calendars */
 let calList = [];
@@ -41,179 +41,179 @@ let hasInitializedManual = false;
 
 /** Handles the Display of the Given Individual Calendar When Nav Element is Clicked */
 function openCalendar(name) {
-    title.textContent = name + "'s Calendar";
+  title.textContent = name + "'s Calendar";
 
-    const [userInfo] = calList.filter((x) => x.user === name);
+  const [userInfo] = calList.filter((x) => x.user === name);
 
-    onDisplay(userInfo.calendarJson, 1);
+  onDisplay(userInfo.calendarJson, 1);
 }
 
 function addCalendar() {
-    formatModal.modal("show");
+  formatModal.modal("show");
 }
 
 function uploadIcal() {
-    formatModal.modal("hide");
-    addIcalModal.modal("show");
+  formatModal.modal("hide");
+  addIcalModal.modal("show");
 }
 
 function uploadManual() {
-    formatModal.modal("hide");
-    addManualModal.modal("show");
-    initializeCellListeners();
+  formatModal.modal("hide");
+  addManualModal.modal("show");
+  initializeCellListeners();
 }
 
 /** Handles the Display of the Combined Calendar When Nav Element is Clicked */
 function viewCombinedCalendar() {
-    title.textContent = "Combined Calendar";
-    let combination = { cells: [] };
+  title.textContent = "Combined Calendar";
+  let combination = { cells: [] };
 
-    for (let cal in calList) {
-        const obj = calList[cal];
-        combination = combine(combination, JSON.parse(obj.calendarJson));
-    }
+  for (let cal in calList) {
+    const obj = calList[cal];
+    combination = combine(combination, JSON.parse(obj.calendarJson));
+  }
 
-    onDisplay(JSON.stringify(combination), calList.length);
+  onDisplay(JSON.stringify(combination), calList.length);
 }
 
 /** Handles the setup of a new Calendar based on the Ical Link */
 async function setupNewIcal() {
-    addIcalModal.modal("hide");
+  addIcalModal.modal("hide");
 
-    const icalUrl = icalInput.value;
-    const json = await urlToJSON(icalUrl);
+  const icalUrl = icalInput.value;
+  const json = await urlToJSON(icalUrl);
 
-    const actual = selectCurrentWeek(json);
+  const actual = selectCurrentWeek(json);
 
-    const formatted = actual.map((x) => {
-        return {
-            start: applyNewFormat(x.start),
-            end: applyNewFormat(x.end),
-        };
-    });
-
-    const userJson = converter(
-        JSON.stringify({ events: formatted }),
-        icalName.value
-    );
-
-    const info = {
-        user: icalName.value,
-        icalUrl: icalInput.value,
-        calendarJson: userJson,
+  const formatted = actual.map((x) => {
+    return {
+      start: applyNewFormat(x.start),
+      end: applyNewFormat(x.end),
     };
-    calList.push(info);
+  });
 
-    icalName.value = "";
-    icalInput.value = "";
-    updateCalList();
+  const userJson = converter(
+    JSON.stringify({ events: formatted }),
+    icalName.value
+  );
+
+  const info = {
+    user: icalName.value,
+    icalUrl: icalInput.value,
+    calendarJson: userJson,
+  };
+  calList.push(info);
+
+  icalName.value = "";
+  icalInput.value = "";
+  updateCalList();
 }
 
 /** Converts Date Format used by Ical into Date Format used by the converter function */
 function applyNewFormat(date) {
-    const arr = date.split(" ");
-    const output = `${arr[0]} ${arr[3]} ${arr[4]}`;
-    return output;
+  const arr = date.split(" ");
+  const output = `${arr[0]} ${arr[3]} ${arr[4]}`;
+  return output;
 }
 
 /** Handles setup of a new Calendar based on the Manual Input */
 function setupNewManual() {
-    addManualModal.modal("hide");
+  addManualModal.modal("hide");
 
-    const cells = cellList.map((cell) => {
-        return {
-            id: cell,
-            users: [manualName.value],
-            numPeople: 1,
-        };
-    });
+  const cells = cellList.map((cell) => {
+    return {
+      id: cell,
+      users: [manualName.value],
+      numPeople: 1,
+    };
+  });
 
-    cellList = [];
+  cellList = [];
 
-    calList.push({
-        user: manualName.value,
-        icalUrl: "",
-        calendarJson: JSON.stringify({ cells: cells }),
-    });
-    manualName.value = "";
+  calList.push({
+    user: manualName.value,
+    icalUrl: "",
+    calendarJson: JSON.stringify({ cells: cells }),
+  });
+  manualName.value = "";
 
-    updateCalList();
+  updateCalList();
 }
 
 /** Updates the Top Navigation based on the current Calendar List */
 function updateCalList() {
-    const referenceNode = dynamicSection.children[1];
+  const referenceNode = dynamicSection.children[1];
 
-    // Repeats for However many items in the calList are not already represented as navigation tabs
-    for (
-        let i = dynamicSection.children.length - NON_DYNAMIC_NAV_ELEMENTS;
-        i < calList.length;
-        i++
-    ) {
-        const title = document.createElement("span");
-        title.innerHTML = calList[i].user;
+  // Repeats for However many items in the calList are not already represented as navigation tabs
+  for (
+    let i = dynamicSection.children.length - NON_DYNAMIC_NAV_ELEMENTS;
+    i < calList.length;
+    i++
+  ) {
+    const title = document.createElement("span");
+    title.innerHTML = calList[i].user;
 
-        const link = document.createElement("a");
-        link.setAttribute("class", "item");
-        link.appendChild(title);
-        link.addEventListener("click", function () {
-            openCalendar(calList[i].user);
-        });
+    const link = document.createElement("a");
+    link.setAttribute("class", "item");
+    link.appendChild(title);
+    link.addEventListener("click", function () {
+      openCalendar(calList[i].user);
+    });
 
-        dynamicSection.insertBefore(link, referenceNode);
-    }
+    dynamicSection.insertBefore(link, referenceNode);
+  }
 }
 
 /** Adds listeners to Item Cells that trigger when the cell is clicked (used for manual calendar addition) */
 function initializeCellListeners() {
-    cellList = [];
+  cellList = [];
 
-    const table = document.getElementById("calendar-table");
-    const rows = table.getElementsByTagName("tr");
-    for (const row of rows) {
-        const rowCells = row.getElementsByTagName("td");
+  const table = document.getElementById("calendar-table");
+  const rows = table.getElementsByTagName("tr");
+  for (const row of rows) {
+    const rowCells = row.getElementsByTagName("td");
 
-        for (const cell of rowCells) {
-            // Classes are used for indicating whether a cell is selected or not
-            cell.classList.remove("cellSelected");
-            cell.style.backgroundColor = null;
+    for (const cell of rowCells) {
+      // Classes are used for indicating whether a cell is selected or not
+      cell.classList.remove("cellSelected");
+      cell.style.backgroundColor = null;
 
-            if (!hasInitializedManual) {
-                cell.addEventListener("click", function () {
-                    setCell(cell);
-                    hasInitializedManual = true;
-                });
-            }
-        }
+      if (!hasInitializedManual) {
+        cell.addEventListener("click", function () {
+          setCell(cell);
+          hasInitializedManual = true;
+        });
+      }
     }
+  }
 }
 
 /** Dictates functionality of Manual Cell when it is clicked */
 function setCell(cell) {
-    const id = cell.id;
+  const id = cell.id;
 
-    if (cell.classList.contains("cellSelected")) {
-        cell.classList.remove("cellSelected");
-        cell.style.backgroundColor = null;
-        cellList = cellList.filter((x) => x != id); // Convolutted way of removing the cell from the cellList array
-    } else {
-        cell.classList.add("cellSelected");
-        cell.style.backgroundColor = "purple";
-        cellList.push(id);
-    }
+  if (cell.classList.contains("cellSelected")) {
+    cell.classList.remove("cellSelected");
+    cell.style.backgroundColor = null;
+    cellList = cellList.filter((x) => x != id); // Convolutted way of removing the cell from the cellList array
+  } else {
+    cell.classList.add("cellSelected");
+    cell.style.backgroundColor = "purple";
+    cellList.push(id);
+  }
 }
 
 module.exports = {
-    updateCalList,
-    setupNewIcal,
-    setupNewManual,
-    addCalendar,
-    viewCombinedCalendar,
-    uploadIcal,
-    uploadManual,
-    openCalendar,
-    calList,
-    cellList,
-    setCell,
-    initializeCellListeners,
+  updateCalList,
+  setupNewIcal,
+  setupNewManual,
+  addCalendar,
+  viewCombinedCalendar,
+  uploadIcal,
+  uploadManual,
+  openCalendar,
+  calList,
+  cellList,
+  setCell,
+  initializeCellListeners,
 };
