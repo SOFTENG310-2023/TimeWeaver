@@ -6,7 +6,6 @@
  * @returns {JSON} the users Calendar display JSON in the calendar format, eg {cells: ObjectArray}
  */
 function converter(json, user) {
-  console.log(json);
   const obj = JSON.parse(json);
   const newObj = [];
 

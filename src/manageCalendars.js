@@ -2,7 +2,6 @@ const { urlToJSON } = require("./icalToJSON");
 const converter = require("./converter");
 const onDisplay = require("./onDisplay");
 const combine = require("./combine");
-const addCellTimetable = require("./addCellTimetable");
 const selectCurrentWeek = require("./selectCurrentWeek");
 const { addManualModal, addIcalModal, formatModal } = require("./modals");
 
@@ -15,6 +14,7 @@ const dynamicSection = document.getElementById("dynamicTabs");
 
 const NON_DYNAMIC_NAV_ELEMENTS = 3;
 
+/** Mapping buttons to their onClick functions */
 document
     .getElementById("add-calendar-modal-open")
     .addEventListener("click", addCalendar);
@@ -34,7 +34,9 @@ document
 
 /** List of Uploaded Calendars */
 let calList = [];
+/** List of Occupied Calendar Cells */
 let cellList = [];
+/** Whether the user has opened the "add a new Manual Calendar" Modal before */
 let hasInitializedManual = false;
 
 /** Handles the Display of the Given Individual Calendar When Nav Element is Clicked */
@@ -74,6 +76,7 @@ function viewCombinedCalendar() {
     onDisplay(JSON.stringify(combination), calList.length);
 }
 
+/** Handles the setup of a new Calendar based on the Ical Link */
 async function setupNewIcal() {
     addIcalModal.modal("hide");
 
@@ -106,19 +109,24 @@ async function setupNewIcal() {
     updateCalList();
 }
 
-// Friday 3rd March 10:00 AM
+/** Converts Date Format used by Ical into Date Format used by the converter function */
 function applyNewFormat(date) {
     const arr = date.split(" ");
     const output = `${arr[0]} ${arr[3]} ${arr[4]}`;
     return output;
 }
 
+/** Handles setup of a new Calendar based on the Manual Input */
 function setupNewManual() {
     addManualModal.modal("hide");
 
-    const cells = cellList.map((cell) =>
-        addCellTimetable(cell, manualName.value, 1)
-    );
+    const cells = cellList.map((cell) => {
+        return {
+            id: cell,
+            users: [manualName.value],
+            numPeople: 1,
+        };
+    });
 
     cellList = [];
 
@@ -156,7 +164,7 @@ function updateCalList() {
     }
 }
 
-/** Heavy Inspiration from https://stackoverflow.com/questions/1207939/adding-an-onclick-event-to-a-table-row */
+/** Adds listeners to Item Cells that trigger when the cell is clicked (used for manual calendar addition) */
 function initializeCellListeners() {
     cellList = [];
 
@@ -166,8 +174,10 @@ function initializeCellListeners() {
         const rowCells = row.getElementsByTagName("td");
 
         for (const cell of rowCells) {
+            // Classes are used for indicating whether a cell is selected or not
             cell.classList.remove("cellSelected");
             cell.style.backgroundColor = null;
+
             if (!hasInitializedManual) {
                 cell.addEventListener("click", function () {
                     setCell(cell);
@@ -178,13 +188,14 @@ function initializeCellListeners() {
     }
 }
 
+/** Dictates functionality of Manual Cell when it is clicked */
 function setCell(cell) {
     const id = cell.id;
 
     if (cell.classList.contains("cellSelected")) {
         cell.classList.remove("cellSelected");
         cell.style.backgroundColor = null;
-        cellList = cellList.filter((x) => x != id);
+        cellList = cellList.filter((x) => x != id); // Convolutted way of removing the cell from the cellList array
     } else {
         cell.classList.add("cellSelected");
         cell.style.backgroundColor = "purple";

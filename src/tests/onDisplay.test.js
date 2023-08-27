@@ -1,11 +1,6 @@
 // Note that the test suite is currently being skipped using jest due to a bug present in referencing jQuery and Fomantic UI JS dependencies. As soon as this bug is fixed, tests will be running automatically with jest.
 const onDisplay = require("../onDisplay");
 
-// Mocking the entire getNumberOfCalendars function
-jest.mock("../manageCalendars", () => ({
-  getNumberOfCalendars: jest.fn(() => 5), // Mock the function to always return 5
-}));
-
 describe.skip("onDisplay.js test suite", () => {
   test("onDisplay applies correct background color and opacity", () => {
     const jsonData = {
@@ -19,7 +14,7 @@ describe.skip("onDisplay.js test suite", () => {
     };
 
     // Run the onDisplay function with the cell
-    onDisplay(jsonData);
+    onDisplay(jsonData, 5);
 
     // Assert that the background color and opacity are correctly applied
     const mockCellElement = document.getElementById("mon-0730");
@@ -42,7 +37,7 @@ describe.skip("onDisplay.js test suite", () => {
       ],
     };
 
-    onDisplay(jsonData);
+    onDisplay(jsonData, 5);
 
     const mockCellElement1 = document.getElementById("mon-0730");
     expect(mockCellElement1.style.backgroundColor).toBe("rgba(128, 0, 0, 0.2)");
@@ -82,7 +77,7 @@ describe.skip("onDisplay.js test suite", () => {
     // Mocking a scenario where getElementById returns null
     document.getElementById = jest.fn((id) => null);
 
-    onDisplay(jsonData);
+    onDisplay(jsonData, 5);
 
     // No assertions needed, just making sure the function does not throw errors
   });
