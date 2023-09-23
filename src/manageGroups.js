@@ -1,6 +1,7 @@
 const { addGroupModal } = require("./modals");
 
 /** HTML Element Declarations */
+const displayName = document.getElementById("group-name");
 const sidebar = document.getElementById("sidebar");
 const groupName = document.getElementById("group-name-input");
 
@@ -27,6 +28,11 @@ function showGroups() {
     })
     .sidebar("setting", "transition", "overlay")
     .sidebar("toggle");
+}
+
+/** Handles the Display of the Group When Sidebar Element is Clicked */
+function openGroup(name) {
+  displayName.innerHTML = name;
 }
 
 /** Handles creation of a new Group by the user */
@@ -69,6 +75,9 @@ function updateGroupList() {
     link.setAttribute("class", "item");
     link.appendChild(icon);
     link.appendChild(name);
+    link.addEventListener("click", function () {
+      openGroup(groupList[i].name);
+    });
 
     sidebar.insertBefore(link, referenceNode);
   }
@@ -76,4 +85,6 @@ function updateGroupList() {
 
 module.exports = {
   showGroups,
+  addGroup,
+  setupNewGroup,
 };

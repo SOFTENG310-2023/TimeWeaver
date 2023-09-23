@@ -21,7 +21,7 @@ const {
   initializeCellListeners,
 } = require("./manageCalendars");
 
-const { showGroups } = require("./manageGroups");
+const { showGroups, addGroup, setupNewGroup } = require("./manageGroups");
 
 const onDisplay = require("./onDisplay");
 
