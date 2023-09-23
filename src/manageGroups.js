@@ -5,7 +5,7 @@ const displayName = document.getElementById("group-name");
 const sidebar = document.getElementById("sidebar");
 const groupName = document.getElementById("group-name-input");
 
-const NON_DYANMIC_SIDEBAR_ELEMENTS = 1;
+const NON_DYNAMIC_SIDEBAR_ELEMENTS = 1;
 
 /** Mapping buttons to their onClick functions */
 document.getElementById("sidebar-toggle").addEventListener("click", showGroups);
@@ -62,7 +62,7 @@ function updateGroupList() {
 
   // Repeats for however many items in the groupList not already represented as sidebar elements
   for (
-    let i = sidebar.children.length - NON_DYANMIC_SIDEBAR_ELEMENTS;
+    let i = sidebar.children.length - NON_DYNAMIC_SIDEBAR_ELEMENTS;
     i < groupList.length;
     i++
   ) {
