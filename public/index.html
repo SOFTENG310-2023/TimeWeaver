@@ -12,6 +12,7 @@
     />
     <link rel="stylesheet" href="assets/css/main.css" />
   </head>
+
   <body>
     <div class="ui huge menu" id="dynamicTabs">
       <div class="header item">
@@ -21,20 +22,35 @@
       <a id="add-calendar-modal-open" class="item">
         <i class="plus icon"></i>
 
-        <span>Add Person</span></a>
+        <span>Add Person</span></a
+      >
 
       <div class="right menu backgroundColour">
         <div class="ui purple item">
           <a id="view-combination-button"
-            ><i class="hammer icon"></i>Combined Calendar</a>
+            ><i class="hammer icon"></i>Combined Calendar</a
+          >
         </div>
       </div>
     </div>
     <div id="page-content" class="ui container">
       <h1 id="calendar-title" class="calendarTitle">No Calendar Selected</h1>
     </div>
-    <div class="ui container">
-      <div class="ui">
+    <button id="sidebar-toggle" class="ui huge button">
+      <span id="group-name">No Groups</span>
+    </button>
+    <div id="content-body" class="ui">
+      <!-- Sidebar from https://fomantic-ui.com/modules/sidebar.html#/definition-->
+      <div
+        id="sidebar"
+        class="ui left vertical inverted labeled icon thin sidebar menu overlay"
+      >
+        <a id="add-group-modal-open" class="item">
+          <i class="plus icon"></i>
+          <span>Add Group</span>
+        </a>
+      </div>
+      <div class="ui container">
         <table
           id="calendar-display-table"
           class="ui celled table border-left-none align center"

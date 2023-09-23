@@ -22,6 +22,20 @@ const formatModal = $.modal({
       </div>`,
 });
 
+const addGroupModal = $.modal({
+  title: "Create New Group",
+  ...commonModalAttributes,
+  content: `
+  <div class="ui labeled input">
+    <div class="ui blue label">Group Name</div>
+    <input id="group-name-input" type="text" placeholder="Eg. University">
+  </div>
+
+  <br></br>
+  <div id="setup-new-group" class="ui approve button green">Done</div>
+  `,
+});
+
 const addIcalModal = $.modal({
   title: "Add Ical Link",
   ...commonModalAttributes,
@@ -366,4 +380,4 @@ const addManualModal = $.modal({
       <div class="ui approve button green" id="setup-new-calendar-manual">Done</div>`,
 });
 
-module.exports = { addManualModal, addIcalModal, formatModal };
+module.exports = { addGroupModal, addManualModal, addIcalModal, formatModal };
