@@ -18,3 +18,7 @@
 .regularCell {
   background-color: white;
 }
+
+#sidebar-toggle {
+  width: 150px;
+}

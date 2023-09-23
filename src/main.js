@@ -21,6 +21,8 @@ const {
   initializeCellListeners,
 } = require("./manageCalendars");
 
+const { showGroups, addGroup, setupNewGroup } = require("./manageGroups");
+
 const onDisplay = require("./onDisplay");
 
 const { selectCurrentWeek } = require("./selectCurrentWeek");
