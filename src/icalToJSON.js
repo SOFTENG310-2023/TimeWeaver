@@ -14,7 +14,7 @@ function processEvent(eventComp) {
 
     let iterations = 0;
 
-    while (( start <= untilDate) && iterations < count) {
+    while (start <= untilDate && iterations < count) {
       events.push(createEvent(summary, start, end));
 
       if (rrule.freq === "WEEKLY") {
@@ -122,10 +122,7 @@ function formatEventDate(date) {
 
 // Fetches the ICalendar Information using the given links
 async function getICalFromURL(url) {
-
-  const res = await fetch(
-    `http://localhost:8080/api/get-ical?ical=${encodeURIComponent(url)}`,
-  );
+  const res = await fetch(`/api/get-ical?ical=${encodeURIComponent(url)}`);
   return await res.text();
 }
 
