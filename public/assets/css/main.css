@@ -9,6 +9,7 @@
 
 .backgroundColour {
   background-color: blanchedalmond !important;
+}
 
 .cellSelected {
   background-color: blueviolet;
@@ -16,5 +17,8 @@
 
 .regularCell {
   background-color: white;
+}
 
+#sidebar-toggle {
+  width: 150px;
 }
