@@ -70,9 +70,9 @@ jobs:
         id: get_pr_data
         with:
           route: GET /repos/{full_name}/pulls/{number}
-          number: ${{ steps.pr_number.outputs.content }}
-          full_name: ${{ github.event.repository.full_name }}
         env:
+          INPUT_FULL_NAME: ${{ github.event.repository.full_name }}
+          INPUT_NUMBER: ${{ steps.pr_number.outputs.content }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: SonarCloud Scan (for PRs)
