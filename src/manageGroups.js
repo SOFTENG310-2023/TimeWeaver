@@ -10,6 +10,11 @@ const displayName = document.getElementById("group-name");
 const sidebar = document.getElementById("sidebar");
 const groupName = document.getElementById("group-name-input");
 
+// Set sidebar parent context
+$(".ui.labeled.icon.sidebar").sidebar({
+  context: $("#content-body"),
+});
+
 const NON_DYNAMIC_SIDEBAR_ELEMENTS = 1;
 
 /** Mapping buttons to their onClick functions */
@@ -28,13 +33,12 @@ let groupList = [];
 
 /** Toggles visibility of groups sidebar */
 function showGroupsSidebar() {
-  $(".ui.labeled.icon.sidebar")
-    .sidebar({
-      context: $("#content-body"),
-      dimPage: false,
-    })
-    .sidebar("setting", "transition", "overlay")
-    .sidebar("toggle");
+  $(".ui.labeled.icon.sidebar").sidebar("setting", {
+    dimPage: false,
+    transition: "overlay",
+  });
+
+  $(".ui.labeled.icon.sidebar").sidebar("toggle");
 }
 
 /** Handles the Display of the Group When Sidebar Element is Clicked */
