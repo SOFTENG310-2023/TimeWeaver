@@ -6,7 +6,6 @@ const {
 } = require("./manageCalendars.js");
 
 /** HTML Element Declarations */
-const displayName = document.getElementById("group-name");
 const sidebar = document.getElementById("sidebar");
 const groupName = document.getElementById("group-name-input");
 
@@ -18,9 +17,7 @@ $(".ui.labeled.icon.sidebar").sidebar({
 const NON_DYNAMIC_SIDEBAR_ELEMENTS = 1;
 
 /** Mapping buttons to their onClick functions */
-document
-  .getElementById("sidebar-toggle")
-  .addEventListener("click", showGroupsSidebar);
+
 document
   .getElementById("add-group-modal-open")
   .addEventListener("click", addGroup);
@@ -31,16 +28,6 @@ document
 /** List of Uploaded Groups */
 let groupList = [];
 let selectedGroup;
-
-/** Toggles visibility of groups sidebar */
-function showGroupsSidebar() {
-  $(".ui.labeled.icon.sidebar").sidebar("setting", {
-    dimPage: false,
-    transition: "overlay",
-  });
-
-  $(".ui.labeled.icon.sidebar").sidebar("toggle");
-}
 
 /** Handles the Display of the Group When Sidebar Element is Clicked */
 function openGroup(name) {
@@ -125,7 +112,6 @@ function updateGroupList() {
 }
 
 module.exports = {
-  showGroups: showGroupsSidebar,
   addGroup,
   setupNewGroup,
 };

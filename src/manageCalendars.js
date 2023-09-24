@@ -33,7 +33,9 @@ document
   .addEventListener("click", setupNewManual);
 document
   .getElementById("setup-new-calendar-ical")
-  .addEventListener("click", setupNewIcal);
+  .addEventListener("click", () => {
+    setupNewIcal();
+  });
 
 /** List of Uploaded Calendars */
 let calList = [];
@@ -66,20 +68,15 @@ function addCalendar() {
 
 function uploadIcal() {
   formatModal.modal("hide");
-  // $(".dimmable").css("margin-right", "0px");
-
   setTimeout(() => {
     addIcalModal.modal("show");
-    // $(".dimmable").css("margin-right", "0px");
   }, MODAL_HIDE_SHOW_DELAY);
 }
 
 function uploadManual() {
-  // $(".dimmable").css("margin-right", "0px");
   formatModal.modal("hide");
   setTimeout(() => {
     addManualModal.modal("show");
-    // $(".dimmable").css("margin-right", "0px");
   }, MODAL_HIDE_SHOW_DELAY);
 
   initializeCellListeners();
