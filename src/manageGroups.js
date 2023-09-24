@@ -46,6 +46,8 @@ function openGroup(name) {
   displayName.innerHTML = name;
   const selectedGroup = groupList.filter((x) => x.name === name)[0];
 
+  setCalList(selectedGroup.calendarList);
+
   if (selectedGroup.calendarList.length === 0) {
     resetCalendar();
   } else {
