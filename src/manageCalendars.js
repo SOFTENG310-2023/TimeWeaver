@@ -152,15 +152,11 @@ function setupNewManual() {
 /** Updates the Top Navigation based on the current Calendar List */
 function updateCalList() {
   // Remove all the calendar items
-  for (child of dynamicSection.children) {
-    if (child.classList.contains("calendar-select")) {
-      child.remove();
-    }
-  }
+  $(dynamicSection).children(".calendar-select").remove();
 
   const referenceNode = dynamicSection.children[1];
 
-  // Creates new entry for each calendar in the top navigation
+  // Creates new entry in the top navigation for each calendar
   for (let i = 0; i < calList.length; i++) {
     const title = document.createElement("span");
     title.innerHTML = calList[i].user;
