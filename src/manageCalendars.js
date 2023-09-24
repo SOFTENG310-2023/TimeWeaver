@@ -11,9 +11,11 @@ const title = document.getElementById("calendar-title");
 const icalName = document.getElementById("ical-name-input");
 const icalInput = document.getElementById("ical-link-input");
 const manualName = document.getElementById("manual-name-input");
-const dynamicSection = document.getElementById("dynamicTabs");
+const dynamicSection = document.getElementById("dynamic-tabs");
 
-const NON_DYNAMIC_NAV_ELEMENTS = 3;
+// When hiding and showing different modals, Fomantic uses a 500ms animation. This delay is
+// used to ensure that the animation is not interrupted, which can cause rendering issues.
+const MODAL_HIDE_SHOW_DELAY = 0;
 
 /** Mapping buttons to their onClick functions */
 document
@@ -59,16 +61,27 @@ function resetCalendar() {
 
 function addCalendar() {
   formatModal.modal("show");
+  $(".dimmable").css("margin-right", "0px");
 }
 
 function uploadIcal() {
   formatModal.modal("hide");
-  addIcalModal.modal("show");
+  // $(".dimmable").css("margin-right", "0px");
+
+  setTimeout(() => {
+    addIcalModal.modal("show");
+    // $(".dimmable").css("margin-right", "0px");
+  }, MODAL_HIDE_SHOW_DELAY);
 }
 
 function uploadManual() {
+  // $(".dimmable").css("margin-right", "0px");
   formatModal.modal("hide");
-  addManualModal.modal("show");
+  setTimeout(() => {
+    addManualModal.modal("show");
+    // $(".dimmable").css("margin-right", "0px");
+  }, MODAL_HIDE_SHOW_DELAY);
+
   initializeCellListeners();
 }
 

@@ -12,7 +12,7 @@ const groupName = document.getElementById("group-name-input");
 
 // Set sidebar parent context
 $(".ui.labeled.icon.sidebar").sidebar({
-  context: $("#content-body"),
+  context: $("#page-container"),
 });
 
 const NON_DYNAMIC_SIDEBAR_ELEMENTS = 1;
@@ -30,6 +30,7 @@ document
 
 /** List of Uploaded Groups */
 let groupList = [];
+let selectedGroup;
 
 /** Toggles visibility of groups sidebar */
 function showGroupsSidebar() {
@@ -44,6 +45,7 @@ function showGroupsSidebar() {
 /** Handles the Display of the Group When Sidebar Element is Clicked */
 function openGroup(name) {
   displayName.innerHTML = name;
+
   const selectedGroup = groupList.filter((x) => x.name === name)[0];
 
   setCalList(selectedGroup.calendarList);
@@ -94,9 +96,25 @@ function updateGroupList() {
     link.setAttribute("class", "item");
     link.appendChild(icon);
     link.appendChild(name);
-    link.addEventListener("click", function () {
+    link.addEventListener("click", function (event) {
+      event.target.classList.add("active");
+      if (selectedGroup) {
+        selectedGroup.classList.remove("active");
+      }
+      selectedGroup = event.target;
+
       openGroup(groupList[i].name);
     });
+
+    // Only trigger the parent click event when the child is clicked
+    $(link)
+      .children()
+      .click(function (e) {
+        const event = new Event("click");
+        link.dispatchEvent(event);
+
+        e.stopPropagation();
+      });
 
     name.innerHTML = groupList[i].name;
 
