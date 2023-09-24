@@ -2,6 +2,7 @@ const { urlToJSON } = require("./icalToJSON");
 const converter = require("./converter");
 const onDisplay = require("./onDisplay");
 const combine = require("./combine");
+const { NO_CALENDAR_SELECTED } = require("./constants/strings");
 const { selectCurrentWeek } = require("./selectCurrentWeek");
 const { addManualModal, addIcalModal, formatModal } = require("./modals");
 
@@ -46,6 +47,14 @@ function openCalendar(name) {
   const [userInfo] = calList.filter((x) => x.user === name);
 
   onDisplay(userInfo.calendarJson, 1);
+}
+
+/**
+ * Shows an empty calendar
+ */
+function resetCalendar() {
+  title.textContent = NO_CALENDAR_SELECTED;
+  onDisplay(JSON.stringify({ cells: [] }), 0);
 }
 
 function addCalendar() {
@@ -94,7 +103,7 @@ async function setupNewIcal() {
 
   const userJson = converter(
     JSON.stringify({ events: formatted }),
-    icalName.value
+    icalName.value,
   );
 
   const info = {
@@ -142,19 +151,22 @@ function setupNewManual() {
 
 /** Updates the Top Navigation based on the current Calendar List */
 function updateCalList() {
+  // Remove all the calendar items
+  for (child of dynamicSection.children) {
+    if (child.classList.contains("calendar-select")) {
+      child.remove();
+    }
+  }
+
   const referenceNode = dynamicSection.children[1];
 
-  // Repeats for However many items in the calList are not already represented as navigation tabs
-  for (
-    let i = dynamicSection.children.length - NON_DYNAMIC_NAV_ELEMENTS;
-    i < calList.length;
-    i++
-  ) {
+  // Creates new entry for each calendar in the top navigation
+  for (let i = 0; i < calList.length; i++) {
     const title = document.createElement("span");
     title.innerHTML = calList[i].user;
 
     const link = document.createElement("a");
-    link.setAttribute("class", "item");
+    link.setAttribute("class", "calendar-select item");
     link.appendChild(title);
     link.addEventListener("click", function () {
       openCalendar(calList[i].user);
@@ -195,12 +207,22 @@ function setCell(cell) {
   if (cell.classList.contains("cellSelected")) {
     cell.classList.remove("cellSelected");
     cell.style.backgroundColor = null;
-    cellList = cellList.filter((x) => x != id); // Convolutted way of removing the cell from the cellList array
+    cellList = cellList.filter((x) => x != id); // Convoluted way of removing the cell from the cellList array
   } else {
     cell.classList.add("cellSelected");
     cell.style.backgroundColor = "purple";
     cellList.push(id);
   }
+}
+
+/**
+ * Updates the calendar list and triggers refresh
+ *
+ * @param {Array} newCalList
+ */
+function setCalList(newCalList) {
+  calList = newCalList;
+  updateCalList();
 }
 
 module.exports = {
@@ -215,5 +237,7 @@ module.exports = {
   calList,
   cellList,
   setCell,
+  setCalList,
+  resetCalendar,
   initializeCellListeners,
 };

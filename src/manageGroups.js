@@ -1,4 +1,9 @@
 const { addGroupModal } = require("./modals");
+const {
+  setCalList,
+  resetCalendar,
+  openCalendar,
+} = require("./manageCalendars.js");
 
 /** HTML Element Declarations */
 const displayName = document.getElementById("group-name");
@@ -8,7 +13,9 @@ const groupName = document.getElementById("group-name-input");
 const NON_DYNAMIC_SIDEBAR_ELEMENTS = 1;
 
 /** Mapping buttons to their onClick functions */
-document.getElementById("sidebar-toggle").addEventListener("click", showGroups);
+document
+  .getElementById("sidebar-toggle")
+  .addEventListener("click", showGroupsSidebar);
 document
   .getElementById("add-group-modal-open")
   .addEventListener("click", addGroup);
@@ -20,7 +27,7 @@ document
 let groupList = [];
 
 /** Toggles visibility of groups sidebar */
-function showGroups() {
+function showGroupsSidebar() {
   $(".ui.labeled.icon.sidebar")
     .sidebar({
       context: $("#content-body"),
@@ -33,6 +40,13 @@ function showGroups() {
 /** Handles the Display of the Group When Sidebar Element is Clicked */
 function openGroup(name) {
   displayName.innerHTML = name;
+  const selectedGroup = groupList.filter((x) => x.name === name)[0];
+
+  if (selectedGroup.calendarList.length === 0) {
+    resetCalendar();
+  } else {
+    openCalendar(selectedGroup.calendarList[0].user);
+  }
 }
 
 /** Handles creation of a new Group by the user */
@@ -49,7 +63,7 @@ function setupNewGroup() {
   groupList.push({
     name: groupName.value,
     groupUrl: "",
-    //groupJson: JSON.stringify({  }),
+    calendarList: [],
   });
   groupName.value = "";
 
@@ -66,12 +80,11 @@ function updateGroupList() {
     i < groupList.length;
     i++
   ) {
-    const name = document.createElement("span");
-    name.innerHTML = groupList[i].name;
-    const icon = document.createElement("i");
-    icon.setAttribute("class", "user friends icon");
-
+    // Creates new entry in sidebar
     const link = document.createElement("a");
+    const name = document.createElement("span");
+    const icon = document.createElement("i");
+
     link.setAttribute("class", "item");
     link.appendChild(icon);
     link.appendChild(name);
@@ -79,12 +92,16 @@ function updateGroupList() {
       openGroup(groupList[i].name);
     });
 
+    name.innerHTML = groupList[i].name;
+
+    icon.setAttribute("class", "user friends icon");
+
     sidebar.insertBefore(link, referenceNode);
   }
 }
 
 module.exports = {
-  showGroups,
+  showGroups: showGroupsSidebar,
   addGroup,
   setupNewGroup,
 };
