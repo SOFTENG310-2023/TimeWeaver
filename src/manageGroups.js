@@ -17,7 +17,6 @@ $(".ui.labeled.icon.sidebar").sidebar({
 const NON_DYNAMIC_SIDEBAR_ELEMENTS = 1;
 
 /** Mapping buttons to their onClick functions */
-
 document
   .getElementById("add-group-modal-open")
   .addEventListener("click", addGroup);
@@ -127,6 +126,7 @@ function createGroupElement(groupName) {
   });
 
   $(trashButton).click(function (e) {
+    // Don't trigger the parent click event
     e.stopPropagation();
 
     // Don't allow deletion of the currently selected group
