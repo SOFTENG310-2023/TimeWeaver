@@ -31,8 +31,6 @@ let selectedGroup;
 
 /** Handles the Display of the Group When Sidebar Element is Clicked */
 function openGroup(name) {
-  displayName.innerHTML = name;
-
   const selectedGroup = groupList.filter((x) => x.name === name)[0];
 
   setCalList(selectedGroup.calendarList);
@@ -51,18 +49,21 @@ function addGroup() {
 
 /** Handles setup of a new Group */
 function setupNewGroup() {
-  addGroupModal.modal("hide");
+  if (
+    groupName.value !== "" &&
+    !groupList.some((x) => x.name === groupName.value)
+  ) {
+    addGroupModal.modal("hide");
 
-  // TODO: Implement page content switching to new group and adding the content
+    groupList.push({
+      name: groupName.value,
+      groupUrl: "",
+      calendarList: [],
+    });
+    groupName.value = "";
 
-  groupList.push({
-    name: groupName.value,
-    groupUrl: "",
-    calendarList: [],
-  });
-  groupName.value = "";
-
-  updateGroupList();
+    updateGroupList();
+  }
 }
 
 /** Handles setup of a new Group */
@@ -75,40 +76,66 @@ function updateGroupList() {
     i < groupList.length;
     i++
   ) {
-    // Creates new entry in sidebar
-    const link = document.createElement("a");
-    const name = document.createElement("span");
-    const icon = document.createElement("i");
-
-    link.setAttribute("class", "item");
-    link.appendChild(icon);
-    link.appendChild(name);
-    link.addEventListener("click", function (event) {
-      event.target.classList.add("active");
-      if (selectedGroup) {
-        selectedGroup.classList.remove("active");
-      }
-      selectedGroup = event.target;
-
-      openGroup(groupList[i].name);
-    });
-
-    // Only trigger the parent click event when the child is clicked
-    $(link)
-      .children()
-      .click(function (e) {
-        const event = new Event("click");
-        link.dispatchEvent(event);
-
-        e.stopPropagation();
-      });
-
-    name.innerHTML = groupList[i].name;
-
-    icon.setAttribute("class", "user friends icon");
+    let link = createGroupElement(groupList[i].name);
 
     sidebar.insertBefore(link, referenceNode);
   }
+}
+
+/** Creates a single group link element for the groups sidebar */
+function createGroupElement(groupName) {
+  const groupSelectLink = document.createElement("a");
+  const container = document.createElement("div");
+  const groupNameSpan = document.createElement("span");
+  const groupIcon = document.createElement("i");
+  const trashButton = document.createElement("button");
+
+  $(groupSelectLink).addClass("item group-item-container");
+  $(groupSelectLink).append(trashButton);
+  $(groupSelectLink).append(container);
+
+  $(container).addClass("group-content-container");
+  $(container).append(groupIcon);
+  $(container).append(groupNameSpan);
+
+  $(trashButton).addClass("ui icon red button");
+  $(trashButton).append($("<i class='trash icon'></i>"));
+
+  // Allow clicks even when the groupSelectLink is disabled
+  $(trashButton).css("pointer-events", "auto");
+
+  $(groupIcon).addClass("user friends icon");
+
+  groupNameSpan.innerHTML = groupName;
+
+  groupSelectLink.addEventListener("click", () => {
+    if (selectedGroup === groupSelectLink) {
+      return;
+    }
+
+    // Mark new group as selected
+    groupSelectLink.classList.add("disabled", "group-selected");
+    if (selectedGroup) {
+      selectedGroup.classList.remove("disabled", "group-selected");
+    }
+    selectedGroup = groupSelectLink;
+
+    openGroup(groupName);
+  });
+
+  $(trashButton).click(function (e) {
+    e.stopPropagation();
+
+    // Don't allow deletion of the currently selected group
+    if (selectedGroup === groupSelectLink) {
+      return;
+    }
+
+    groupList = groupList.filter((x) => x.name !== groupName);
+    $(groupSelectLink).remove();
+  });
+
+  return groupSelectLink;
 }
 
 module.exports = {

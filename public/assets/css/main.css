@@ -42,6 +42,37 @@ body {
   margin-top: 15px;
 }
 
-.active {
-  background-color: #e6e6e6;
+.group-item-container {
+  /* min-height: 71px; */
+  padding: 16px 8px 16px 8px !important;
+  width: 100%;
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 5px;
+  justify-content: start;
+  align-items: center;
+}
+
+.group-selected {
+  background-color: #3d3e3f !important;
+  color: white !important;
+}
+
+.group-content-container {
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  flex-grow: 1;
+}
+
+.group-content-container > span {
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.group-content-container > .icon {
+  margin-right: 0px !important;
 }
