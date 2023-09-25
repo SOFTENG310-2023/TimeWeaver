@@ -21,13 +21,22 @@ const NON_DYNAMIC_SIDEBAR_ELEMENTS = 1;
 document
   .getElementById("add-group-modal-open")
   .addEventListener("click", addGroup);
-document
-  .getElementById("setup-new-group")
-  .addEventListener("click", setupNewGroup);
+document.getElementById("setup-new-group").addEventListener("click", () => {
+  addGroupModal.modal("hide");
+
+  setupNewGroup(groupName.value);
+
+  groupName.value = "";
+});
 
 /** List of Uploaded Groups */
 let groupList = [];
 let selectedGroup;
+
+// Add and select initial group
+setupNewGroup("Default");
+selectedGroup = sidebar.children[0];
+selectedGroup.classList.add("disabled", "group-selected");
 
 /** Handles the Display of the Group When Sidebar Element is Clicked */
 function openGroup(name) {
@@ -48,19 +57,13 @@ function addGroup() {
 }
 
 /** Handles setup of a new Group */
-function setupNewGroup() {
-  if (
-    groupName.value !== "" &&
-    !groupList.some((x) => x.name === groupName.value)
-  ) {
-    addGroupModal.modal("hide");
-
+function setupNewGroup(name) {
+  if (name !== "" && !groupList.some((x) => x.name === name)) {
     groupList.push({
-      name: groupName.value,
+      name: name,
       groupUrl: "",
       calendarList: [],
     });
-    groupName.value = "";
 
     updateGroupList();
   }
@@ -106,9 +109,9 @@ function createGroupElement(groupName) {
 
   $(groupIcon).addClass("user friends icon");
 
-  groupNameSpan.innerHTML = groupName;
+  $(groupNameSpan).html(groupName);
 
-  groupSelectLink.addEventListener("click", () => {
+  $(groupSelectLink).click(() => {
     if (selectedGroup === groupSelectLink) {
       return;
     }
