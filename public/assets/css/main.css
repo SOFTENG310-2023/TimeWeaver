@@ -46,7 +46,6 @@ body {
  * Group sidebar and items
  */
 .group-item-container {
-  /* min-height: 71px; */
   padding: 16px 8px 16px 8px !important;
   width: 100%;
   display: flex !important;
