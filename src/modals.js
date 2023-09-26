@@ -380,4 +380,29 @@ const addManualModal = $.modal({
       <div class="ui approve button green" id="setup-new-calendar-manual">Done</div>`,
 });
 
-module.exports = { addGroupModal, addManualModal, addIcalModal, formatModal };
+const addAccountModal = $.modal({
+  title: "Log into your account",
+  ...commonModalAttributes,
+  content: `
+  <div class="ui labeled input">
+    <div class="ui blue label">Username</div>
+      <input id="login-username-input" type="text" placeholder="Eg. sam123">
+  </div>
+
+
+  <div class="ui labeled input">
+    <div id = "ical-input" class="ui blue label">Password</div>
+    <input id="login-password-input" type="password">
+  </div>
+
+  <br></br>
+  <div class="ui approve button green" id="login-btn" >LOGIN</div>`,
+});
+
+module.exports = {
+  addGroupModal,
+  addManualModal,
+  addIcalModal,
+  formatModal,
+  addAccountModal,
+};

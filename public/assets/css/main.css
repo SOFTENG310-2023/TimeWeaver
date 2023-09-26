@@ -82,3 +82,9 @@ body {
 .pushable.pushable.pushable {
   height: auto;
 }
+
+#user-account-button {
+  border-left: 1.5px solid #4183c4;
+  margin-left: 10px;
+  padding-left: 10px;
+}

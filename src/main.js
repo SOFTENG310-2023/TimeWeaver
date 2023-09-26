@@ -4,7 +4,12 @@
  * This enables everything to be run in the web browser
  */
 
-const { addManualModal, addIcalModal, formatModal } = require("./modals");
+const {
+  addManualModal,
+  addIcalModal,
+  formatModal,
+  addAccountModal,
+} = require("./modals");
 
 const {
   updateCalList,
