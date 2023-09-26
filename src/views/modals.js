@@ -456,6 +456,7 @@ const signupModal = $.modal({
 
 module.exports = {
   addGroupModal,
+  addFilterModal,
   addManualModal,
   addIcalModal,
   formatModal,

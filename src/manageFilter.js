@@ -1,5 +1,5 @@
-const { addFilterModal } = require("./modals");
-const { viewFilteredCalendar } = require("./manageCalendars.js");
+const { addFilterModal } = require("./views/modals");
+const { viewFilteredCalendar } = require("./views/manageCalendars.js");
 
 const filter = document.getElementById("filter-value-input");
 
