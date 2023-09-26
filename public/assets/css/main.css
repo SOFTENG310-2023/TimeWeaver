@@ -3,6 +3,10 @@ body {
   flex-direction: column;
 }
 
+button {
+  border: 0px;
+}
+
 .border-left-none {
   border-left: hidden !important;
 }
@@ -90,4 +94,12 @@ body {
 
 #footer {
   margin: 0;
+}
+#add-group-modal-open {
+  width: 100%;
+}
+
+.focus-border:focus {
+  outline: none !important;
+  border:1px solid cyan !important;
 }

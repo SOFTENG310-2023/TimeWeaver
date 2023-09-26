@@ -87,13 +87,13 @@ function updateGroupList() {
 
 /** Creates a single group link element for the groups sidebar */
 function createGroupElement(groupName) {
-  const groupSelectLink = document.createElement("a");
+  const groupSelectLink = document.createElement("button");
   const container = document.createElement("div");
   const groupNameSpan = document.createElement("span");
   const groupIcon = document.createElement("i");
   const trashButton = document.createElement("button");
 
-  $(groupSelectLink).addClass("item group-item-container");
+  $(groupSelectLink).addClass("item group-item-container focus-border");
   $(groupSelectLink).append(trashButton);
   $(groupSelectLink).append(container);
 

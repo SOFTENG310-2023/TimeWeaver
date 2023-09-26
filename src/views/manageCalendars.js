@@ -162,14 +162,14 @@ function updateCalList() {
     const title = document.createElement("span");
     title.innerHTML = calList[i].user;
 
-    const link = document.createElement("a");
-    link.setAttribute("class", "calendar-select item");
-    link.appendChild(title);
-    link.addEventListener("click", function () {
+    const button = document.createElement("button");
+    button.setAttribute("class", "calendar-select item focus-border");
+    button.appendChild(title);
+    button.addEventListener("click", function () {
       openCalendar(calList[i].user);
     });
 
-    dynamicSection.insertBefore(link, referenceNode);
+    dynamicSection.insertBefore(button, referenceNode);
   }
 }
 
