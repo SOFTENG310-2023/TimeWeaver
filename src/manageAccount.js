@@ -1,4 +1,4 @@
-const { accountModal, signupModal } = require("./modals");
+const { accountModal, signupModal } = require("./views/modals");
 
 /** HTML Element Declarations */
 const openAccountBtn = document.getElementById("user-account-button");

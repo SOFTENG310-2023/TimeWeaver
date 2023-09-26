@@ -1,5 +1,5 @@
 // Note that the test suite is currently being skipped using jest due to a bug present in referencing jQuery and Fomantic UI JS dependencies. As soon as this bug is fixed, tests will be running automatically with jest.
-const onDisplay = require("../onDisplay");
+const onDisplay = require("../helpers/onDisplay");
 
 describe.skip("onDisplay.js test suite", () => {
   test("onDisplay applies correct background color and opacity", () => {

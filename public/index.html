@@ -19,23 +19,20 @@
         <i class="calendar check icon"></i>
         <span>TimeWeaver</span>
       </div>
-
-      <a id="add-calendar-modal-open" class="item">
+      <button id="add-calendar-modal-open" class="item focus-border">
         <i class="plus icon"></i>
 
-        <span>Add Person</span></a
+        <span>Add Person</span></button
       >
 
       <div class="right menu backgroundColour">
-        <div class="ui purple item">
-          <a id="view-combination-button"
-            ><i class="hammer icon"></i>Combined Calendar</a
-          >
-          <a id="user-account-button">
-            <i class="user icon"></i>
-            Log In
-          </a>
-        </div>
+        <button class="ui purple item focus-border" id="view-combination-button">
+          <i class="hammer icon"></i>Combined Calendar
+        </button>
+        <a class="ui item" id="user-account-button">
+          <i class="user icon"></i>
+          Log In
+        </a>
       </div>
     </div>
 
@@ -45,10 +42,10 @@
         id="sidebar"
         class="ui left inverted vertical menu labeled icon thin sidebar visible"
       >
-        <a id="add-group-modal-open" class="item">
-          <i class="plus icon"></i>
-          <span>Add Group</span>
-        </a>
+      <button id="add-group-modal-open" class="item focus-border">
+            <i class="plus icon"></i>
+            <span>Add Group</span>
+      </button>
       </div>
       <div id="content-container" class="ui container pusher">
         <div id="page-content">
@@ -364,7 +361,7 @@
     </div>
     <br />
     <br />
-    <div class="ui footer huge menu">
+    <div id="footer" class="ui footer huge menu">
       <div class="left footer item">
         <div class="content">
           <div class="footer-title">

@@ -32,7 +32,7 @@ const addGroupModal = $.modal({
   </div>
 
   <br></br>
-  <div id="setup-new-group" class="ui approve button green">Done</div>
+  <button id="setup-new-group" class="ui approve button green">Done</button>
   `,
 });
 
@@ -54,13 +54,14 @@ const addIcalModal = $.modal({
       <input id="ical-link-input" type="text" placeholder="<Ical Link>">
       </div>
       <br></br>
-      <div class="ui approve button green" id="setup-new-calendar-ical" >Done</div>`,
+      <button class="ui approve button green" id="setup-new-calendar-ical" >Done</button>`,
 });
 
 const manualCalendarTable = `<table
   id = "calendar-table"
   class="ui celled table border-left-none align center"
   aria-label="Availability calendar"
+  tabindex="-1"
   >
   <thead>
               <tr class="border-left-none">
@@ -377,7 +378,7 @@ const addManualModal = $.modal({
       ${manualCalendarTable}
   
       <br></br>
-      <div class="ui approve button green" id="setup-new-calendar-manual">Done</div>`,
+      <button class="ui approve button green" id="setup-new-calendar-manual">Done</button>`,
 });
 
 // Account popup (login)

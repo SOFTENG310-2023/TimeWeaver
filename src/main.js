@@ -9,7 +9,8 @@ const {
   addIcalModal,
   formatModal,
   accountModal,
-} = require("./modals");
+  signupModal,
+} = require("./views/modals");
 
 const {
   updateCalList,
@@ -24,12 +25,12 @@ const {
   cellList,
   setCell,
   initializeCellListeners,
-} = require("./manageCalendars");
+} = require("./views/manageCalendars");
 
-const { showGroups, addGroup, setupNewGroup } = require("./manageGroups");
+const { showGroups, addGroup, setupNewGroup } = require("./views/manageGroups");
 
 const { openAccountPopup } = require("./manageAccount");
 
-const onDisplay = require("./onDisplay");
+const onDisplay = require("./helpers/onDisplay");
 
-const { selectCurrentWeek } = require("./selectCurrentWeek");
+const { selectCurrentWeek } = require("./views/selectCurrentWeek");

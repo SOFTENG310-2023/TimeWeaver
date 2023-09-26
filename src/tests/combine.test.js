@@ -1,4 +1,4 @@
-const combine = require("../combine");
+const combine = require("../helpers/combine");
 describe("combine", () => {
   test("Both users have empty cells", () => {
     const user1 = { cells: [] };
