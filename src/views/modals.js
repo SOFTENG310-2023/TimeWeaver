@@ -448,3 +448,4 @@ module.exports = {
   accountModal,
   signupModal,
 };
+
