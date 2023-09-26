@@ -32,7 +32,7 @@ const addGroupModal = $.modal({
   </div>
 
   <br></br>
-  <div id="setup-new-group" class="ui approve button green">Done</div>
+  <button id="setup-new-group" class="ui approve button green">Done</button>
   `,
 });
 
@@ -68,13 +68,14 @@ const addIcalModal = $.modal({
       <input id="ical-link-input" type="text" placeholder="<Ical Link>">
       </div>
       <br></br>
-      <div class="ui approve button green" id="setup-new-calendar-ical" >Done</div>`,
+      <button class="ui approve button green" id="setup-new-calendar-ical" >Done</button>`,
 });
 
 const manualCalendarTable = `<table
   id = "calendar-table"
   class="ui celled table border-left-none align center"
   aria-label="Availability calendar"
+  tabindex="-1"
   >
   <thead>
               <tr class="border-left-none">
@@ -391,7 +392,66 @@ const addManualModal = $.modal({
       ${manualCalendarTable}
   
       <br></br>
-      <div class="ui approve button green" id="setup-new-calendar-manual">Done</div>`,
+      <button class="ui approve button green" id="setup-new-calendar-manual">Done</button>`,
+});
+
+// Account popup (login)
+const accountModal = $.modal({
+  title: "Log into your account",
+  ...commonModalAttributes,
+  content: `
+  <div id="account-popup" class="account-popup">
+    <div class="ui labeled input">
+      <div class="ui blue label" style="width: 85px">Username</div>
+        <input id="login-email-input" type="email" placeholder="Eg. sam123@gmail.com">
+    </div>
+
+    <div class="ui labeled input">
+      <div class="ui blue label" style="width: 85px">Password</div>
+      <input id="login-password-input" type="password">
+    </div>
+
+    <br></br>
+
+    <span>Don't have an account?<span><a id="mini-signup-btn" style="font-weight: bold">Sign up<a>
+
+    <br></br>
+    <div class="ui approve button green" id="login-btn" >LOGIN</div>
+  <div>
+  `,
+});
+
+// Signup popup
+const signupModal = $.modal({
+  title: "Create an account",
+  ...commonModalAttributes,
+  content: `
+  <div id="signup-popup">
+    <div class="ui labeled input">
+      <div class="ui blue label"  style="width: 85px">Email</div>
+      <input id="signup-email-input" type="email" placeholder="Eg. sam123@gmail.com">
+    </div>
+
+    <div class="ui labeled input">
+      <div class="ui blue label"  style="width: 85px">Name</div>
+        <input id="signup-name-input" type="text" placeholder="Eg. Sam">
+    </div>
+
+    <div class="ui labeled input">
+      <div class="ui blue label"  style="width: 85px">Password</div>
+      <input id="signup-password-input" type="password">
+    </div>
+
+    <br></br>
+
+    <span>Already have an account?<span><a id="mini-login-btn" style="font-weight: bold">Log in<a>
+
+    <br></br>
+    <div class="ui approve button green" id="signup-btn" >SIGN UP</div>  
+
+  <div>
+  
+  `,
 });
 
 module.exports = {
@@ -400,4 +460,6 @@ module.exports = {
   addManualModal,
   addIcalModal,
   formatModal,
+  accountModal,
+  signupModal,
 };

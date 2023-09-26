@@ -1,4 +1,4 @@
-const converter = require("../converter");
+const converter = require("../helpers/converter");
 
 describe("Unit tests for converter function", () => {
   test("Checks if it can make a single cell correctly for AM events", async () => {

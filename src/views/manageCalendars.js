@@ -1,8 +1,8 @@
-const { urlToJSON } = require("./icalToJSON");
-const converter = require("./converter");
-const onDisplay = require("./onDisplay");
-const combine = require("./combine");
-const { NO_CALENDAR_SELECTED } = require("./constants/strings");
+const { urlToJSON } = require("../helpers/icalToJSON");
+const converter = require("../helpers/converter");
+const onDisplay = require("../helpers/onDisplay");
+const combine = require("../helpers/combine");
+const { NO_CALENDAR_SELECTED } = require("../constants/strings");
 const { selectCurrentWeek } = require("./selectCurrentWeek");
 const { addManualModal, addIcalModal, formatModal } = require("./modals");
 
@@ -180,14 +180,14 @@ function updateCalList() {
     const title = document.createElement("span");
     title.innerHTML = calList[i].user;
 
-    const link = document.createElement("a");
-    link.setAttribute("class", "calendar-select item");
-    link.appendChild(title);
-    link.addEventListener("click", function () {
+    const button = document.createElement("button");
+    button.setAttribute("class", "calendar-select item focus-border");
+    button.appendChild(title);
+    button.addEventListener("click", function () {
       openCalendar(calList[i].user);
     });
 
-    dynamicSection.insertBefore(link, referenceNode);
+    dynamicSection.insertBefore(button, referenceNode);
   }
 }
 
