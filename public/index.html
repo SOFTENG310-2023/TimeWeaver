@@ -14,7 +14,7 @@
   </head>
 
   <body>
-    <div class="ui huge menu" id="dynamicTabs">
+    <div class="ui huge menu" id="dynamic-tabs">
       <div class="header item">
         <i class="calendar check icon"></i>
         <span>TimeWeaver</span>
@@ -24,7 +24,6 @@
 
         <span>Add Person</span></a
       >
-
       <div class="right menu backgroundColour">
         <div class="ui purple item">
           <a id="view-combination-button"
@@ -33,24 +32,25 @@
         </div>
       </div>
     </div>
-    <div id="page-content" class="ui container">
-      <h1 id="calendar-title" class="calendarTitle">No Calendar Selected</h1>
-    </div>
-    <button id="sidebar-toggle" class="ui huge button">
-      <span id="group-name">No Groups</span>
-    </button>
-    <div id="content-body" class="ui">
+
+    <div id="page-container" class="ui container fluid pushable">
       <!-- Sidebar from https://fomantic-ui.com/modules/sidebar.html#/definition-->
       <div
         id="sidebar"
-        class="ui left vertical inverted labeled icon thin sidebar menu overlay"
+        class="ui left inverted vertical menu labeled icon thin sidebar visible"
       >
         <a id="add-group-modal-open" class="item">
           <i class="plus icon"></i>
           <span>Add Group</span>
         </a>
       </div>
-      <div class="ui container">
+      <div id="content-container" class="ui container pusher">
+        <div id="page-content">
+          <h1 id="calendar-title" class="calendarTitle">
+            No Calendar Selected
+          </h1>
+        </div>
+
         <table
           id="calendar-display-table"
           class="ui celled table border-left-none align center"
