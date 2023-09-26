@@ -4,7 +4,15 @@
  * This enables everything to be run in the web browser
  */
 
-const { addManualModal, addIcalModal, formatModal } = require("./views/modals");
+
+const {
+  addManualModal,
+  addIcalModal,
+  formatModal,
+  accountModal,
+  signupModal,
+} = require("./views/modals");
+
 
 const {
   updateCalList,
@@ -22,6 +30,9 @@ const {
 } = require("./views/manageCalendars");
 
 const { showGroups, addGroup, setupNewGroup } = require("./views/manageGroups");
+
+const { openAccountPopup } = require("./manageAccount");
+
 
 const onDisplay = require("./helpers/onDisplay");
 

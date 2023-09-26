@@ -87,6 +87,28 @@ button {
   height: auto;
 }
 
+#user-account-button {
+  border-left: 1.5px solid #4183c4;
+  margin-left: 10px;
+  padding-left: 10px;
+}
+
+.ui.input {
+  margin-top: 10px;
+}
+
+#mini-signup-btn {
+  margin-left: 5px;
+}
+
+#mini-login-btn {
+  margin-left: 5px;
+}
+
+#signup-popup {
+  display: block;
+}
+
 #sidebar {
   position: static;
   flex-shrink: 0 !important;
