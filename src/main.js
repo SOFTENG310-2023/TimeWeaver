@@ -8,7 +8,7 @@ const {
   addManualModal,
   addIcalModal,
   formatModal,
-  addAccountModal,
+  accountModal,
 } = require("./modals");
 
 const {
@@ -27,6 +27,8 @@ const {
 } = require("./manageCalendars");
 
 const { showGroups, addGroup, setupNewGroup } = require("./manageGroups");
+
+const { openAccountPopup } = require("./manageAccount");
 
 const onDisplay = require("./onDisplay");
 

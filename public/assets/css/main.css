@@ -88,3 +88,11 @@ body {
   margin-left: 10px;
   padding-left: 10px;
 }
+
+.ui.input {
+  margin-top: 10px;
+}
+
+#signup-btn {
+  margin-left: 5px;
+}
