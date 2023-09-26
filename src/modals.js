@@ -380,28 +380,62 @@ const addManualModal = $.modal({
       <div class="ui approve button green" id="setup-new-calendar-manual">Done</div>`,
 });
 
+// Account popup (login)
 const accountModal = $.modal({
   title: "Log into your account",
   ...commonModalAttributes,
   content: `
   <div id="account-popup" class="account-popup">
     <div class="ui labeled input">
-      <div class="ui blue label">Username</div>
-        <input id="login-username-input" type="text" placeholder="Eg. sam123">
+      <div class="ui blue label" style="width: 85px">Username</div>
+        <input id="login-email-input" type="email" placeholder="Eg. sam123@gmail.com">
     </div>
 
     <div class="ui labeled input">
-      <div class="ui blue label">Password</div>
+      <div class="ui blue label" style="width: 85px">Password</div>
       <input id="login-password-input" type="password">
     </div>
 
     <br></br>
 
-    <span>Don't have an account?<span><a id="signup-btn" style="font-weight: bold">Sign up<a>
+    <span>Don't have an account?<span><a id="mini-signup-btn" style="font-weight: bold">Sign up<a>
 
     <br></br>
     <div class="ui approve button green" id="login-btn" >LOGIN</div>
   <div>
+  `,
+});
+
+// Signup popup
+const signupModal = $.modal({
+  title: "Create an account",
+  ...commonModalAttributes,
+  content: `
+  <div id="signup-popup">
+    <div class="ui labeled input">
+      <div class="ui blue label"  style="width: 85px">Email</div>
+      <input id="signup-email-input" type="email" placeholder="Eg. sam123@gmail.com">
+    </div>
+
+    <div class="ui labeled input">
+      <div class="ui blue label"  style="width: 85px">Name</div>
+        <input id="signup-name-input" type="text" placeholder="Eg. Sam">
+    </div>
+
+    <div class="ui labeled input">
+      <div class="ui blue label"  style="width: 85px">Password</div>
+      <input id="signup-password-input" type="password">
+    </div>
+
+    <br></br>
+
+    <span>Already have an account?<span><a id="mini-login-btn" style="font-weight: bold">Log in<a>
+
+    <br></br>
+    <div class="ui approve button green" id="signup-btn" >SIGN UP</div>  
+
+  <div>
+  
   `,
 });
 
@@ -411,4 +445,5 @@ module.exports = {
   addIcalModal,
   formatModal,
   accountModal,
+  signupModal,
 };
