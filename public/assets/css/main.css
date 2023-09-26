@@ -82,3 +82,12 @@ body {
 .pushable.pushable.pushable {
   height: auto;
 }
+
+#sidebar {
+  position: static;
+  flex-shrink: 0 !important;
+}
+
+#footer {
+  margin: 0;
+}

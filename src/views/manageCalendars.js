@@ -1,8 +1,8 @@
-const { urlToJSON } = require("./icalToJSON");
-const converter = require("./converter");
-const onDisplay = require("./onDisplay");
-const combine = require("./combine");
-const { NO_CALENDAR_SELECTED } = require("./constants/strings");
+const { urlToJSON } = require("../helpers/icalToJSON");
+const converter = require("../helpers/converter");
+const onDisplay = require("../helpers/onDisplay");
+const combine = require("../helpers/combine");
+const { NO_CALENDAR_SELECTED } = require("../constants/strings");
 const { selectCurrentWeek } = require("./selectCurrentWeek");
 const { addManualModal, addIcalModal, formatModal } = require("./modals");
 

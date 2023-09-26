@@ -2,7 +2,7 @@ const {
   selectCurrentWeek,
   getCurrentDateInfo,
   isInCurrentWeek,
-} = require("../selectCurrentWeek");
+} = require("../views/selectCurrentWeek");
 
 // Edge cases are hard to detect since the date is dynamically generated based on the current date,
 // So we just test the previous and next week's date

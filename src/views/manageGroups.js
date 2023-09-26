@@ -34,6 +34,7 @@ let selectedGroup;
 
 // Add and select initial group
 setupNewGroup("Default");
+setCalList(groupList[0].calendarList);
 selectedGroup = sidebar.children[0];
 selectedGroup.classList.add("disabled", "group-selected");
 
