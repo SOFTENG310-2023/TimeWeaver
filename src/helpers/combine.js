@@ -20,7 +20,7 @@ function combine(user1, user2) {
           // Create a combined cell instance and add it to the result.
           const combineCellInstance = createCombineCellInstance(
             user1.cells[i],
-            user2.cells[j]
+            user2.cells[j],
           );
           result.cells.push(combineCellInstance);
 

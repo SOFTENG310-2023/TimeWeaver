@@ -4,7 +4,7 @@
  * This enables everything to be run in the web browser
  */
 
-const { addManualModal, addIcalModal, formatModal } = require("./modals");
+const { addManualModal, addIcalModal, formatModal } = require("./views/modals");
 
 const {
   updateCalList,
@@ -19,10 +19,10 @@ const {
   cellList,
   setCell,
   initializeCellListeners,
-} = require("./manageCalendars");
+} = require("./views/manageCalendars");
 
-const { showGroups, addGroup, setupNewGroup } = require("./manageGroups");
+const { showGroups, addGroup, setupNewGroup } = require("./views/manageGroups");
 
-const onDisplay = require("./onDisplay");
+const onDisplay = require("./helpers/onDisplay");
 
-const { selectCurrentWeek } = require("./selectCurrentWeek");
+const { selectCurrentWeek } = require("./views/selectCurrentWeek");
