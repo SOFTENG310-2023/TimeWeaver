@@ -51,7 +51,7 @@ button {
  */
 .group-item-container {
   padding: 16px 8px 16px 8px !important;
-  width: calc(100% - 2px);
+  width: 100%;
   display: flex !important;
   flex-direction: row !important;
   gap: 5px;
