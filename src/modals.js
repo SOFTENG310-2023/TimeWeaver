@@ -36,6 +36,20 @@ const addGroupModal = $.modal({
   `,
 });
 
+const addFilterModal = $.modal({
+  title: "Filter Calendar",
+  ...commonModalAttributes,
+  content: `
+  <div class="ui labeled input">
+    <div class="ui blue label">Add Filter</div>
+    <input id="filter-value-input" type="number" min="0" placeholder="Eg. 3">
+  </div>  
+
+  <br></br>
+  <div id="setup-new-filter" class="ui approve button green">Done</div>
+  `,
+});
+
 const addIcalModal = $.modal({
   title: "Add Ical Link",
   ...commonModalAttributes,
@@ -380,4 +394,10 @@ const addManualModal = $.modal({
       <div class="ui approve button green" id="setup-new-calendar-manual">Done</div>`,
 });
 
-module.exports = { addGroupModal, addManualModal, addIcalModal, formatModal };
+module.exports = {
+  addGroupModal,
+  addFilterModal,
+  addManualModal,
+  addIcalModal,
+  formatModal,
+};

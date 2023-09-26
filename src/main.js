@@ -23,6 +23,8 @@ const {
 
 const { showGroups, addGroup, setupNewGroup } = require("./manageGroups");
 
+const { addFilter } = require("./manageFilter");
+
 const onDisplay = require("./onDisplay");
 
 const { selectCurrentWeek } = require("./selectCurrentWeek");

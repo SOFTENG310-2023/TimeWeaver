@@ -86,6 +86,24 @@ function viewCombinedCalendar() {
   onDisplay(JSON.stringify(combination), calList.length);
 }
 
+function viewFilteredCalendar(filterValue) {
+  title.textContent = "Filtered Calendar";
+  let combination = { cells: [] };
+
+  for (let cal in calList) {
+    const obj = calList[cal];
+    combination = combine(combination, JSON.parse(obj.calendarJson));
+  }
+
+  const filtered = combination.cells.filter((x) => {
+    return x.numPeople >= filterValue;
+  });
+
+  combination.cells = filtered;
+
+  onDisplay(JSON.stringify(combination), calList.length);
+}
+
 /** Handles the setup of a new Calendar based on the Ical Link */
 async function setupNewIcal() {
   addIcalModal.modal("hide");
@@ -228,6 +246,7 @@ module.exports = {
   setupNewManual,
   addCalendar,
   viewCombinedCalendar,
+  viewFilteredCalendar,
   uploadIcal,
   uploadManual,
   openCalendar,
