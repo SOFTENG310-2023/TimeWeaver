@@ -41,8 +41,8 @@ const addFilterModal = $.modal({
   ...commonModalAttributes,
   content: `
   <div class="ui labeled input">
-    <div class="ui blue label">Add Filter</div>
-    <input id="filter-value-input" type="number" min="0" placeholder="Eg. 3">
+    <div class="ui blue label">Filter by</div>
+    <input id="filter-value-input" type="number" min="0" placeholder="Minimum number">
   </div>  
 
   <br></br>

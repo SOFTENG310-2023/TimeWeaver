@@ -1,9 +1,5 @@
 const { addFilterModal } = require("./modals");
-const {
-  setCalList,
-  resetCalendar,
-  viewFilteredCalendar,
-} = require("./manageCalendars.js");
+const { viewFilteredCalendar } = require("./manageCalendars.js");
 
 const filter = document.getElementById("filter-value-input");
 
@@ -25,9 +21,9 @@ function addFilter() {
 
 function setupNewFilter(filter) {
   viewFilteredCalendar(filter);
-  console.log(filter);
 }
 
 module.exports = {
   addFilter,
+  setupNewFilter,
 };

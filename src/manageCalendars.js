@@ -87,7 +87,7 @@ function viewCombinedCalendar() {
 }
 
 function viewFilteredCalendar(filterValue) {
-  title.textContent = "Filtered Calendar";
+  title.textContent = "Filtered Calendar : " + filterValue + " or more people";
   let combination = { cells: [] };
 
   for (let cal in calList) {
