@@ -78,3 +78,7 @@ body {
 .group-content-container > .icon {
   margin-right: 0px !important;
 }
+
+.pushable.pushable.pushable {
+  height: auto;
+}
