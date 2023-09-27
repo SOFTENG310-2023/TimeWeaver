@@ -176,15 +176,15 @@ function updateCalList() {
   const referenceNode = dynamicSection.children[1];
 
   // Creates new entry in the top navigation for each calendar
-  for (let i = 0; i < calList.length; i++) {
+  for (const element of calList) {
     const title = document.createElement("span");
-    title.innerHTML = calList[i].user;
+    title.innerHTML = element.user;
 
     const button = document.createElement("button");
     button.setAttribute("class", "calendar-select item focus-border");
     button.appendChild(title);
     button.addEventListener("click", function () {
-      openCalendar(calList[i].user);
+      openCalendar(element.user);
     });
 
     dynamicSection.insertBefore(button, referenceNode);
