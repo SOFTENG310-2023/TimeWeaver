@@ -22,6 +22,7 @@ const formatModal = $.modal({
       </div>`,
 });
 
+/** Formantic Modal Designs for adding groups*/
 const addGroupModal = $.modal({
   title: "Create New Group",
   ...commonModalAttributes,
@@ -36,6 +37,7 @@ const addGroupModal = $.modal({
   `,
 });
 
+/** Fomantic Modal Designs for adding filters*/
 const addFilterModal = $.modal({
   title: "Filter Calendar",
   ...commonModalAttributes,
@@ -50,6 +52,7 @@ const addFilterModal = $.modal({
   `,
 });
 
+/** Fomantic Modal Designs for adding new calendar manually*/
 const addIcalModal = $.modal({
   title: "Add Ical Link",
   ...commonModalAttributes,
@@ -71,6 +74,7 @@ const addIcalModal = $.modal({
       <button class="ui approve button green" id="setup-new-calendar-ical" >Done</button>`,
 });
 
+/** Table Designs representing the entire table*/
 const manualCalendarTable = `<table
   id = "calendar-table"
   class="ui celled table border-left-none align center"
