@@ -1,9 +1,10 @@
 const { addGroupModal } = require("./modals");
 const {
-  setCalList,
+  updateCalList,
   resetCalendar,
   openCalendar,
 } = require("./manageCalendars.js");
+const CalendarStore = require("../store/CalendarStore").instance();
 
 /** HTML Element Declarations */
 const sidebar = document.getElementById("sidebar");
@@ -28,21 +29,20 @@ document.getElementById("setup-new-group").addEventListener("click", () => {
   groupName.value = "";
 });
 
-/** List of Uploaded Groups */
-let groupList = [];
-let selectedGroup;
-
 // Add and select initial group
 setupNewGroup("Default");
-setCalList(groupList[0].calendarList);
-selectedGroup = sidebar.children[0];
-selectedGroup.classList.add("disabled", "group-selected");
+CalendarStore.selectedCalList = CalendarStore.groupList[0].calendarList;
+CalendarStore.selectedGroup = sidebar.children[0];
+CalendarStore.selectedGroup.classList.add("disabled", "group-selected");
 
 /** Handles the Display of the Group When Sidebar Element is Clicked */
 function openGroup(name) {
-  const selectedGroup = groupList.filter((x) => x.name === name)[0];
+  const selectedGroup = CalendarStore.groupList.filter(
+    (x) => x.name === name,
+  )[0];
 
-  setCalList(selectedGroup.calendarList);
+  CalendarStore.selectedCalList = selectedGroup.calendarList;
+  updateCalList();
 
   if (selectedGroup.calendarList.length === 0) {
     resetCalendar();
@@ -58,8 +58,9 @@ function addGroup() {
 
 /** Handles setup of a new Group */
 function setupNewGroup(name) {
-  if (name !== "" && !groupList.some((x) => x.name === name)) {
-    groupList.push({
+  console.log(CalendarStore);
+  if (name !== "" && !CalendarStore.groupList.some((x) => x.name === name)) {
+    CalendarStore.addGroup({
       name: name,
       groupUrl: "",
       calendarList: [],
@@ -76,10 +77,10 @@ function updateGroupList() {
   // Repeats for however many items in the groupList not already represented as sidebar elements
   for (
     let i = sidebar.children.length - NON_DYNAMIC_SIDEBAR_ELEMENTS;
-    i < groupList.length;
+    i < CalendarStore.groupList.length;
     i++
   ) {
-    let link = createGroupElement(groupList[i].name);
+    let link = createGroupElement(CalendarStore.groupList[i].name);
 
     sidebar.insertBefore(link, referenceNode);
   }
@@ -111,17 +112,21 @@ function createGroupElement(groupName) {
 
   $(groupNameSpan).html(groupName);
 
+  // When a group is selected
   $(groupSelectLink).click(() => {
-    if (selectedGroup === groupSelectLink) {
+    if (CalendarStore.selectedGroup === groupSelectLink) {
       return;
     }
 
     // Mark new group as selected
     groupSelectLink.classList.add("disabled", "group-selected");
-    if (selectedGroup) {
-      selectedGroup.classList.remove("disabled", "group-selected");
+    if (CalendarStore.selectedGroup) {
+      CalendarStore.selectedGroup.classList.remove(
+        "disabled",
+        "group-selected",
+      );
     }
-    selectedGroup = groupSelectLink;
+    CalendarStore.selectedGroup = groupSelectLink;
 
     openGroup(groupName);
   });
@@ -131,11 +136,13 @@ function createGroupElement(groupName) {
     e.stopPropagation();
 
     // Don't allow deletion of the currently selected group
-    if (selectedGroup === groupSelectLink) {
+    if (CalendarStore.selectedGroup === groupSelectLink) {
       return;
     }
 
-    groupList = groupList.filter((x) => x.name !== groupName);
+    CalendarStore.groupList = CalendarStore.groupList.filter(
+      (x) => x.name !== groupName,
+    );
     $(groupSelectLink).remove();
   });
 
