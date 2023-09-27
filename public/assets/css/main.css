@@ -87,12 +87,6 @@ button {
   height: auto;
 }
 
-#user-account-button {
-  border-left: 1.5px solid #4183c4;
-  margin-left: 10px;
-  padding-left: 10px;
-}
-
 .ui.input {
   margin-top: 10px;
 }
@@ -123,5 +117,5 @@ button {
 
 .focus-border:focus {
   outline: none !important;
-  border:1px solid cyan !important;
+  border: 1px solid cyan !important;
 }

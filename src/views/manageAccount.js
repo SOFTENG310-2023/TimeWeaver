@@ -1,4 +1,4 @@
-const { accountModal, signupModal } = require("./views/modals");
+const { accountModal, signupModal } = require("./modals");
 
 /** HTML Element Declarations */
 const openAccountBtn = document.getElementById("user-account-button");
@@ -34,4 +34,7 @@ function userSignup() {
 
 module.exports = {
   openAccountPopup,
+  openSignupPopup,
+  userLogin,
+  userSignup,
 };
