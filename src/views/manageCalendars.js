@@ -57,16 +57,23 @@ function resetCalendar() {
   onDisplay(JSON.stringify({ cells: [] }), 0);
 }
 
+/** Handles the Display of the Add Calendar Modal */
 function addCalendar() {
   formatModal.modal("show");
   $(".dimmable").css("margin-right", "0px");
 }
 
+/**
+ * Shows the modal for uploading an ical
+ */
 function uploadIcal() {
   formatModal.modal("hide");
   addIcalModal.modal("show");
 }
 
+/**
+ * Shows the modal for uploading a manual calendar
+ */
 function uploadManual() {
   formatModal.modal("hide");
   addManualModal.modal("show");
@@ -80,21 +87,27 @@ function viewCombinedCalendar() {
 
   for (let cal in calList) {
     const obj = calList[cal];
+    /** Combine each instances of the calendar list */
     combination = combine(combination, JSON.parse(obj.calendarJson));
   }
 
   onDisplay(JSON.stringify(combination), calList.length);
 }
 
+/** Handles the Display of the Filtered Calendar user specifies the value to filter by */
 function viewFilteredCalendar(filterValue) {
   title.textContent = "Filtered Calendar : " + filterValue + " or more people";
   let combination = { cells: [] };
 
   for (let cal in calList) {
     const obj = calList[cal];
+    /** Combine each instances of the calendar list */
     combination = combine(combination, JSON.parse(obj.calendarJson));
   }
 
+  /**
+   * Filter the cells based on the filter value
+   */
   const filtered = combination.cells.filter((x) => {
     return x.numPeople >= filterValue;
   });
@@ -113,6 +126,7 @@ async function setupNewIcal() {
 
   const actual = selectCurrentWeek(json);
 
+  // Converts the date format used by Ical into the date format used by the converter function
   const formatted = actual.map((x) => {
     return {
       start: applyNewFormat(x.start),
@@ -120,11 +134,13 @@ async function setupNewIcal() {
     };
   });
 
+  // Converts the JSON into the format used by the converter function
   const userJson = converter(
     JSON.stringify({ events: formatted }),
     icalName.value,
   );
 
+  // Adds the new calendar to the list of calendars
   const info = {
     user: icalName.value,
     icalUrl: icalInput.value,
@@ -148,6 +164,7 @@ function applyNewFormat(date) {
 function setupNewManual() {
   addManualModal.modal("hide");
 
+  // Creates a cell object for each cell in the cellList array
   const cells = cellList.map((cell) => {
     return {
       id: cell,
