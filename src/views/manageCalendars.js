@@ -5,6 +5,7 @@ const combine = require("../helpers/combine");
 const { NO_CALENDAR_SELECTED } = require("../constants/strings");
 const { selectCurrentWeek } = require("./selectCurrentWeek");
 const { addManualModal, addIcalModal, formatModal } = require("./modals");
+const CalendarStore = require("../store/CalendarStore").instance();
 
 /** HTML Element Declarations */
 const title = document.getElementById("calendar-title");
@@ -26,15 +27,15 @@ document
   .addEventListener("click", uploadManual);
 document
   .getElementById("setup-new-calendar-manual")
-  .addEventListener("click", setupNewManual);
+  .addEventListener("click", () => {
+    setupNewManual(CalendarStore.selectedCalList);
+  });
 document
   .getElementById("setup-new-calendar-ical")
   .addEventListener("click", () => {
-    setupNewIcal();
+    setupNewIcal(CalendarStore.selectedCalList);
   });
 
-/** List of Uploaded Calendars */
-let calList = [];
 /** List of Occupied Calendar Cells */
 let cellList = [];
 /** Whether the user has opened the "add a new Manual Calendar" Modal before */
@@ -44,7 +45,9 @@ let hasInitializedManual = false;
 function openCalendar(name) {
   title.textContent = name + "'s Calendar";
 
-  const [userInfo] = calList.filter((x) => x.user === name);
+  const [userInfo] = CalendarStore.selectedCalList.filter(
+    (x) => x.user === name,
+  );
 
   onDisplay(userInfo.calendarJson, 1);
 }
@@ -75,6 +78,7 @@ function uploadManual() {
 
 /** Handles the Display of the Combined Calendar When Nav Element is Clicked */
 function viewCombinedCalendar() {
+  const calList = CalendarStore.selectedCalList;
   title.textContent = "Combined Calendar";
   let combination = { cells: [] };
 
@@ -87,7 +91,7 @@ function viewCombinedCalendar() {
 }
 
 /** Handles the setup of a new Calendar based on the Ical Link */
-async function setupNewIcal() {
+async function setupNewIcal(calList) {
   addIcalModal.modal("hide");
 
   const icalUrl = icalInput.value;
@@ -127,7 +131,7 @@ function applyNewFormat(date) {
 }
 
 /** Handles setup of a new Calendar based on the Manual Input */
-function setupNewManual() {
+function setupNewManual(calList) {
   addManualModal.modal("hide");
 
   const cells = cellList.map((cell) => {
@@ -152,6 +156,8 @@ function setupNewManual() {
 
 /** Updates the Top Navigation based on the current Calendar List */
 function updateCalList() {
+  const calList = CalendarStore.selectedCalList;
+
   // Remove all the calendar items
   $(dynamicSection).children(".calendar-select").remove();
 
@@ -212,16 +218,6 @@ function setCell(cell) {
   }
 }
 
-/**
- * Updates the calendar list and triggers refresh
- *
- * @param {Array} newCalList
- */
-function setCalList(newCalList) {
-  calList = newCalList;
-  updateCalList();
-}
-
 module.exports = {
   updateCalList,
   setupNewIcal,
@@ -231,10 +227,8 @@ module.exports = {
   uploadIcal,
   uploadManual,
   openCalendar,
-  calList,
   cellList,
   setCell,
-  setCalList,
   resetCalendar,
   initializeCellListeners,
 };
