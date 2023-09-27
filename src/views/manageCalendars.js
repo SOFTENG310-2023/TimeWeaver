@@ -100,18 +100,20 @@ function viewCombinedCalendar() {
 
 /** Handles the Display of the Filtered Calendar user specifies the value to filter by */
 function viewFilteredCalendar(filterValue) {
+  const calList = CalendarStore.selectedCalList;
+
   title.textContent = "Filtered Calendar : " + filterValue + " or more people";
   let combination = { cells: [] };
 
   for (let cal in calList) {
     const obj = calList[cal];
-    /** Combine each instances of the calendar list */
+
+    /**
+     * Filter the cells based on the filter value
+     */
     combination = combine(combination, JSON.parse(obj.calendarJson));
   }
 
-  /**
-   * Filter the cells based on the filter value
-   */
   const filtered = combination.cells.filter((x) => {
     return x.numPeople >= filterValue;
   });

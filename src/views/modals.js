@@ -37,7 +37,7 @@ const addGroupModal = $.modal({
   `,
 });
 
-/** Formantic Modal Designs for adding filters*/
+/** Fomantic Modal Designs for adding filters*/
 const addFilterModal = $.modal({
   title: "Filter Calendar",
   ...commonModalAttributes,
@@ -52,7 +52,7 @@ const addFilterModal = $.modal({
   `,
 });
 
-/** Formantic Modal Designs for adding new calendar manually*/
+/** Fomantic Modal Designs for adding new calendar manually*/
 const addIcalModal = $.modal({
   title: "Add Ical Link",
   ...commonModalAttributes,
