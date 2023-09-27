@@ -141,11 +141,11 @@ async function setupNewIcal() {
   );
 
   // Adds the new calendar to the list of calendars
-  const info = {
+  CalendarStore.addCalendar(calList, {
     user: icalName.value,
     icalUrl: icalInput.value,
     calendarJson: userJson,
-  };
+  });
   calList.push(info);
 
   icalName.value = "";
