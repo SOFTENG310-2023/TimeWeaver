@@ -228,7 +228,7 @@ function setCell(cell) {
     cell.classList.remove("cellSelected");
     cell.style.backgroundColor = null;
     cellList = cellList.filter((x) => x != id); // Convoluted way of removing the cell from the cellList array
-  } else {
+  } else if (!cell.classList.contains("collapsing")) {
     cell.classList.add("cellSelected");
     cell.style.backgroundColor = "purple";
     cellList.push(id);
