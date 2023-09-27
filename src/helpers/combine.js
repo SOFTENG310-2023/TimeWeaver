@@ -12,22 +12,21 @@ function combine(user1, user2) {
 
   // Iterate through the cells of the first user.
   for (let i = 0; i < user1.cells.length; i++) {
+    const cell1 = user1.cells[i];
+
     // Iterate through the cells of the second user.
     for (let j = 0; j < user2.cells.length; j++) {
-      // Check if both cell objects exist and have the same ID.
-      if (user1.cells[i] && user2.cells[j]) {
-        if (user1.cells[i].id === user2.cells[j].id) {
-          // Create a combined cell instance and add it to the result.
-          const combineCellInstance = createCombineCellInstance(
-            user1.cells[i],
-            user2.cells[j],
-          );
-          result.cells.push(combineCellInstance);
+      const cell2 = user2.cells[j];
 
-          // Delete the processed cells from both user objects.
-          delete user1.cells[i];
-          delete user2.cells[j];
-        }
+      // Check if both cell objects exist and have the same ID.
+      if (cell1 && cell2 && cell1.id === cell2.id) {
+        // Create a combined cell instance and add it to the result.
+        const combineCellInstance = createCombineCellInstance(cell1, cell2);
+        result.cells.push(combineCellInstance);
+
+        // Delete the processed cells from both user objects.
+        delete user1.cells[i];
+        delete user2.cells[j];
       }
     }
 
@@ -39,13 +38,14 @@ function combine(user1, user2) {
   }
 
   // Iterate through the cells of the second user to handle remaining cells not matched.
-  for (const user2cell of user2.cells) {
-    if (user2cell !== null && user2cell !== undefined) {
+  for (const cell2 of user2.cells) {
+    if (cell2 !== null && cell2 !== undefined) {
       // Create a cell instance and add it to the result.
-      const cellInstance = addCellTimetable(user2cell);
+      const cellInstance = addCellTimetable(cell2);
       result.cells.push(cellInstance);
     }
   }
+
   return result;
 }
 

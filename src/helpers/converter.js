@@ -62,18 +62,14 @@ function numThirties(startTime, endTime) {
 function incrementTime(timeID) {
   const hours = parseInt(timeID.substring(0, 2));
   const minutes = parseInt(timeID.substring(2, 4));
-  if (minutes === 30) {
-    if (hours < 10) {
-      timeID = `0${hours + 1}00`;
-    } else {
-      timeID = `${hours + 1}00`;
-    }
+  if (minutes === 30 && hours < 10) {
+    timeID = `0${hours + 1}00`;
+  } else if (minutes === 30) {
+    timeID = `${hours + 1}00`;
+  } else if (hours < 10) {
+    timeID = `0${hours}30`;
   } else {
-    if (hours < 10) {
-      timeID = `0${hours}30`;
-    } else {
-      timeID = `${hours}30`;
-    }
+    timeID = `${hours}30`;
   }
   return timeID;
 }

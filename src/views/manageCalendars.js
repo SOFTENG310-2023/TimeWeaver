@@ -90,6 +90,25 @@ function viewCombinedCalendar() {
   onDisplay(JSON.stringify(combination), calList.length);
 }
 
+function viewFilteredCalendar(filterValue) {
+  const calList = CalendarStore.selectedCalList;
+  title.textContent = "Filtered Calendar : " + filterValue + " or more people";
+  let combination = { cells: [] };
+
+  for (let cal in calList) {
+    const obj = calList[cal];
+    combination = combine(combination, JSON.parse(obj.calendarJson));
+  }
+
+  const filtered = combination.cells.filter((x) => {
+    return x.numPeople >= filterValue;
+  });
+
+  combination.cells = filtered;
+
+  onDisplay(JSON.stringify(combination), calList.length);
+}
+
 /** Handles the setup of a new Calendar based on the Ical Link */
 async function setupNewIcal(calList) {
   addIcalModal.modal("hide");
@@ -163,15 +182,15 @@ function updateCalList() {
   const referenceNode = dynamicSection.children[1];
 
   // Creates new entry in the top navigation for each calendar
-  for (let i = 0; i < calList.length; i++) {
+  for (const element of calList) {
     const title = document.createElement("span");
-    title.innerHTML = calList[i].user;
+    title.innerHTML = element.user;
 
     const button = document.createElement("button");
     button.setAttribute("class", "calendar-select item focus-border");
     button.appendChild(title);
     button.addEventListener("click", function () {
-      openCalendar(calList[i].user);
+      openCalendar(element.user);
     });
 
     dynamicSection.insertBefore(button, referenceNode);
@@ -223,6 +242,7 @@ module.exports = {
   setupNewManual,
   addCalendar,
   viewCombinedCalendar,
+  viewFilteredCalendar,
   uploadIcal,
   uploadManual,
   openCalendar,
