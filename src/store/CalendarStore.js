@@ -11,26 +11,6 @@ class CalendarStore {
   /* List of all groups and its associated calendars */
   groupList = [];
 
-  get selectedCalList() {
-    return this.selectedCalList;
-  }
-
-  set selectedCalList(list) {
-    this.selectedCalList = list;
-  }
-
-  get selectedGroup() {
-    return this.selectedGroup;
-  }
-
-  set selectedGroup(group) {
-    this.selectedGroup = group;
-  }
-
-  get groupList() {
-    return this.groupList;
-  }
-
   /**
    * Add group to the list of groups
    * @param {*} group
