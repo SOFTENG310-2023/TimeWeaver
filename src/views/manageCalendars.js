@@ -6,6 +6,7 @@ const { NO_CALENDAR_SELECTED } = require("../constants/strings");
 const { selectCurrentWeek } = require("./selectCurrentWeek");
 const { addManualModal, addIcalModal, formatModal } = require("./modals");
 const CalendarStore = require("../store/CalendarStore").instance();
+const { calendarCellSchema } = require("../schemas/calendar");
 
 /** HTML Element Declarations */
 const title = document.getElementById("calendar-title");
@@ -62,7 +63,6 @@ function resetCalendar() {
 
 function addCalendar() {
   formatModal.modal("show");
-  $(".dimmable").css("margin-right", "0px");
 }
 
 function uploadIcal() {
@@ -111,12 +111,11 @@ async function setupNewIcal(calList) {
     icalName.value,
   );
 
-  const info = {
+  CalendarStore.addCalendar(calList, {
     user: icalName.value,
     icalUrl: icalInput.value,
     calendarJson: userJson,
-  };
-  calList.push(info);
+  });
 
   icalName.value = "";
   icalInput.value = "";
@@ -135,16 +134,16 @@ function setupNewManual(calList) {
   addManualModal.modal("hide");
 
   const cells = cellList.map((cell) => {
-    return {
+    return calendarCellSchema.parse({
       id: cell,
       users: [manualName.value],
       numPeople: 1,
-    };
+    });
   });
 
   cellList = [];
 
-  calList.push({
+  CalendarStore.addCalendar(calList, {
     user: manualName.value,
     icalUrl: "",
     calendarJson: JSON.stringify({ cells: cells }),

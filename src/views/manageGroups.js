@@ -60,7 +60,7 @@ function addGroup() {
 function setupNewGroup(name) {
   console.log(CalendarStore);
   if (name !== "" && !CalendarStore.groupList.some((x) => x.name === name)) {
-    CalendarStore.groupList.push({
+    CalendarStore.addGroup({
       name: name,
       groupUrl: "",
       calendarList: [],

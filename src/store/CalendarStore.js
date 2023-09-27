@@ -1,3 +1,5 @@
+const { groupSchema, calendarSchema } = require("../schemas/calendar.js");
+
 class CalendarStore {
   static _instance;
   /* The currently selected calendar */
@@ -27,6 +29,26 @@ class CalendarStore {
 
   get groupList() {
     return this.groupList;
+  }
+
+  /**
+   * Add group to the list of groups
+   * @param {*} group
+   */
+  addGroup(group) {
+    // Validate group and add if satisfied
+    this.groupList.push(groupSchema.parse(group));
+  }
+
+  /**
+   * Add calendar to the given list of calendars.
+   *
+   * @param {{ user: string, icalUrl: string, calendarJson: string }[]} calList
+   * @param {{ user: string, icalUrl: string, calendarJson: string }} newCalendar
+   */
+  addCalendar(calList, newCalendar) {
+    // Validate calendar and add if satisfied
+    calList.push(calendarSchema.parse(newCalendar));
   }
 
   /**
