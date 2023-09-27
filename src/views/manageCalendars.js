@@ -223,9 +223,15 @@ function initializeCellListeners() {
       cell.style.backgroundColor = null;
 
       if (!hasInitializedManual) {
-        cell.addEventListener("click", function () {
+        cell.addEventListener("mousedown", function () {
           setCell(cell);
           hasInitializedManual = true;
+        });
+
+        cell.addEventListener("mouseover", function (e) {
+          if (e.buttons == 1) {
+            setCell(cell);
+          }
         });
       }
     }
