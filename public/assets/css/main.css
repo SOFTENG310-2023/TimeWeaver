@@ -91,12 +91,14 @@ button {
   margin-top: 10px;
 }
 
+#mini-login-btn,
 #mini-signup-btn {
   margin-left: 5px;
 }
 
-#mini-login-btn {
-  margin-left: 5px;
+#mini-login-btn:hover,
+#mini-signup-btn:hover {
+  cursor: pointer;
 }
 
 #signup-popup {
