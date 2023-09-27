@@ -29,8 +29,12 @@ const {
 
 const { showGroups, addGroup, setupNewGroup } = require("./views/manageGroups");
 
-const { openAccountPopup } = require("./manageAccount");
-const { addFilter } = require("./manageFilter");
+const {
+  openAccountPopup,
+  openSignupPopup,
+  userLogin,
+  userSignup,
+} = require("./views/manageAccount");
 
 const onDisplay = require("./helpers/onDisplay");
 

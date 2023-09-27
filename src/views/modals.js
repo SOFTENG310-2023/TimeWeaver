@@ -402,8 +402,8 @@ const accountModal = $.modal({
   content: `
   <div id="account-popup" class="account-popup">
     <div class="ui labeled input">
-      <div class="ui blue label" style="width: 85px">Username</div>
-        <input id="login-email-input" type="email" placeholder="Eg. sam123@gmail.com">
+      <div class="ui blue label" style="width: 85px">Email</div>
+        <input id="login-email-input" type="email">
     </div>
 
     <div class="ui labeled input">
