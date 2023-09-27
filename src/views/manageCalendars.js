@@ -91,6 +91,7 @@ function viewCombinedCalendar() {
 }
 
 function viewFilteredCalendar(filterValue) {
+  const calList = CalendarStore.selectedCalList;
   title.textContent = "Filtered Calendar : " + filterValue + " or more people";
   let combination = { cells: [] };
 

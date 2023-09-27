@@ -58,7 +58,6 @@ function addGroup() {
 
 /** Handles setup of a new Group */
 function setupNewGroup(name) {
-  console.log(CalendarStore);
   if (name !== "" && !CalendarStore.groupList.some((x) => x.name === name)) {
     CalendarStore.addGroup({
       name: name,
