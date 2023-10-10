@@ -42,11 +42,7 @@ function isInCurrentWeek(date) {
     const day2 = date2.getDate();
 
     // Date comparison is only done by comparing month and day
-    if (month === month2 && parseInt(day) === day2) {
-      return true;
-    }
-
-    return false;
+    return !!(month === month2 && parseInt(day) === day2);
   });
   return match.includes(true);
 }

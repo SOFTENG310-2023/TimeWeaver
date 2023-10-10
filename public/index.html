@@ -14,43 +14,53 @@
   </head>
 
   <body>
-    <div class="ui huge menu" id="dynamicTabs">
+    <div class="ui huge menu" id="dynamic-tabs">
       <div class="header item">
         <i class="calendar check icon"></i>
         <span>TimeWeaver</span>
       </div>
-      <a id="add-calendar-modal-open" class="item">
+      <button id="add-calendar-modal-open" class="item focus-border">
         <i class="plus icon"></i>
 
-        <span>Add Person</span></a
-      >
+        <span>Add Person</span>
+      </button>
 
       <div class="right menu backgroundColour">
-        <div class="ui purple item">
-          <a id="view-combination-button"
-            ><i class="hammer icon"></i>Combined Calendar</a
-          >
-        </div>
+        <button
+          class="ui purple item focus-border"
+          id="view-combination-button"
+        >
+          <i class="hammer icon"></i>Combined Calendar
+        </button>
+        <a class="ui item" id="user-account-button">
+          <i class="user icon"></i>
+          Log In
+        </a>
       </div>
     </div>
-    <div id="page-content" class="ui container">
-      <h1 id="calendar-title" class="calendarTitle">No Calendar Selected</h1>
-    </div>
-    <button id="sidebar-toggle" class="ui huge button">
-      <span id="group-name">No Groups</span>
-    </button>
-    <div id="content-body" class="ui">
+
+    <div id="page-container" class="ui container fluid pushable">
       <!-- Sidebar from https://fomantic-ui.com/modules/sidebar.html#/definition-->
       <div
         id="sidebar"
-        class="ui left vertical inverted labeled icon thin sidebar menu overlay"
+        class="ui left inverted vertical menu labeled icon thin sidebar visible"
       >
-        <a id="add-group-modal-open" class="item">
+        <button id="add-group-modal-open" class="item focus-border">
           <i class="plus icon"></i>
           <span>Add Group</span>
-        </a>
+        </button>
       </div>
-      <div class="ui container">
+      <div id="content-container" class="ui container pusher">
+        <div id="page-content">
+          <h1 id="calendar-title" class="calendarTitle">
+            No Calendar Selected
+          </h1>
+        </div>
+        <a id="add-filter-modal-open" class="item">
+          <i class="plus icon"></i>
+          <span>Add Filter</span>
+        </a>
+
         <table
           id="calendar-display-table"
           class="ui celled table border-left-none align center"
@@ -354,6 +364,26 @@
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+    <br />
+    <br />
+    <div id="footer" class="ui footer huge menu">
+      <div class="left footer item">
+        <div class="content">
+          <div class="footer-title">
+            <i class="calendar check icon"></i>
+            <span><bold>TeamWeaver</bold></span>
+          </div>
+          <br />
+          <div class="meta">
+            <i class="copyright outline icon"></i>
+            <span>2023 - Group 4 & Group 7</span>
+          </div>
+        </div>
+      </div>
+      <div class="right footer item">
+        <span>University of Auckland</span>
       </div>
     </div>
 

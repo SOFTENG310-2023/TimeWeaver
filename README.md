@@ -41,7 +41,8 @@ TimeWeaver is licensed under the MIT License. This means you can use, modify, an
 
 Currently, TimeWeaver is available in versions:
 
-- 1.0 (Initial Release)
+- [v1.0.0](https://github.com/SOFTENG310-2023/TimeWeaver/releases/tag/v1.0.0) (Initial Release)
+- [v1.1.0](https://github.com/SOFTENG310-2023/TimeWeaver/releases/tag/v1.1.0) (A2 Release)
 
 ## Contributor Guidelines
 

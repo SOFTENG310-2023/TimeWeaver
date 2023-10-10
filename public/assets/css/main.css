@@ -1,3 +1,12 @@
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  border: 0px;
+}
+
 .border-left-none {
   border-left: hidden !important;
 }
@@ -19,6 +28,96 @@
   background-color: white;
 }
 
-#sidebar-toggle {
-  width: 150px;
+#dynamic-tabs {
+  margin-bottom: 0px !important;
+  position: sticky;
+  top: 0px;
+  z-index: 100;
+}
+
+#page-container {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+#content-container {
+  transform: none !important;
+  margin-top: 15px;
+}
+
+/** 
+ * Group sidebar and items
+ */
+.group-item-container {
+  padding: 16px 8px 16px 8px !important;
+  width: 100%;
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 5px;
+  justify-content: start;
+  align-items: center;
+}
+
+.group-selected {
+  background-color: #3d3e3f !important;
+  color: white !important;
+}
+
+.group-content-container {
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  flex-grow: 1;
+}
+
+.group-content-container > span {
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.group-content-container > .icon {
+  margin-right: 0px !important;
+}
+
+.pushable.pushable.pushable {
+  height: auto;
+}
+
+.ui.input {
+  margin-top: 10px;
+}
+
+#mini-login-btn,
+#mini-signup-btn {
+  margin-left: 5px;
+}
+
+#mini-login-btn:hover,
+#mini-signup-btn:hover {
+  cursor: pointer;
+}
+
+#signup-popup {
+  display: block;
+}
+
+#sidebar {
+  position: static;
+  flex-shrink: 0 !important;
+}
+
+#footer {
+  margin: 0;
+}
+#add-group-modal-open {
+  width: 100%;
+}
+
+.focus-border:focus {
+  outline: none !important;
+  border: 1px solid cyan !important;
 }

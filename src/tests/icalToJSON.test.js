@@ -6,7 +6,7 @@ const {
   icalToJSON,
   urlToJSON,
   formatEventDate,
-} = require("../icalToJSON");
+} = require("../helpers/icalToJSON");
 
 describe("icalToJSON tests", () => {
   test("Format ical dates", () => {

@@ -1,18 +1,19 @@
-const { urlToJSON } = require("./icalToJSON");
-const converter = require("./converter");
-const onDisplay = require("./onDisplay");
-const combine = require("./combine");
+const { urlToJSON } = require("../helpers/icalToJSON");
+const converter = require("../helpers/converter");
+const onDisplay = require("../helpers/onDisplay");
+const combine = require("../helpers/combine");
+const { NO_CALENDAR_SELECTED } = require("../constants/strings");
 const { selectCurrentWeek } = require("./selectCurrentWeek");
 const { addManualModal, addIcalModal, formatModal } = require("./modals");
+const CalendarStore = require("../store/CalendarStore").instance();
+const { calendarCellSchema } = require("../schemas/calendar");
 
 /** HTML Element Declarations */
 const title = document.getElementById("calendar-title");
 const icalName = document.getElementById("ical-name-input");
 const icalInput = document.getElementById("ical-link-input");
 const manualName = document.getElementById("manual-name-input");
-const dynamicSection = document.getElementById("dynamicTabs");
-
-const NON_DYNAMIC_NAV_ELEMENTS = 3;
+const dynamicSection = document.getElementById("dynamic-tabs");
 
 /** Mapping buttons to their onClick functions */
 document
@@ -27,13 +28,15 @@ document
   .addEventListener("click", uploadManual);
 document
   .getElementById("setup-new-calendar-manual")
-  .addEventListener("click", setupNewManual);
+  .addEventListener("click", () => {
+    setupNewManual(CalendarStore.selectedCalList);
+  });
 document
   .getElementById("setup-new-calendar-ical")
-  .addEventListener("click", setupNewIcal);
+  .addEventListener("click", () => {
+    setupNewIcal(CalendarStore.selectedCalList);
+  });
 
-/** List of Uploaded Calendars */
-let calList = [];
 /** List of Occupied Calendar Cells */
 let cellList = [];
 /** Whether the user has opened the "add a new Manual Calendar" Modal before */
@@ -43,20 +46,37 @@ let hasInitializedManual = false;
 function openCalendar(name) {
   title.textContent = name + "'s Calendar";
 
-  const [userInfo] = calList.filter((x) => x.user === name);
+  const [userInfo] = CalendarStore.selectedCalList.filter(
+    (x) => x.user === name,
+  );
 
   onDisplay(userInfo.calendarJson, 1);
 }
 
+/**
+ * Shows an empty calendar
+ */
+function resetCalendar() {
+  title.textContent = NO_CALENDAR_SELECTED;
+  onDisplay(JSON.stringify({ cells: [] }), 0);
+}
+
+/** Handles the Display of the Add Calendar Modal */
 function addCalendar() {
   formatModal.modal("show");
 }
 
+/**
+ * Shows the modal for uploading an ical
+ */
 function uploadIcal() {
   formatModal.modal("hide");
   addIcalModal.modal("show");
 }
 
+/**
+ * Shows the modal for uploading a manual calendar
+ */
 function uploadManual() {
   formatModal.modal("hide");
   addManualModal.modal("show");
@@ -65,19 +85,46 @@ function uploadManual() {
 
 /** Handles the Display of the Combined Calendar When Nav Element is Clicked */
 function viewCombinedCalendar() {
+  const calList = CalendarStore.selectedCalList;
   title.textContent = "Combined Calendar";
   let combination = { cells: [] };
 
   for (let cal in calList) {
     const obj = calList[cal];
+    /** Combine each instances of the calendar list */
     combination = combine(combination, JSON.parse(obj.calendarJson));
   }
 
   onDisplay(JSON.stringify(combination), calList.length);
 }
 
+/** Handles the Display of the Filtered Calendar user specifies the value to filter by */
+function viewFilteredCalendar(filterValue) {
+  const calList = CalendarStore.selectedCalList;
+
+  title.textContent = "Filtered Calendar : " + filterValue + " or more people";
+  let combination = { cells: [] };
+
+  for (let cal in calList) {
+    const obj = calList[cal];
+
+    /**
+     * Filter the cells based on the filter value
+     */
+    combination = combine(combination, JSON.parse(obj.calendarJson));
+  }
+
+  const filtered = combination.cells.filter((x) => {
+    return x.numPeople >= filterValue;
+  });
+
+  combination.cells = filtered;
+
+  onDisplay(JSON.stringify(combination), calList.length);
+}
+
 /** Handles the setup of a new Calendar based on the Ical Link */
-async function setupNewIcal() {
+async function setupNewIcal(calList) {
   addIcalModal.modal("hide");
 
   const icalUrl = icalInput.value;
@@ -85,6 +132,7 @@ async function setupNewIcal() {
 
   const actual = selectCurrentWeek(json);
 
+  // Converts the date format used by Ical into the date format used by the converter function
   const formatted = actual.map((x) => {
     return {
       start: applyNewFormat(x.start),
@@ -92,17 +140,17 @@ async function setupNewIcal() {
     };
   });
 
+  // Converts the JSON into the format used by the converter function
   const userJson = converter(
     JSON.stringify({ events: formatted }),
-    icalName.value
+    icalName.value,
   );
 
-  const info = {
+  CalendarStore.addCalendar(calList, {
     user: icalName.value,
     icalUrl: icalInput.value,
     calendarJson: userJson,
-  };
-  calList.push(info);
+  });
 
   icalName.value = "";
   icalInput.value = "";
@@ -117,20 +165,21 @@ function applyNewFormat(date) {
 }
 
 /** Handles setup of a new Calendar based on the Manual Input */
-function setupNewManual() {
+function setupNewManual(calList) {
   addManualModal.modal("hide");
 
+  // Creates a cell object for each cell in the cellList array
   const cells = cellList.map((cell) => {
-    return {
+    return calendarCellSchema.parse({
       id: cell,
       users: [manualName.value],
       numPeople: 1,
-    };
+    });
   });
 
   cellList = [];
 
-  calList.push({
+  CalendarStore.addCalendar(calList, {
     user: manualName.value,
     icalUrl: "",
     calendarJson: JSON.stringify({ cells: cells }),
@@ -142,25 +191,26 @@ function setupNewManual() {
 
 /** Updates the Top Navigation based on the current Calendar List */
 function updateCalList() {
+  const calList = CalendarStore.selectedCalList;
+
+  // Remove all the calendar items
+  $(dynamicSection).children(".calendar-select").remove();
+
   const referenceNode = dynamicSection.children[1];
 
-  // Repeats for However many items in the calList are not already represented as navigation tabs
-  for (
-    let i = dynamicSection.children.length - NON_DYNAMIC_NAV_ELEMENTS;
-    i < calList.length;
-    i++
-  ) {
+  // Creates new entry in the top navigation for each calendar
+  for (const element of calList) {
     const title = document.createElement("span");
-    title.innerHTML = calList[i].user;
+    title.innerHTML = element.user;
 
-    const link = document.createElement("a");
-    link.setAttribute("class", "item");
-    link.appendChild(title);
-    link.addEventListener("click", function () {
-      openCalendar(calList[i].user);
+    const button = document.createElement("button");
+    button.setAttribute("class", "calendar-select item focus-border");
+    button.appendChild(title);
+    button.addEventListener("click", function () {
+      openCalendar(element.user);
     });
 
-    dynamicSection.insertBefore(link, referenceNode);
+    dynamicSection.insertBefore(button, referenceNode);
   }
 }
 
@@ -179,9 +229,15 @@ function initializeCellListeners() {
       cell.style.backgroundColor = null;
 
       if (!hasInitializedManual) {
-        cell.addEventListener("click", function () {
+        cell.addEventListener("mousedown", function () {
           setCell(cell);
           hasInitializedManual = true;
+        });
+
+        cell.addEventListener("mouseover", function (e) {
+          if (e.buttons == 1) {
+            setCell(cell);
+          }
         });
       }
     }
@@ -195,8 +251,8 @@ function setCell(cell) {
   if (cell.classList.contains("cellSelected")) {
     cell.classList.remove("cellSelected");
     cell.style.backgroundColor = null;
-    cellList = cellList.filter((x) => x != id); // Convolutted way of removing the cell from the cellList array
-  } else {
+    cellList = cellList.filter((x) => x != id); // Convoluted way of removing the cell from the cellList array
+  } else if (!cell.classList.contains("collapsing")) {
     cell.classList.add("cellSelected");
     cell.style.backgroundColor = "purple";
     cellList.push(id);
@@ -209,11 +265,12 @@ module.exports = {
   setupNewManual,
   addCalendar,
   viewCombinedCalendar,
+  viewFilteredCalendar,
   uploadIcal,
   uploadManual,
   openCalendar,
-  calList,
   cellList,
   setCell,
+  resetCalendar,
   initializeCellListeners,
 };
