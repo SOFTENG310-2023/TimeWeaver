@@ -2,6 +2,9 @@ const { createClient } = require("@supabase/supabase-js");
 const config = require("../../utils/config");
 const groupRouter = require("express").Router();
 
+/**
+ * Get all groups and its associated calendars
+ */
 groupRouter.get("/", async (req, res) => {
   const supabase = createClient(config.SUPABASE_URL, config.SUPABASE_ANON_KEY);
 
