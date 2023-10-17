@@ -1,4 +1,4 @@
-const { CalendarGroupDTO } = require("../../schemas/dto");
+const { CalendarGroupEntity } = require("../../schemas/domain");
 const { groupSchema } = require("../../schemas/calendar");
 const z = require("zod");
 
@@ -6,16 +6,16 @@ const z = require("zod");
  * Converts the group list from the database to the schema
  * required by the front-end
  *
- * @param {*} groupDtoList
+ * @param {*} groupEntityList
  * @returns group list as required by the front-end
  */
-function groupListDTOConverter(groupDtoList) {
-  z.array(CalendarGroupDTO).parse(groupDtoList);
+function groupListEntityConverter(groupEntityList) {
+  z.array(CalendarGroupEntity).parse(groupEntityList);
 
-  return groupDtoList.map((group) => {
+  return groupEntityList.map((group) => {
     return groupSchema.parse({
       name: group.name,
-      calendarList: calendarListDTOConverter(group.calendar),
+      calendarList: calendarListEntityConverter(group.calendar),
     });
   });
 }
@@ -24,12 +24,12 @@ function groupListDTOConverter(groupDtoList) {
  * Converts the calendar list from the database to the schema
  * required by the front-end
  *
- * @param {*} calendarDtoList
+ * @param {*} calendarEntityList
  * @returns calendar list as required by the front-end
  */
-function calendarListDTOConverter(calendarDtoList) {
-  return calendarDtoList.map((calendar) => {
-    const calendarSlots = selectedSlotDTOConverter(
+function calendarListEntityConverter(calendarEntityList) {
+  return calendarEntityList.map((calendar) => {
+    const calendarSlots = selectedSlotEntityConverter(
       calendar.selected_slots,
       calendar.name,
     );
@@ -46,12 +46,12 @@ function calendarListDTOConverter(calendarDtoList) {
  * Converts the selected slot data to the schema required
  * by the front-end
  *
- * @param {*} selectedSlotDtoList
+ * @param {*} selectedSlotEntityList
  * @param {string} name username of the calendar
  * @returns calendar slot list as required by the front-end
  */
-function selectedSlotDTOConverter(selectedSlotDtoList, name) {
-  return selectedSlotDtoList.map((slot) => {
+function selectedSlotEntityConverter(selectedSlotEntityList, name) {
+  return selectedSlotEntityList.map((slot) => {
     const slot_id = selectedSlotIDConverter(slot);
     return {
       id: slot_id,
@@ -75,8 +75,8 @@ function selectedSlotIDConverter(slot) {
 }
 
 module.exports = {
-  groupListDTOConverter,
-  calendarListDTOConverter,
-  selectedSlotDTOConverter,
+  groupListEntityConverter,
+  calendarListEntityConverter,
+  selectedSlotEntityConverter,
   selectedSlotIDConverter,
 };

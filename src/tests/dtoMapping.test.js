@@ -1,8 +1,8 @@
 const {
   selectedSlotIDConverter,
-} = require("../helpers/dto_mapping/calendarMapping");
+} = require("../helpers/entity_mapping/calendarMapping");
 
-describe("Unit tests for dtoMapping function", () => {
+describe("Unit tests for calendar entity mapping functions", () => {
   test("Time slot to HTML ID Converter 1", () => {
     const slot = {
       day: "Monday",

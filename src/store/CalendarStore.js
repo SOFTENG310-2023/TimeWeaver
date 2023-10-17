@@ -1,8 +1,8 @@
 const { groupSchema, calendarSchema } = require("../schemas/calendar.js");
-const { CalendarGroupDTO } = require("../schemas/dto");
+const { CalendarGroupEntity } = require("../schemas/domain/index.js");
 const {
-  groupListDTOConverter,
-} = require("../helpers/dto_mapping/calendarMapping.js");
+  groupListEntityConverter,
+} = require("../helpers/entity_mapping/calendarMapping.js");
 
 class CalendarStore {
   static _instance;
@@ -22,8 +22,10 @@ class CalendarStore {
     const res = await fetch("/api/group");
     const groups = await res.json();
 
-    const groupDtoList = groups.map((group) => CalendarGroupDTO.parse(group));
-    this.groupList = groupListDTOConverter(groupDtoList);
+    const groupEntityList = groups.map((group) =>
+      CalendarGroupEntity.parse(group),
+    );
+    this.groupList = groupListEntityConverter(groupEntityList);
   }
 
   /**
