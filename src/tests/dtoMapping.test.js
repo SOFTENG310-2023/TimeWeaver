@@ -8,6 +8,6 @@ describe("Unit tests for dtoMapping function", () => {
       day: "Monday",
       timeslot: "07:30:00",
     };
-    expect(selectedSlotConverter(slot)).toBe("mon-0730");
+    expect(selectedSlotIDConverter(slot)).toBe("mon-0730");
   });
 });
