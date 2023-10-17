@@ -1,4 +1,8 @@
 const { groupSchema, calendarSchema } = require("../schemas/calendar.js");
+const { CalendarGroupEntity } = require("../schemas/domain/index.js");
+const {
+  groupListEntityConverter,
+} = require("../helpers/entity_mapping/calendarMapping.js");
 
 class CalendarStore {
   static _instance;
@@ -6,10 +10,23 @@ class CalendarStore {
   selectedCalList = [];
 
   /* The currently selected group HTML element in sidebar */
-  selectedGroup;
+  selectedGroupElem;
 
   /* List of all groups and its associated calendars */
   groupList = [];
+
+  /**
+   * Retrieves all groups from the database and stores it in the groupList
+   */
+  async retrieveGroups() {
+    const res = await fetch("/api/group");
+    const groups = await res.json();
+
+    const groupEntityList = groups.map((group) =>
+      CalendarGroupEntity.parse(group),
+    );
+    this.groupList = groupListEntityConverter(groupEntityList);
+  }
 
   /**
    * Add group to the list of groups

@@ -15,8 +15,6 @@ $(".ui.labeled.icon.sidebar").sidebar({
   context: $("#page-container"),
 });
 
-const NON_DYNAMIC_SIDEBAR_ELEMENTS = 1;
-
 /** Mapping buttons to their onClick functions */
 document
   .getElementById("add-group-modal-open")
@@ -29,11 +27,14 @@ document.getElementById("setup-new-group").addEventListener("click", () => {
   groupName.value = "";
 });
 
-// Add and select initial group
-setupNewGroup("Default");
-CalendarStore.selectedCalList = CalendarStore.groupList[0].calendarList;
-CalendarStore.selectedGroup = sidebar.children[0];
-CalendarStore.selectedGroup.classList.add("disabled", "group-selected");
+CalendarStore.retrieveGroups().then(() => {
+  updateGroupList();
+
+  // Select initial group
+  CalendarStore.selectedCalList = CalendarStore.groupList[0].calendarList;
+  CalendarStore.selectedGroupElem = sidebar.children[0];
+  CalendarStore.selectedGroupElem.classList.add("disabled", "group-selected");
+});
 
 /** Handles the Display of the Group When Sidebar Element is Clicked */
 function openGroup(name) {
@@ -61,7 +62,6 @@ function setupNewGroup(name) {
   if (name !== "" && !CalendarStore.groupList.some((x) => x.name === name)) {
     CalendarStore.addGroup({
       name: name,
-      groupUrl: "",
       calendarList: [],
     });
 
@@ -69,17 +69,14 @@ function setupNewGroup(name) {
   }
 }
 
-/** Handles setup of a new Group */
+/** Re-renders the sidebar containing the calendar groups */
 function updateGroupList() {
-  const referenceNode = sidebar.children[0];
+  const referenceNode = sidebar.children[sidebar.children.length - 1];
 
+  $(sidebar).children(".group-item-container").remove();
   // Repeats for however many items in the groupList not already represented as sidebar elements
-  for (
-    let i = sidebar.children.length - NON_DYNAMIC_SIDEBAR_ELEMENTS;
-    i < CalendarStore.groupList.length;
-    i++
-  ) {
-    let link = createGroupElement(CalendarStore.groupList[i].name);
+  for (const group of CalendarStore.groupList) {
+    let link = createGroupElement(group.name);
 
     sidebar.insertBefore(link, referenceNode);
   }
@@ -113,19 +110,19 @@ function createGroupElement(groupName) {
 
   // When a group is selected
   $(groupSelectLink).click(() => {
-    if (CalendarStore.selectedGroup === groupSelectLink) {
+    if (CalendarStore.selectedGroupElem === groupSelectLink) {
       return;
     }
 
     // Mark new group as selected
     groupSelectLink.classList.add("disabled", "group-selected");
-    if (CalendarStore.selectedGroup) {
-      CalendarStore.selectedGroup.classList.remove(
+    if (CalendarStore.selectedGroupElem) {
+      CalendarStore.selectedGroupElem.classList.remove(
         "disabled",
         "group-selected",
       );
     }
-    CalendarStore.selectedGroup = groupSelectLink;
+    CalendarStore.selectedGroupElem = groupSelectLink;
 
     openGroup(groupName);
   });
@@ -135,7 +132,7 @@ function createGroupElement(groupName) {
     e.stopPropagation();
 
     // Don't allow deletion of the currently selected group
-    if (CalendarStore.selectedGroup === groupSelectLink) {
+    if (CalendarStore.selectedGroupElem === groupSelectLink) {
       return;
     }
 
