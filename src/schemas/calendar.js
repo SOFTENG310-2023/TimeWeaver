@@ -19,7 +19,6 @@ const calendarSchema = z.object({
 /* Schema for each group of calendars */
 const groupSchema = z.object({
   name: z.string(),
-  groupUrl: z.union([z.literal(""), z.string().trim().url()]),
   calendarList: z.array(calendarSchema),
 });
 
