@@ -19,19 +19,31 @@ function combine(user1, user2) {
       const cell2 = user2.cells[j];
 
       // Check if both cell objects exist and have the same ID.
-      if (cell1 && cell2 && cell1.id === cell2.id) {
+      if (
+        cell1 &&
+        cell2 &&
+        cell1.id === cell2.id &&
+        cell1.numPeople >= 1 &&
+        cell2.numPeople >= 1
+      ) {
         // Create a combined cell instance and add it to the result.
         const combineCellInstance = createCombineCellInstance(cell1, cell2);
         result.cells.push(combineCellInstance);
 
-        // Delete the processed cells from both user objects.
-        delete user1.cells[i];
-        delete user2.cells[j];
+        // Flag the processed cells from both user objects.
+        user1.cells[i].numPeople = 0;
+        user1.cells[i].users = [];
+        user2.cells[j].numPeople = 0;
+        user2.cells[j].users = [];
       }
     }
 
     // If the cell in the first user still exists, create a cell instance and add it to the result.
-    if (user1.cells[i] !== null && user1.cells[i] !== undefined) {
+    if (
+      user1.cells[i] !== null &&
+      user1.cells[i] !== undefined &&
+      user1.cells[i].numPeople >= 1
+    ) {
       const cellInstance = addCellTimetable(user1.cells[i]);
       result.cells.push(cellInstance);
     }
@@ -39,7 +51,7 @@ function combine(user1, user2) {
 
   // Iterate through the cells of the second user to handle remaining cells not matched.
   for (const cell2 of user2.cells) {
-    if (cell2 !== null && cell2 !== undefined) {
+    if (cell2 !== null && cell2 !== undefined && cell2.numPeople >= 1) {
       // Create a cell instance and add it to the result.
       const cellInstance = addCellTimetable(cell2);
       result.cells.push(cellInstance);
