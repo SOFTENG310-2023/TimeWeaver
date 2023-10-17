@@ -1,4 +1,8 @@
 const { groupSchema, calendarSchema } = require("../schemas/calendar.js");
+const { CalendarGroupDTO } = require("../schemas/dto");
+const {
+  groupListDTOConverter,
+} = require("../helpers/dto_mapping/calendarMapping.js");
 
 class CalendarStore {
   static _instance;
@@ -6,10 +10,23 @@ class CalendarStore {
   selectedCalList = [];
 
   /* The currently selected group HTML element in sidebar */
-  selectedGroup;
+  selectedGroupElem;
 
   /* List of all groups and its associated calendars */
   groupList = [];
+
+  constructor() {}
+
+  /**
+   * Retrieves all groups from the database and stores it in the groupList
+   */
+  async retrieveGroups() {
+    const res = await fetch("/api/group");
+    const groups = await res.json();
+
+    const groupDtoList = groups.map((group) => CalendarGroupDTO.parse(group));
+    this.groupList = groupListDTOConverter(groupDtoList);
+  }
 
   /**
    * Add group to the list of groups

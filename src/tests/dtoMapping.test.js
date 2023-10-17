@@ -1,6 +1,7 @@
 const {
   selectedSlotConverter,
 } = require("../helpers/dto_mapping/calendarMapping");
+
 describe("Unit tests for dtoMapping function", () => {
   test("Time slot converter 1", () => {
     const slot = {
