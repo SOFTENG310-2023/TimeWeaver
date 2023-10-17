@@ -2,6 +2,13 @@ const { CalendarGroupDTO } = require("../../schemas/dto");
 const { groupSchema } = require("../../schemas/calendar");
 const z = require("zod");
 
+/**
+ * Converts the group list from the database to the schema
+ * required by the front-end
+ *
+ * @param {*} groupDtoList
+ * @returns group list as required by the front-end
+ */
 function groupListDTOConverter(groupDtoList) {
   z.array(CalendarGroupDTO).parse(groupDtoList);
 
@@ -13,6 +20,13 @@ function groupListDTOConverter(groupDtoList) {
   });
 }
 
+/**
+ * Converts the calendar list from the database to the schema
+ * required by the front-end
+ *
+ * @param {*} calendarDtoList
+ * @returns calendar list as required by the front-end
+ */
 function calendarListDTOConverter(calendarDtoList) {
   return calendarDtoList.map((calendar) => {
     const calendarSlots = selectedSlotDTOConverter(
@@ -28,6 +42,14 @@ function calendarListDTOConverter(calendarDtoList) {
   });
 }
 
+/**
+ * Converts the selected slot data to the schema required
+ * by the front-end
+ *
+ * @param {*} selectedSlotDtoList
+ * @param {string} name username of the calendar
+ * @returns calendar slot list as required by the front-end
+ */
 function selectedSlotDTOConverter(selectedSlotDtoList, name) {
   return selectedSlotDtoList.map((slot) => {
     const slot_id = selectedSlotIDConverter(slot);
