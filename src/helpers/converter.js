@@ -7,6 +7,7 @@
  */
 function converter(json, user) {
   const obj = JSON.parse(json);
+
   const newObj = [];
 
   // loops through the array of events to create cells for each indivdual event
@@ -27,7 +28,16 @@ function converter(json, user) {
       timeID = incrementTime(timeID);
     }
   }
-  return JSON.stringify({ cells: newObj });
+
+  const duplicatesRemoved = [];
+
+  for (const cell of newObj) {
+    if (duplicatesRemoved.filter((x) => x.id === cell.id).length === 0) {
+      duplicatesRemoved.push(cell);
+    }
+  }
+
+  return JSON.stringify({ cells: duplicatesRemoved });
 }
 
 // function outputs the time part of the id to be appended to the day segment, creating the cell id
