@@ -18,6 +18,11 @@ groupRouter.get("/", async (req, res) => {
             )
         `);
 
+  if (error)
+    return res.status(500).json({
+      error: error.message,
+    });
+
   return res.json(data);
 });
 

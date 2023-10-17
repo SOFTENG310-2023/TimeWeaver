@@ -67,7 +67,7 @@ function selectedSlotDTOConverter(selectedSlotDtoList, name) {
  */
 function selectedSlotIDConverter(slot) {
   const timeRegex = /^(\d{2}):(\d{2}).*/;
-  const matches = slot.timeslot.match(timeRegex);
+  const matches = timeRegex.exec(slot.timeslot);
   const hours = matches[1];
   const minutes = matches[2];
 

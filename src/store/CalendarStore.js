@@ -15,8 +15,6 @@ class CalendarStore {
   /* List of all groups and its associated calendars */
   groupList = [];
 
-  constructor() {}
-
   /**
    * Retrieves all groups from the database and stores it in the groupList
    */
