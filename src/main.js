@@ -21,8 +21,6 @@ const {
   uploadIcal,
   uploadManual,
   openCalendar,
-  calList,
-  cellList,
   setCell,
   initializeCellListeners,
 } = require("./views/manageCalendars");
