@@ -30,10 +30,8 @@ groupRouter.get("/", async (req, res) => {
  */
 groupRouter.post("/", async (req, res) => {
   const supabase = createClient(config.SUPABASE_URL, config.SUPABASE_ANON_KEY);
-  const newGroup = req.body;
-  const { data, error } = await supabase
-    .from("calendar_group")
-    .insert([newGroup]);
+  const group = req.body;
+  const { data, error } = await supabase.from("calendar_group").insert([group]);
 
   if (error) {
     return res.status(500).json({ error: error.message });
