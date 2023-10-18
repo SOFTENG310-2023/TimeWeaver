@@ -29,12 +29,23 @@ class CalendarStore {
   }
 
   /**
-   * Add group to the list of groups
+   * Add group to the list of groups and upload to database
    * @param {*} group
    */
-  addGroup(group) {
+  async addGroup(group) {
     // Validate group and add if satisfied
     this.groupList.push(groupSchema.parse(group));
+    const res = await fetch("/api/group", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: group.name }),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error adding group: ${res.statusText}`);
+    }
   }
 
   /**

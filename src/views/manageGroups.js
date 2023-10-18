@@ -63,9 +63,9 @@ function setupNewGroup(name) {
     CalendarStore.addGroup({
       name: name,
       calendarList: [],
+    }).then(() => {
+      updateGroupList();
     });
-
-    updateGroupList();
   }
 }
 
