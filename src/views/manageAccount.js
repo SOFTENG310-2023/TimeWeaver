@@ -36,13 +36,44 @@ function openSignupPopup() {
 }
 
 function userLogin() {
-  // TO-DO: implement user login functionality
-  alert("Implement user login functionality");
+  const userData = {
+    email: document.getElementById("login-email-input").value,
+    password: document.getElementById("login-password-input").value,
+  };
+
+  const authRes = fetch("api/user/login", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+    body: JSON.stringify(userData),
+  }).then((res) => {
+    if (res.status == 200) {
+      accountModal.modal("hide");
+      alert("Login Successful.");
+    }
+  });
 }
 
 function userSignup() {
-  // TO-DO: implement user sign up functionality
-  alert("Implement user sign up functionality");
+  const userData = {
+    email: document.getElementById("signup-email-input").value,
+    password: document.getElementById("signup-password-input").value,
+    name: document.getElementById("signup-name-input").value,
+  };
+
+  const authRes = fetch("/api/user/create-account", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+    body: JSON.stringify(userData),
+  }).then((res) => {
+    if (res.status == 200) {
+      signupModal.modal("hide");
+      alert("Account successfully created.");
+    }
+  });
 }
 
 module.exports = {
