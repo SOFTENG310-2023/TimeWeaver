@@ -55,6 +55,23 @@ class CalendarStore {
   }
 
   /**
+   * Delete a group from the list and the database
+   */
+  async deleteGroup(groupId) {
+    // call the group delete api and delete the selected group on the db
+    const res = await fetch(`/api/group/${groupId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error deleting group: ${res.statusText}`);
+    }
+  }
+
+  /**
    * Add calendar to the given list of calendars.
    *
    * @param {{ user: string, icalUrl: string, calendarJson: string }[]} calList

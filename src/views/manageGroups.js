@@ -138,10 +138,18 @@ function createGroupElement(groupName) {
       return;
     }
 
-    CalendarStore.groupList = CalendarStore.groupList.filter(
-      (x) => x.name !== groupName,
-    );
-    $(groupSelectLink).remove();
+    let groupIdToDelete;
+    CalendarStore.groupList = CalendarStore.groupList.filter((x) => {
+      if (x.name === groupName) {
+        groupIdToDelete = x.id;
+        return false;
+      }
+      return true;
+    });
+
+    CalendarStore.deleteGroup(groupIdToDelete).then(() => {
+      $(groupSelectLink).remove();
+    });
   });
 
   return groupSelectLink;
