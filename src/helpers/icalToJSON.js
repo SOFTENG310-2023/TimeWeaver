@@ -129,7 +129,7 @@ async function getICalFromURL(url) {
 // Handles conversion from Ical Link to JSON information
 async function urlToJSON(url) {
   const ical = await getICalFromURL(url);
-  return await icalToJSON(ical);
+  return icalToJSON(ical);
 }
 
 module.exports = { getICalFromURL, urlToJSON, icalToJSON, formatEventDate };
