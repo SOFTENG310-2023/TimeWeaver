@@ -11,6 +11,7 @@ const calendarCellSchema = z
 
 /* Schema for each calendar */
 const calendarSchema = z.object({
+  groupId: z.string().uuid(),
   user: z.string(),
   icalUrl: z.union([z.literal(""), z.string().trim().url()]),
   calendarJson: z.string(),
@@ -18,6 +19,7 @@ const calendarSchema = z.object({
 
 /* Schema for each group of calendars */
 const groupSchema = z.object({
+  id: z.string().uuid(),
   name: z.string(),
   calendarList: z.array(calendarSchema),
 });
