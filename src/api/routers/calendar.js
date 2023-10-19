@@ -12,21 +12,23 @@ calendarRouter.post("/", async (req, res) => {
   // Process calendar data
   const { data: calendarData, error: calendarError } = await supabase
     .from("calendar")
-    .insert([calendar]);
+    .insert([calendar])
+    .select();
 
   if (calendarError) {
     return res.status(500).json({ error: calendarError.message });
   }
 
-  //   const updatedSelected_Slots = selected_slots.map(slot => ({
-  //     ...slot,
-  //     calender_id: calendarData[0].id
-  //   }));
+  const updatedSelected_Slots = selected_slots.map((slot) => ({
+    ...slot,
+    calendar_id: calendarData[0].id,
+  }));
 
   // Process selected slots data
   const { data: slotsData, error: slotsError } = await supabase
     .from("selected_slots")
-    .insert(selected_slots);
+    .insert(updatedSelected_Slots)
+    .select();
 
   if (slotsError) {
     return res.status(500).json({ error: slotsError.message });
