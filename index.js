@@ -1,3 +1,6 @@
+const { createClient } = require("@supabase/supabase-js");
+const config = require("./src/utils/config");
+
 // Allows us to grab data from ical urls
 const fetch = require("node-fetch");
 

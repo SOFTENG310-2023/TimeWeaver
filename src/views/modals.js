@@ -400,7 +400,7 @@ const addManualModal = $.modal({
 });
 
 // Account popup (login)
-const accountModal = $.modal({
+const loginModal = $.modal({
   title: "Log into your account",
   ...commonModalAttributes,
   content: `
@@ -458,12 +458,27 @@ const signupModal = $.modal({
   `,
 });
 
+const accountModal = $.modal({
+  title: "My Account",
+  ...commonModalAttributes,
+  content: `
+  <div id="myaccount-popup">
+
+    <span id="name-info"></span>
+    <span id="email-info"></span>
+
+    <div class="ui approve button green" id="logout-btn" >LOG OUT</div>  
+
+  <div>`,
+});
+
 module.exports = {
   addGroupModal,
   addFilterModal,
   addManualModal,
   addIcalModal,
   formatModal,
-  accountModal,
+  loginModal,
   signupModal,
+  accountModal,
 };
