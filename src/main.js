@@ -27,15 +27,13 @@ const {
 
 const { showGroups, addGroup, setupNewGroup } = require("./views/manageGroups");
 
-const {
-  openAccountPopup,
-  openSignupPopup,
-  userLogin,
-  userSignup,
-} = require("./views/manageAccount");
+const { handleLogin } = require("./views/manageAccount");
 
 const { addFilter } = require("./views/manageFilter");
 
 const onDisplay = require("./helpers/onDisplay");
 
 const { selectCurrentWeek } = require("./views/selectCurrentWeek");
+
+// Every time the web app is refreshed, we run this function to handle the current login status
+handleLogin();
