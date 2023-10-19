@@ -8,6 +8,8 @@ const calendarRouter = require("express").Router();
 calendarRouter.post("/", async (req, res) => {
   const supabase = createClient(config.SUPABASE_URL, config.SUPABASE_ANON_KEY);
   const { calendar, selected_slots } = req.body;
+
+  // Process calendar data
   const { data: calendarData, error: calendarError } = await supabase
     .from("calendar")
     .insert([calendar]);
@@ -16,6 +18,12 @@ calendarRouter.post("/", async (req, res) => {
     return res.status(500).json({ error: calendarError.message });
   }
 
+  //   const updatedSelected_Slots = selected_slots.map(slot => ({
+  //     ...slot,
+  //     calender_id: calendarData[0].id
+  //   }));
+
+  // Process selected slots data
   const { data: slotsData, error: slotsError } = await supabase
     .from("selected_slots")
     .insert(selected_slots);

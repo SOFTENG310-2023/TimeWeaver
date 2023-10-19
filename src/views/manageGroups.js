@@ -31,6 +31,7 @@ CalendarStore.retrieveGroups().then(() => {
   updateGroupList();
 
   // Select initial group
+  CalendarStore.selectedGroup = CalendarStore.groupList[0].id;
   CalendarStore.selectedCalList = CalendarStore.groupList[0].calendarList;
   CalendarStore.selectedGroupElem = sidebar.children[0];
   CalendarStore.selectedGroupElem.classList.add("disabled", "group-selected");
@@ -43,6 +44,7 @@ function openGroup(name) {
   )[0];
 
   CalendarStore.selectedCalList = selectedGroup.calendarList;
+  CalendarStore.selectedGroup = selectedGroup.id;
   updateCalList();
 
   if (selectedGroup.calendarList.length === 0) {
