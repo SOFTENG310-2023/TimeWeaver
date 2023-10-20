@@ -1,12 +1,7 @@
 const { app, server } = require("../index");
 const request = require("supertest");
-const { describe } = require("../src/schemas/domain/CalendarSlot");
 
 describe("Check main files are accessible", () => {
-  afterAll(() => {
-    server.close();
-  });
-
   test("Responds to /", async () => {
     const res = await request(app).get("/");
     expect(res.header["content-type"]).toBe("text/html; charset=UTF-8");
@@ -28,11 +23,42 @@ describe("User API", () => {
   describe("POST /api/user/create-account", () => {
     it("should create a new account", async () => {
       const res = await request(app).post("/api/user/create-account").send({
+        name: "John Doe1",
+        email: "johndoe1@example.com",
+        password: "password123",
+      });
+      expect(res.statusCode).toEqual(200);
+    });
+  });
+
+  describe("POST /api/user/create-account", () => {
+    it("should not create a new account", async () => {
+      const res = await request(app).post("/api/user/create-account").send({
         name: "John Doe",
         email: "johndoe@example.com",
         password: "password123",
       });
+      expect(res.statusCode).toEqual(500);
+    });
+  });
+
+  describe("POST /api/user/after-creation", () => {
+    it("should update the user's table", async () => {
+      const res = await request(app).post("/api/user/after-creation").send({
+        id: "acaece76-6ba7-4e76-8f5d-0a816fb296f5",
+        name: "test",
+      });
       expect(res.statusCode).toEqual(200);
+    });
+  });
+
+  describe("POST /api/user/after-creation", () => {
+    it("should not update the user's table", async () => {
+      const res = await request(app).post("/api/user/after-creation").send({
+        id: "1",
+        name: "a",
+      });
+      expect(res.statusCode).toEqual(500);
     });
   });
 
@@ -54,18 +80,23 @@ describe("User API", () => {
     });
   });
 
-  describe("POST /api/user/after-creation", () => {
-    it("should update user table", async () => {
-      const res = await request(app).post("/api/user/after-creation").send({
-        id: "123",
-        name: "John Doe",
-      });
+  describe("GET /api/user/:id", () => {
+    it("should get a user by its id", async () => {
+      const res = await request(app).get(
+        "/api/user/acaece76-6ba7-4e76-8f5d-0a816fb296f5",
+      );
       expect(res.statusCode).toEqual(200);
+    });
+
+    it("should not get a user by its id", async () => {
+      const res = await request(app).get("/api/user/1");
+      expect(res.statusCode).toEqual(500);
     });
   });
 });
 
 describe("Group API", () => {
+  let id = 1;
   describe("GET /api/group/", () => {
     it("get all groups and its associated calendars", async () => {
       const res = await request(app).get("/api/group/");
@@ -79,17 +110,18 @@ describe("Group API", () => {
         name: "John Doe",
       });
       expect(res.statusCode).toEqual(201);
+      id = res.body.id;
     });
 
     describe("DELETE /api/group/:id", () => {
       it("should delete a group", async () => {
-        const res = await request(app).delete("/api/group/1");
+        const res = await request(app).delete("/api/group/" + id);
         expect(res.statusCode).toEqual(201);
       });
 
       it("should not delete a group", async () => {
-        const res = await request(app).delete("/api/group/123123123");
-        expect(res.statusCode).toEqual(404);
+        const res = await request(app).delete("/api/group/" + id + "1");
+        expect(res.statusCode).toEqual(500);
       });
     });
   });
@@ -98,11 +130,42 @@ describe("Group API", () => {
 describe("Calendar API", () => {
   describe("POST /api/calendar/", () => {
     it("should create a new calendar under a group", async () => {
+      const res = await request(app)
+        .post("/api/calendar/")
+        .send({
+          calendar: "test",
+          selected_slots: [{ day: "Wednesday", timeslot: "11:30:00" }],
+        });
+      expect(res.statusCode).toEqual(201);
+    });
+
+    it("should not create a new calendar from slots Error", async () => {
+      const res = await request(app)
+        .post("/api/calendar/")
+        .send({
+          calendar: "John",
+          selected_slots: [
+            { day: "Wednesday", timeslot: "11:30:00" },
+            { day: "Wednesday", timeslot: "12:00:00" },
+            { day: "Wednesday", timeslot: "12:30:00" },
+            { day: "Wednesday", timeslot: "13:00:00" },
+            { day: "Wednesday", timeslot: "13:30:00" },
+            { day: "Wednesday", timeslot: "14:00:00" },
+            { day: "Wednesday", timeslot: "14:30:00" },
+            { day: "Wednesday", timeslot: "15:00:00" },
+            { day: "Wednesday", timeslot: "15:30:00" },
+            { day: "Wednesday", timeslot: "25:00:00" },
+          ],
+        });
+      expect(res.statusCode).toEqual(500);
+    });
+
+    it("should not create a new calendar from calendar error", async () => {
       const res = await request(app).post("/api/calendar/").send({
         calendar: "John Doe",
-        selected_slots: "John Doe",
+        selected_slots: "Hello",
       });
-      expect(res.statusCode).toEqual(201);
+      expect(res.statusCode).toEqual(500);
     });
   });
 });
@@ -110,8 +173,21 @@ describe("Calendar API", () => {
 describe("Get iCal API", () => {
   describe("GET /api/get-ical/", () => {
     it("should get the iCal file", async () => {
-      const res = await request(app).get("/api/get-ical/");
+      const icalUrl =
+        "https://uoacal.auckland.ac.nz/calendar/4947dde81b172014869447f17e420ede860059c15c45e96f17b0bce947278f72a2bc9510fbf00ed973b49efaaae942de64ffd7987f81e1579a4d26d9fc53da00";
+      const res = await request(app)
+        .get("/api/get-ical/")
+        .query({ ical: icalUrl });
       expect(res.statusCode).toEqual(200);
+    });
+
+    it("should not get the iCal file", async () => {
+      const icalUrl =
+        "https://uoacal.auckland.ac.nz/calendar/4947dde81b172014869447f17e420ede860059c15c45e96f17b0bce947278f72a2bc9510fbf00ed973b49efaaae942de64ffd7987f81e1579a4d26d9fc53da001";
+      const res = await request(app)
+        .get("/api/get-ical/")
+        .query({ ical: icalUrl });
+      expect(res.statusCode).toEqual(500);
     });
   });
 });
