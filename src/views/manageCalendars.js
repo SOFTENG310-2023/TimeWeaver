@@ -174,6 +174,13 @@ function applyNewFormat(date) {
 
 /** Handles setup of a new Calendar based on the Manual Input */
 function setupNewManual(calList) {
+  // Check if the name is any duplicate, or if the name is empty. Alert the user if so.
+  const duplicate = calList.filter((x) => x.user === manualName.value);
+  if (duplicate.length > 0 || manualName.value === "") {
+    alert("Please enter a valid name");
+    return;
+  }
+
   addManualModal.modal("hide");
 
   // Creates a cell object for each cell in the cellList array
