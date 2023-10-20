@@ -31,6 +31,8 @@ const { handleLogin } = require("./views/manageAccount");
 
 const { addFilter } = require("./views/manageFilter");
 
+const { showInviteUsersModal } = require("./views/manageInviteUsers");
+
 const onDisplay = require("./helpers/onDisplay");
 
 const { selectCurrentWeek } = require("./views/selectCurrentWeek");
