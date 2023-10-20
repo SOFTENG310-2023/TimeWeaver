@@ -8,6 +8,7 @@ const express = require("express");
 const getIcalRouter = require("./src/api/routers/get-ical.js");
 const userRouter = require("./src/api/routers/user.js");
 const groupRouter = require("./src/api/routers/group.js");
+const calendarRouter = require("./src/api/routers/calendar.js");
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use("/api/get-ical", getIcalRouter);
 app.use("/api/user", userRouter);
 app.use("/api/group", groupRouter);
+app.use("/api/calendar", calendarRouter);
 
 app.set("query parser", (str) => {
   return qs.parse(str, {

@@ -147,14 +147,15 @@ async function setupNewIcal(calList) {
   );
 
   CalendarStore.addCalendar(calList, {
+    groupId: CalendarStore.selectedGroup,
     user: icalName.value,
     icalUrl: icalInput.value,
     calendarJson: userJson,
+  }).then(() => {
+    icalName.value = "";
+    icalInput.value = "";
+    updateCalList();
   });
-
-  icalName.value = "";
-  icalInput.value = "";
-  updateCalList();
 }
 
 /** Converts Date Format used by Ical into Date Format used by the converter function */
@@ -180,13 +181,14 @@ function setupNewManual(calList) {
   cellList = [];
 
   CalendarStore.addCalendar(calList, {
+    groupId: CalendarStore.selectedGroup,
     user: manualName.value,
     icalUrl: "",
     calendarJson: JSON.stringify({ cells: cells }),
+  }).then(() => {
+    manualName.value = "";
+    updateCalList();
   });
-  manualName.value = "";
-
-  updateCalList();
 }
 
 /** Updates the Top Navigation based on the current Calendar List */

@@ -14,6 +14,7 @@ function groupListEntityConverter(groupEntityList) {
 
   return groupEntityList.map((group) => {
     return groupSchema.parse({
+      id: group.id,
       name: group.name,
       calendarList: calendarListEntityConverter(group.calendar),
     });
@@ -35,6 +36,7 @@ function calendarListEntityConverter(calendarEntityList) {
     );
 
     return {
+      groupId: calendar.group_id,
       user: calendar.name,
       icalUrl: "",
       calendarJson: JSON.stringify({ cells: calendarSlots }),
@@ -74,9 +76,42 @@ function selectedSlotIDConverter(slot) {
   return `${slot.day.substring(0, 3).toLowerCase()}-${hours}${minutes}`;
 }
 
+/**
+ * Converts the selected slot from front-end schema format to database format
+ * @param {*} selectetdSlot selected slot in front-end schema format
+ * @returns selected slot in db format
+ */
+function selectedSlotDBConverter(selectedSlot) {
+  const [day, time] = selectedSlot.id.split("-");
+  return {
+    day: mapDayShortToLong(day),
+    timeslot: `${time.substring(0, 2)}:${time.substring(2)}:00`,
+  };
+}
+
+/**
+ *
+ * @param {string} day abbreviated day to be converted
+ * @returns the capitalised full name of the day
+ */
+function mapDayShortToLong(day) {
+  const days = {
+    mon: "Monday",
+    tue: "Tuesday",
+    wed: "Wednesday",
+    thu: "Thursday",
+    fri: "Friday",
+    sat: "Saturday",
+    sun: "Sunday",
+  };
+
+  return days[day];
+}
+
 module.exports = {
   groupListEntityConverter,
   calendarListEntityConverter,
   selectedSlotEntityConverter,
   selectedSlotIDConverter,
+  selectedSlotDBConverter,
 };

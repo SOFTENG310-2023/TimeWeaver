@@ -2,12 +2,16 @@ const { groupSchema, calendarSchema } = require("../schemas/calendar.js");
 const { CalendarGroupEntity } = require("../schemas/domain/index.js");
 const {
   groupListEntityConverter,
+  selectedSlotDBConverter,
 } = require("../helpers/entity_mapping/calendarMapping.js");
 
 class CalendarStore {
   static _instance;
   /* The currently selected calendar */
   selectedCalList = [];
+
+  /* The currently selected group */
+  selectedGroup;
 
   /* The currently selected group HTML element in sidebar */
   selectedGroupElem;
@@ -29,12 +33,49 @@ class CalendarStore {
   }
 
   /**
-   * Add group to the list of groups
+   * Add group to the list of groups and upload to database
    * @param {*} group
    */
-  addGroup(group) {
+  async addGroup(newGroup) {
+    // call the group post api and upload new group to db
+    const res = await fetch("/api/group", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: newGroup.name }),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error adding group: ${res.statusText}`);
+    }
+
+    const data = await res.json();
+
     // Validate group and add if satisfied
-    this.groupList.push(groupSchema.parse(group));
+    const updateNewGroup = {
+      ...newGroup,
+      id: data.id,
+    };
+    const group = groupSchema.parse(updateNewGroup);
+    this.groupList.push(group);
+  }
+
+  /**
+   * Delete a group from the list and the database
+   */
+  async deleteGroup(groupId) {
+    // call the group delete api and delete the selected group on the db
+    const res = await fetch(`/api/group/${groupId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error deleting group: ${res.statusText}`);
+    }
   }
 
   /**
@@ -43,9 +84,33 @@ class CalendarStore {
    * @param {{ user: string, icalUrl: string, calendarJson: string }[]} calList
    * @param {{ user: string, icalUrl: string, calendarJson: string }} newCalendar
    */
-  addCalendar(calList, newCalendar) {
+  async addCalendar(calList, newCalendar) {
     // Validate calendar and add if satisfied
-    calList.push(calendarSchema.parse(newCalendar));
+    const calendar = calendarSchema.parse(newCalendar);
+    calList.push(calendar);
+
+    const selectedSlots = JSON.parse(calendar.calendarJson).cells.map((slot) =>
+      selectedSlotDBConverter(slot),
+    );
+
+    // call the calendar post api and upload new calendarr to db
+    const res = await fetch("/api/calendar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        calendar: {
+          group_id: calendar.groupId,
+          name: calendar.user,
+        },
+        selected_slots: selectedSlots,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error adding calendar: ${res.statusText}`);
+    }
   }
 
   /**
