@@ -125,6 +125,13 @@ function viewFilteredCalendar(filterValue) {
 
 /** Handles the setup of a new Calendar based on the Ical Link */
 async function setupNewIcal(calList) {
+  // Check if the name is any duplicate, or if the name is empty. Alert the user if so.
+  const duplicate = calList.filter((x) => x.user === icalName.value);
+  if (duplicate.length > 0 || icalName.value === "") {
+    alert("Please enter a valid name");
+    return;
+  }
+
   addIcalModal.modal("hide");
 
   const icalUrl = icalInput.value;
