@@ -8,7 +8,6 @@ const calendarRouter = require("express").Router();
 calendarRouter.post("/", async (req, res) => {
   const supabase = createClient(config.SUPABASE_URL, config.SUPABASE_ANON_KEY);
   const { calendar, selected_slots } = req.body;
-
   // Process calendar data
   const { data: calendarData, error: calendarError } = await supabase
     .from("calendar")
