@@ -3,18 +3,18 @@ const request = require("supertest");
 
 //skip the test requiring supabase
 describe("Check main files are accessible", () => {
-  test("Responds to /", async () => {
+  test.skip("Responds to /", async () => {
     const res = await request(app).get("/");
     expect(res.header["content-type"]).toBe("text/html; charset=UTF-8");
     expect(res.statusCode).toBe(200);
   });
 
-  test("Responds to /assets/css/main.css", async () => {
+  test.skip("Responds to /assets/css/main.css", async () => {
     const res = await request(app).get("/assets/css/main.css");
     expect(res.statusCode).toBe(200);
   });
 
-  test("Responds to /assets/js/bundle.js", async () => {
+  test.skip("Responds to /assets/js/bundle.js", async () => {
     const res = await request(app).get("/assets/js/bundle.js");
     expect(res.statusCode).toBe(200);
   });
