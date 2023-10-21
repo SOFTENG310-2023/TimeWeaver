@@ -163,10 +163,10 @@ function handleLogin() {
         // Update info on the my account modal
         document.getElementById(
           "name-info"
-        ).textContent = `Name: ${data.user.user_metadata.name}`;
+        ).textContent = ` ${data.user.user_metadata.name}`;
         document.getElementById(
           "email-info"
-        ).textContent = `Email: ${data.user.email}`;
+        ).textContent = ` ${data.user.email}`;
       });
   }
 }
