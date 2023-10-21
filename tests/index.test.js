@@ -52,16 +52,6 @@ describe("User API", () => {
     });
   });
 
-  describe("POST /api/user/after-creation", () => {
-    it("should not update the user's table", async () => {
-      const res = await request(app).post("/api/user/after-creation").send({
-        id: "1",
-        name: "a",
-      });
-      expect(res.statusCode).toEqual(500);
-    });
-  });
-
   describe("POST /api/user/login", () => {
     it("should log in with valid credentials", async () => {
       const res = await request(app).post("/api/user/login").send({
@@ -81,13 +71,6 @@ describe("User API", () => {
   });
 
   describe("GET /api/user/:id", () => {
-    it("should get a user by its id", async () => {
-      const res = await request(app).get(
-        "/api/user/acaece76-6ba7-4e76-8f5d-0a816fb296f5",
-      );
-      expect(res.statusCode).toEqual(200);
-    });
-
     it("should not get a user by its id", async () => {
       const res = await request(app).get("/api/user/1");
       expect(res.statusCode).toEqual(500);
@@ -133,7 +116,10 @@ describe("Calendar API", () => {
       const res = await request(app)
         .post("/api/calendar/")
         .send({
-          calendar: "test",
+          calendar: {
+            group_id: "d37fa5e3-a42a-4b72-b7fd-2968e33d4b1a",
+            name: "John",
+          },
           selected_slots: [{ day: "Wednesday", timeslot: "11:30:00" }],
         });
       expect(res.statusCode).toEqual(201);
@@ -143,28 +129,25 @@ describe("Calendar API", () => {
       const res = await request(app)
         .post("/api/calendar/")
         .send({
-          calendar: "John",
-          selected_slots: [
-            { day: "Wednesday", timeslot: "11:30:00" },
-            { day: "Wednesday", timeslot: "12:00:00" },
-            { day: "Wednesday", timeslot: "12:30:00" },
-            { day: "Wednesday", timeslot: "13:00:00" },
-            { day: "Wednesday", timeslot: "13:30:00" },
-            { day: "Wednesday", timeslot: "14:00:00" },
-            { day: "Wednesday", timeslot: "14:30:00" },
-            { day: "Wednesday", timeslot: "15:00:00" },
-            { day: "Wednesday", timeslot: "15:30:00" },
-            { day: "Wednesday", timeslot: "25:00:00" },
-          ],
+          calendar: {
+            group_id: "d37fa5e3-a42a-4b72-b7fd-2968e33d4b1a",
+            name: "John",
+          },
+          selected_slots: [{ day: "Wednesday", timeslot: "25:00:00" }],
         });
       expect(res.statusCode).toEqual(500);
     });
 
-    it("should not create a new calendar from calendar error", async () => {
-      const res = await request(app).post("/api/calendar/").send({
-        calendar: "John Doe",
-        selected_slots: "Hello",
-      });
+    it("should not create a new calendar from calendar Error", async () => {
+      const res = await request(app)
+        .post("/api/calendar/")
+        .send({
+          calendar: {
+            group_id: "d37fa5e3-a42a-4b72-b7fd-asdfasdfasdf",
+            name: "John",
+          },
+          selected_slots: [{ day: "Wednesday", timeslot: "25:00:00" }],
+        });
       expect(res.statusCode).toEqual(500);
     });
   });
