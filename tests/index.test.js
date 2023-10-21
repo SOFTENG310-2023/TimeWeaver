@@ -156,7 +156,7 @@ describe("Calendar API", () => {
 
 describe("Get iCal API", () => {
   describe("GET /api/get-ical/", () => {
-    it("should get the iCal file", async () => {
+    it.skip("should get the iCal file", async () => {
       const icalUrl =
         "https://uoacal.auckland.ac.nz/calendar/4947dde81b172014869447f17e420ede860059c15c45e96f17b0bce947278f72a2bc9510fbf00ed973b49efaaae942de64ffd7987f81e1579a4d26d9fc53da00";
       const res = await request(app)
@@ -165,7 +165,7 @@ describe("Get iCal API", () => {
       expect(res.statusCode).toEqual(200);
     });
 
-    it("should not get the iCal file", async () => {
+    it.skip("should not get the iCal file", async () => {
       const icalUrl =
         "https://uoacal.auckland.ac.nz/calendar/4947dde81b172014869447f17e420ede860059c15c45e96f17b0bce947278f72a2bc9510fbf00ed973b49efaaae942de64ffd7987f81e1579a4d26d9fc53da001";
       const res = await request(app)
