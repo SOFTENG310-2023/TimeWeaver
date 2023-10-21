@@ -146,7 +146,19 @@ function handleLogin() {
     fetch(`/api/user/${token}`, {
       method: "GET",
     })
-      .then((res) => res.json())
+      .then((res) => {
+        // If session expired
+        if (res.status == 500) {
+          // user is not logged in
+          document.getElementById("view-account-button").style.display = "none";
+          document.getElementById("user-account-button").style.display = "flex";
+
+          // Remove user info from the local storage
+          localStorage.removeItem("session");
+          localStorage.removeItem("user_id");
+        }
+        return res.json();
+      })
       .then((data) => {
         // Update info on the my account modal
         document.getElementById(
