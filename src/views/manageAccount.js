@@ -100,7 +100,6 @@ function userSignup() {
     })
     .then((data) => {
       // Make a POST request to enter user information into the databasea
-      console.log(data);
       const sendData = {
         id: data.user.id,
         name: document.getElementById("signup-name-input").value,
@@ -162,10 +161,10 @@ function handleLogin() {
       .then((data) => {
         // Update info on the my account modal
         document.getElementById(
-          "name-info"
+          "name-info",
         ).textContent = ` ${data.user.user_metadata.name}`;
         document.getElementById(
-          "email-info"
+          "email-info",
         ).textContent = ` ${data.user.email}`;
       });
   }

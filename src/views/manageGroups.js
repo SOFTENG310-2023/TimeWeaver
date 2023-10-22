@@ -9,6 +9,7 @@ const CalendarStore = require("../store/CalendarStore").instance();
 /** HTML Element Declarations */
 const sidebar = document.getElementById("sidebar");
 const groupName = document.getElementById("group-name-input");
+const { CalendarGroup } = require("../schemas/calendar");
 
 // Set sidebar parent context
 $(".ui.labeled.icon.sidebar").sidebar({
@@ -37,10 +38,13 @@ CalendarStore.retrieveGroups().then(() => {
   CalendarStore.selectedGroupElem.classList.add("disabled", "group-selected");
 });
 
-/** Handles the Display of the Group When Sidebar Element is Clicked */
-function openGroup(name) {
+/** Handles the Display of the Group When Sidebar Element is Clicked
+ *
+ * @param {CalendarGroup} groupObj
+ */
+function openGroup(groupObj) {
   const selectedGroup = CalendarStore.groupList.filter(
-    (x) => x.name === name,
+    (x) => x.id === groupObj.id,
   )[0];
 
   CalendarStore.selectedCalList = selectedGroup.calendarList;
@@ -59,11 +63,17 @@ function addGroup() {
   addGroupModal.modal("show");
 }
 
-/** Handles setup of a new Group */
-function setupNewGroup(name) {
-  if (name !== "" && !CalendarStore.groupList.some((x) => x.name === name)) {
+/** Handles setup of a new Group
+ *
+ * @param {CalendarGroup} groupObj
+ */
+function setupNewGroup(groupObj) {
+  if (
+    groupObj.name !== "" &&
+    !CalendarStore.groupList.some((x) => x.id === groupObj.id)
+  ) {
     CalendarStore.addGroup({
-      name: name,
+      name: groupObj,
       calendarList: [],
     }).then(() => {
       updateGroupList();
@@ -78,14 +88,17 @@ function updateGroupList() {
   $(sidebar).children(".group-item-container").remove();
   // Repeats for however many items in the groupList not already represented as sidebar elements
   for (const group of CalendarStore.groupList) {
-    let link = createGroupElement(group.name);
+    let link = createGroupElement(group);
 
     sidebar.insertBefore(link, referenceNode);
   }
 }
 
-/** Creates a single group link element for the groups sidebar */
-function createGroupElement(groupName) {
+/** Creates a single group link element for the groups sidebar
+ *
+ * @param {CalendarGroup} groupObj
+ */
+function createGroupElement(groupObj) {
   const groupSelectLink = document.createElement("button");
   const container = document.createElement("div");
   const groupNameSpan = document.createElement("span");
@@ -108,7 +121,7 @@ function createGroupElement(groupName) {
 
   $(groupIcon).addClass("user friends icon");
 
-  $(groupNameSpan).html(groupName);
+  $(groupNameSpan).html(groupObj.name);
 
   // When a group is selected
   $(groupSelectLink).click(() => {
@@ -126,7 +139,7 @@ function createGroupElement(groupName) {
     }
     CalendarStore.selectedGroupElem = groupSelectLink;
 
-    openGroup(groupName);
+    openGroup(groupObj);
   });
 
   $(trashButton).click(function (e) {
@@ -139,8 +152,9 @@ function createGroupElement(groupName) {
     }
 
     let groupIdToDelete;
+
     CalendarStore.groupList = CalendarStore.groupList.filter((x) => {
-      if (x.name === groupName) {
+      if (x.id === groupObj.id) {
         groupIdToDelete = x.id;
         return false;
       }
