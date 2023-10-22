@@ -1,4 +1,5 @@
 const { loginModal, signupModal, accountModal } = require("./modals");
+const { retrieveGroupList } = require("./manageGroups");
 const config = require("../utils/config");
 const { createClient } = require("@supabase/supabase-js");
 
@@ -141,6 +142,9 @@ function handleLogin() {
     document.getElementById("view-account-button").style.display = "none";
     document.getElementById("user-account-button").style.display = "flex";
   } else {
+    // Retrieve all groups if user is logged in
+    retrieveGroupList();
+
     document.getElementById("view-account-button").style.display = "flex";
     document.getElementById("user-account-button").style.display = "none";
 
