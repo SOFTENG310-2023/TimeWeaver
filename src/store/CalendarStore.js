@@ -4,19 +4,32 @@ const {
   groupListEntityConverter,
   selectedSlotDBConverter,
 } = require("../helpers/entity_mapping/calendarMapping.js");
+const { CalendarGroup } = require("../schemas/calendar");
 
 class CalendarStore {
   static _instance;
-  /* The currently selected calendar */
+  /**
+   * The currently selected calendar list
+   * @type {Calendar[]}
+   */
   selectedCalList = [];
 
-  /* The currently selected group */
+  /**
+   * The ID of the currently selected group
+   * @type {string}
+   */
   selectedGroup;
 
-  /* The currently selected group HTML element in sidebar */
+  /**
+   * The currently selected group HTML element in sidebar
+   * @type {HTMLElement}
+   */
   selectedGroupElem;
 
-  /* List of all groups and its associated calendars */
+  /**
+   * List of all groups and its associated calendars
+   * @type {CalendarGroup[]}
+   */
   groupList = [];
 
   /**
