@@ -13,9 +13,7 @@ const inviteLinkInput = document.getElementById("invite-link")
 
 // Copy link on click
 inviteLinkInput.addEventListener("click", () => {
-  inviteLinkInput.select();
-  document.execCommand("copy");
-  inviteLinkInput.blur();
+  navigator.clipboard.writeText(inviteLinkInput.value);
 });
 
 function showInviteUsersModal() {
