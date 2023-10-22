@@ -31,14 +31,16 @@ document.getElementById("setup-new-group").addEventListener("click", () => {
 /** Handles the Display of the Group When Sidebar Element is Clicked
  *
  * @param {CalendarGroup} groupObj
+ * @param {HTMLButtonElement} groupSelectLink
  */
-function openGroup(groupObj) {
+function openGroup(groupObj, groupSelectLink) {
   const selectedGroup = CalendarStore.groupList.filter(
     (x) => x.id === groupObj.id,
   )[0];
 
   CalendarStore.selectedCalList = selectedGroup.calendarList;
   CalendarStore.selectedGroup = selectedGroup.id;
+  CalendarStore.selectedGroupElem = groupSelectLink;
   updateCalList();
 
   if (selectedGroup.calendarList.length === 0) {
@@ -80,7 +82,7 @@ function setupNewGroup(groupObj) {
 function retrieveGroupList() {
   CalendarStore.retrieveGroups().then(() => {
     updateGroupList();
-    openGroup(CalendarStore.groupList[0]);
+    openGroup(CalendarStore.groupList[0], sidebar.children[0]);
 
     // Select initial group
     CalendarStore.selectedGroup = CalendarStore.groupList[0].id;
@@ -117,6 +119,10 @@ function createGroupElement(groupObj) {
   $(groupSelectLink).addClass("item group-item-container focus-border");
   $(groupSelectLink).append(trashButton);
   $(groupSelectLink).append(container);
+  if (groupObj.id === CalendarStore.selectedGroup) {
+    $(groupSelectLink).addClass("disabled group-selected");
+    CalendarStore.selectedGroupElem = groupSelectLink;
+  }
 
   $(container).addClass("group-content-container");
   $(container).append(groupIcon);
@@ -148,7 +154,7 @@ function createGroupElement(groupObj) {
     }
     CalendarStore.selectedGroupElem = groupSelectLink;
 
-    openGroup(groupObj);
+    openGroup(groupObj, groupSelectLink);
   });
 
   $(trashButton).click(function (e) {
