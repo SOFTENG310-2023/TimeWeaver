@@ -36,7 +36,14 @@ class CalendarStore {
    * Retrieves all groups from the database and stores it in the groupList
    */
   async retrieveGroups() {
-    const res = await fetch("/api/group");
+    const res = await fetch("/api/group", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
+        "Refresh": localStorage.getItem("refresh_token"),
+      },
+    });
     const groups = await res.json();
 
     const groupEntityList = groups.map((group) =>
@@ -55,8 +62,13 @@ class CalendarStore {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
+        "Refresh": localStorage.getItem("refresh_token"),
       },
-      body: JSON.stringify({ name: newGroup.name }),
+      body: JSON.stringify({
+        name: newGroup.name,
+        owner_id: localStorage.getItem("user_id"),
+      }),
     });
 
     if (!res.ok) {
@@ -83,6 +95,8 @@ class CalendarStore {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
+        "Refresh": localStorage.getItem("refresh_token"),
       },
     });
 

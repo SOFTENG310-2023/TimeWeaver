@@ -63,6 +63,11 @@ function resetCalendar() {
 
 /** Handles the Display of the Add Calendar Modal */
 function addCalendar() {
+  // Don't allow creation of a new calendar if the user is not logged in
+  if (localStorage.getItem("access_token") === null) {
+    alert("You need to be logged in to create a calendar.");
+    return;
+  }
   formatModal.modal("show");
 }
 

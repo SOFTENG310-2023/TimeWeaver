@@ -1,6 +1,8 @@
 const { loginModal, signupModal, accountModal } = require("./modals");
+const { retrieveGroupList, updateGroupList } = require("./manageGroups");
 const config = require("../utils/config");
 const { createClient } = require("@supabase/supabase-js");
+const CalendarStore = require("../store/CalendarStore").instance();
 
 /** HTML Element Declarations */
 const openLoginBtn = document.getElementById("user-account-button");
@@ -67,7 +69,8 @@ function userLogin() {
       return res.json();
     })
     .then((data) => {
-      localStorage.setItem("session", data.session.access_token);
+      localStorage.setItem("access_token", data.session.access_token);
+      localStorage.setItem("refresh_token", data.session.refresh_token);
       localStorage.setItem("user_id", data.user.id);
 
       handleLogin();
@@ -112,7 +115,8 @@ function userSignup() {
         method: "POST",
         body: JSON.stringify(sendData),
       }).then(() => {
-        localStorage.setItem("session", data.session.access_token);
+        localStorage.setItem("access_token", data.session.access_token);
+        localStorage.setItem("refresh_token", data.session.refresh_token);
         localStorage.setItem("user_id", data.user.id);
 
         handleLogin();
@@ -122,7 +126,8 @@ function userSignup() {
 
 function userLogout() {
   // Remove user info from the local storage
-  localStorage.removeItem("session");
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("refresh_token");
   localStorage.removeItem("user_id");
 
   handleLogin();
@@ -130,17 +135,25 @@ function userLogout() {
 }
 
 function handleLogin() {
-  const session = localStorage.getItem("session");
+  const access_token = localStorage.getItem("access_token");
 
-  if (session === null) {
+  if (access_token === null) {
     // user is not logged in
     document.getElementById("view-account-button").style.display = "none";
     document.getElementById("user-account-button").style.display = "flex";
+
+    // Remove groups from the sidebar
+    CalendarStore.groupList = [];
+    updateGroupList();
+
   } else {
+    // Retrieve all groups if user is logged in
+    retrieveGroupList();
+
     document.getElementById("view-account-button").style.display = "flex";
     document.getElementById("user-account-button").style.display = "none";
 
-    const token = localStorage.getItem("session");
+    const token = localStorage.getItem("access_token");
 
     fetch(`/api/user/${token}`, {
       method: "GET",
@@ -153,7 +166,8 @@ function handleLogin() {
           document.getElementById("user-account-button").style.display = "flex";
 
           // Remove user info from the local storage
-          localStorage.removeItem("session");
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
           localStorage.removeItem("user_id");
         }
         return res.json();

@@ -135,3 +135,12 @@ button {
 .myaccount-info-box * {
   margin-right: 10px;
 }
+
+#invite-users-modal-open {
+  background-color: #4183c4;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  padding: 2px 5px;
+  float: right;
+}

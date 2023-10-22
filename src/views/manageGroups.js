@@ -28,16 +28,6 @@ document.getElementById("setup-new-group").addEventListener("click", () => {
   groupName.value = "";
 });
 
-CalendarStore.retrieveGroups().then(() => {
-  updateGroupList();
-
-  // Select initial group
-  CalendarStore.selectedGroup = CalendarStore.groupList[0].id;
-  CalendarStore.selectedCalList = CalendarStore.groupList[0].calendarList;
-  CalendarStore.selectedGroupElem = sidebar.children[0];
-  CalendarStore.selectedGroupElem.classList.add("disabled", "group-selected");
-});
-
 /** Handles the Display of the Group When Sidebar Element is Clicked
  *
  * @param {CalendarGroup} groupObj
@@ -60,6 +50,11 @@ function openGroup(groupObj) {
 
 /** Handles creation of a new Group by the user */
 function addGroup() {
+  // Don't allow creation of a new group if the user is not logged in
+  if (localStorage.getItem("access_token") === null) {
+    alert("You need to be logged in to create a group.");
+    return;
+  }
   addGroupModal.modal("show");
 }
 
@@ -79,6 +74,19 @@ function setupNewGroup(groupObj) {
       updateGroupList();
     });
   }
+}
+
+/** Retrieves list of groups from database. Called once user logs in. */
+function retrieveGroupList() {
+  CalendarStore.retrieveGroups().then(() => {
+    updateGroupList();
+
+    // Select initial group
+    CalendarStore.selectedGroup = CalendarStore.groupList[0].id;
+    CalendarStore.selectedCalList = CalendarStore.groupList[0].calendarList;
+    CalendarStore.selectedGroupElem = sidebar.children[0];
+    CalendarStore.selectedGroupElem.classList.add("disabled", "group-selected");
+  });
 }
 
 /** Re-renders the sidebar containing the calendar groups */
@@ -172,4 +180,6 @@ function createGroupElement(groupObj) {
 module.exports = {
   addGroup,
   setupNewGroup,
+  retrieveGroupList,
+  updateGroupList,
 };
