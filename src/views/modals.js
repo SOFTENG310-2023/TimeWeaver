@@ -463,8 +463,14 @@ const accountModal = $.modal({
   ...commonModalAttributes,
   content: `
   <div id="myaccount-popup">
-    <span id="name-info"></span>
-    <span id="email-info"></span>
+    <div class="myaccount-info-box" >
+      <span style="font-weight: bold" >Name:</span>
+      <span id="name-info"></span>
+    </div>
+    <div class="myaccount-info-box">
+      <span style="font-weight: bold" >Email:</span>
+      <span id="email-info"></span>
+    </div>
     <div class="ui approve button green" id="logout-btn" >LOG OUT</div>  
   <div>`,
 });

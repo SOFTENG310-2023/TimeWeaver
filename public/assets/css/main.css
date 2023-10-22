@@ -127,6 +127,11 @@ button {
   flex-direction: column;
 }
 
-#myaccount-popup * {
-  margin: 10px;
+.myaccount-info-box {
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.myaccount-info-box * {
+  margin-right: 10px;
 }
