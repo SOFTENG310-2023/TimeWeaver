@@ -46,6 +46,11 @@ function openGroup(name) {
 
 /** Handles creation of a new Group by the user */
 function addGroup() {
+  // Don't allow creation of a new group if the user is not logged in
+  if (localStorage.getItem("access_token") === null) {
+    alert("You need to be logged in to create a group.");
+    return;
+  }
   addGroupModal.modal("show");
 }
 
