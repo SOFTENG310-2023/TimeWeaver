@@ -1,3 +1,4 @@
+const CalendarStore = require("../store/CalendarStore").instance();
 const { inviteUsersModal } = require("./modals");
 
 /** Mapping buttons to their onClick functions */
@@ -6,11 +7,36 @@ document
   .addEventListener("click", showInviteUsersModal);
 document.getElementById("close-invite-users-modal").addEventListener("click", () => {
   inviteUsersModal.modal("hide");
-  // TODO: Generate invite link
+});
+
+const inviteLinkInput = document.getElementById("invite-link")
+
+// Copy link on click
+inviteLinkInput.addEventListener("click", () => {
+  inviteLinkInput.select();
+  document.execCommand("copy");
+  inviteLinkInput.blur();
 });
 
 function showInviteUsersModal() {
-  inviteUsersModal.modal("show");
+  const groupId = CalendarStore.selectedGroup;
+  if (groupId === undefined) {
+    // If group id is undefined, then it has not been set yet
+    alert("No group selected.");
+  } else {
+    setInviteLink(groupId)
+    inviteUsersModal.modal("show");
+  }
+}
+
+// 
+function setInviteLink(groupId) {
+  const currentUrl = window.location.href;
+  const url = new URL(currentUrl);
+  const baseUrl = url.origin;
+
+  const inviteUrl = `${baseUrl}?invite=${groupId}`;
+  inviteLinkInput.value = inviteUrl;
 }
 
 // Get the group ID from the URL search params
@@ -48,5 +74,6 @@ async function joinInvitedGroup() {
 
 module.exports = {
   showInviteUsersModal,
+  setInviteLink,
   joinInvitedGroup,
 };

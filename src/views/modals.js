@@ -54,9 +54,10 @@ const addFilterModal = $.modal({
 
 /** Fomantic Modal Designs for inviting users to group*/
 const inviteUsersModal = $.modal({
-  title: "Share this link",
+  title: "Invite Users",
   ...commonModalAttributes,
   content: `
+  <p>Click to copy this link and send it to your friends to invite them to your group!</p>
   <div class="ui labeled input">
     <input id="invite-link" type="text" placeholder="You should not be seeing this placeholder text." readonly>
   </div>  
