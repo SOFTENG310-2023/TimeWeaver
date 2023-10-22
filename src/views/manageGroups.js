@@ -80,6 +80,7 @@ function setupNewGroup(groupObj) {
 function retrieveGroupList() {
   CalendarStore.retrieveGroups().then(() => {
     updateGroupList();
+    openGroup(CalendarStore.groupList[0]);
 
     // Select initial group
     CalendarStore.selectedGroup = CalendarStore.groupList[0].id;
