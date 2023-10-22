@@ -31,7 +31,7 @@ const { handleLogin } = require("./views/manageAccount");
 
 const { addFilter } = require("./views/manageFilter");
 
-const { showInviteUsersModal } = require("./views/manageInviteUsers");
+const { joinInvitedGroup } = require("./views/manageInviteUsers");
 
 const onDisplay = require("./helpers/onDisplay");
 
@@ -39,3 +39,6 @@ const { selectCurrentWeek } = require("./views/selectCurrentWeek");
 
 // Every time the web app is refreshed, we run this function to handle the current login status
 handleLogin();
+
+// If the URL has a query parameter called "group", then we know that the user is trying to join a group
+joinInvitedGroup()

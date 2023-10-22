@@ -66,3 +66,33 @@ groupRouter.delete("/:id", async (req, res) => {
 });
 
 module.exports = groupRouter;
+
+
+/**
+ * Add a user to a group
+ * This creates a new row to the group_users table in supabase with the given user id and group id
+ */
+groupRouter.post("/:id/user", async (req, res) => {
+  const supabase = createClient(config.SUPABASE_URL, config.SUPABASE_ANON_KEY);
+  await supabase.auth.setSession({
+    access_token: req.header("Authorization").split(" ")[1],
+    refresh_token: req.header("Refresh")
+  });
+
+  const groupId = req.body.groupId;
+  const userId = req.body.userId;
+
+  const { data, error } = await supabase
+    .from("group_users")
+    .upsert({
+      user_id: userId,
+      group_id: groupId,
+    })
+    .select();
+
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
+
+  return res.status(201).json(data[0])
+});
