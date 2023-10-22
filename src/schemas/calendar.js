@@ -1,5 +1,27 @@
 const { z } = require("zod");
 
+/**
+ * @typedef {Object} CalendarCell
+ * @property {string} id - The id of the cell
+ * @property {string[]} users - The list of users who are available at this time
+ * @property {number} numPeople - The number of people who are available at this time
+ */
+
+/**
+ * @typedef {Object} Calendar
+ * @property {string} groupId - The id of the group this calendar belongs to
+ * @property {string} user - The name of the user who owns this calendar
+ * @property {string} icalUrl - The url of the ical file
+ * @property {string} calendarJson - The json string of the calendar
+ */
+
+/**
+ * @typedef {Object} CalendarGroup
+ * @property {string} id - The id of the group
+ * @property {string} name - The name of the group
+ * @property {Calendar[]} calendarList - The list of calendars in this group
+ */
+
 /* Stores information regarding the calendar table cells */
 const calendarCellSchema = z
   .object({
