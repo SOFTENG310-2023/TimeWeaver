@@ -38,7 +38,8 @@ ALTER TABLE "public"."calendar" OWNER TO "postgres";
 
 CREATE TABLE IF NOT EXISTS "public"."calendar_group" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
-    "name" "text" DEFAULT ''::"text" NOT NULL
+    "name" "text" DEFAULT ''::"text" NOT NULL,
+    "owner_id" "uuid"
 );
 
 ALTER TABLE "public"."calendar_group" OWNER TO "postgres";
@@ -98,6 +99,9 @@ ALTER TABLE ONLY "public"."selected_slots"
 ALTER TABLE ONLY "public"."calendar"
     ADD CONSTRAINT "calendar_group_id_fkey" FOREIGN KEY ("group_id") REFERENCES "public"."calendar_group"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
+ALTER TABLE ONLY "public"."calendar_group"
+    ADD CONSTRAINT "calendar_group_owner_id_fkey" FOREIGN KEY ("owner_id") REFERENCES "auth"."users"("id");
+
 ALTER TABLE ONLY "public"."group_users"
     ADD CONSTRAINT "group_users_group_id_fkey" FOREIGN KEY ("group_id") REFERENCES "public"."calendar_group"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
@@ -110,15 +114,33 @@ ALTER TABLE ONLY "public"."selected_slots"
 ALTER TABLE ONLY "public"."user"
     ADD CONSTRAINT "user_id_fkey" FOREIGN KEY ("id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
+CREATE POLICY "Enable delete for users in the group" ON "public"."calendar_group" FOR DELETE TO "authenticated" USING ((EXISTS ( SELECT 1
+   FROM "public"."group_users" "gu"
+  WHERE (("gu"."group_id" = "calendar_group"."id") AND ("gu"."user_id" = "auth"."uid"())))));
+
 CREATE POLICY "Enable insert for anyone" ON "public"."user" FOR INSERT TO "anon" WITH CHECK (true);
+
+CREATE POLICY "Enable insert when the owner_id is the user's id" ON "public"."calendar_group" FOR INSERT TO "authenticated" WITH CHECK (("auth"."uid"() = "owner_id"));
+
+CREATE POLICY "Enable modification for authenticated users only" ON "public"."calendar" TO "authenticated" USING (true) WITH CHECK (true);
+
+CREATE POLICY "Enable modification for authenticated users only" ON "public"."selected_slots" TO "authenticated" USING (true) WITH CHECK (true);
+
+CREATE POLICY "Enable operations for users based on user_id" ON "public"."group_users" TO "authenticated" USING (("auth"."uid"() = "user_id")) WITH CHECK (true);
 
 CREATE POLICY "Enable read access for all users" ON "public"."calendar" FOR SELECT USING (true);
 
-CREATE POLICY "Enable read access for all users" ON "public"."calendar_group" FOR SELECT USING (true);
-
-CREATE POLICY "Enable read access for all users" ON "public"."group_users" FOR SELECT USING (true);
-
 CREATE POLICY "Enable read access for all users" ON "public"."selected_slots" FOR SELECT USING (true);
+
+CREATE POLICY "Enable read access for owners" ON "public"."calendar_group" FOR SELECT TO "authenticated" USING (("auth"."uid"() = "owner_id"));
+
+CREATE POLICY "Enable read access for the users in a group" ON "public"."calendar_group" FOR SELECT TO "authenticated" USING ((EXISTS ( SELECT 1
+   FROM "public"."group_users" "gu"
+  WHERE (("gu"."group_id" = "calendar_group"."id") AND ("gu"."user_id" = "auth"."uid"())))));
+
+ALTER TABLE "public"."calendar_group" ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE "public"."group_users" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."user" ENABLE ROW LEVEL SECURITY;
 
