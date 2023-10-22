@@ -54,6 +54,12 @@ async function joinInvitedGroup() {
   const refreshToken = localStorage.getItem("refresh_token");
   const userId = localStorage.getItem("user_id");
 
+  // The user needs to be logged in to join a group
+  if (accessToken === null || refreshToken === null || userId === null) {
+    alert("You need to be logged in to join a group.");
+    return;
+  }
+
   const res = await fetch(`/api/group/${invitedGroupId}/user`, {
     method: "POST",
     headers: {
