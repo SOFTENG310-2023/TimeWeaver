@@ -95,6 +95,8 @@ class CalendarStore {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
+        "Refresh": localStorage.getItem("refresh_token"),
       },
     });
 

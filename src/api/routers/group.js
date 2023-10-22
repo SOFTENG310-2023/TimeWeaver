@@ -76,6 +76,11 @@ groupRouter.post("/", async (req, res) => {
  */
 groupRouter.delete("/:id", async (req, res) => {
   const supabase = createClient(config.SUPABASE_URL, config.SUPABASE_ANON_KEY);
+  await supabase.auth.setSession({
+    access_token: req.header("Authorization").split(" ")[1],
+    refresh_token: req.header("Refresh")
+  });
+
   const groupId = req.params.id;
   const { data, error } = await supabase
     .from("calendar_group")
