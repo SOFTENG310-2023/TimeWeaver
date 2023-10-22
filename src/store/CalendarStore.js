@@ -49,8 +49,13 @@ class CalendarStore {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
+        "Refresh": localStorage.getItem("refresh_token"),
       },
-      body: JSON.stringify({ name: newGroup.name }),
+      body: JSON.stringify({
+        name: newGroup.name,
+        owner_id: localStorage.getItem("user_id"),
+      }),
     });
 
     if (!res.ok) {
