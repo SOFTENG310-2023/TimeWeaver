@@ -96,6 +96,7 @@ Currently, TimeWeaver is available in versions:
 
 - [v1.0.0](https://github.com/SOFTENG310-2023/TimeWeaver/releases/tag/v1.0.0) (Initial Release)
 - [v1.1.0](https://github.com/SOFTENG310-2023/TimeWeaver/releases/tag/v1.1.0) (A2 Release)
+- [v2.0.0](https://github.com/SOFTENG310-2023/TimeWeaver/releases/tag/v2.0.0) (A3 Release)
 
 ## Contributor Guidelines
 
