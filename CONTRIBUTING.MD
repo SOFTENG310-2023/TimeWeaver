@@ -53,7 +53,7 @@ We use Github to host the code of this project, track features requests and bug 
 
 ## Testing
 
-We strongly reccomend that each Pull Request contains accompanying tests for the changes made in the Pull Request. Each commit will be automatically tested using the Projects test suite.
+We strongly recommend that each Pull Request contains accompanying tests for the changes made in the Pull Request. Each commit will be automatically tested using the Projects test suite.
 
 - Tests can be run by running `npm test` from the root folder.
 
@@ -63,6 +63,30 @@ We strongly reccomend that each Pull Request contains accompanying tests for the
 - Tests should be added for each applicable file by creating a new file `src/test/<fileName>.test.js`
 
 - Tests are implemented using Jest, follow this [link](https://jestjs.io/docs/using-matchers) for tips on using the framework
+
+## Database schema changes
+
+If for whatever reason, your contribution requires an update to the database schema, please follow these instructions and our team will determine whether to proceed with the changes.
+
+### Create a migration
+
+If changes were made to the database model (RLS policies, schemas, etc...) within the web client, you may need to pull the changes into the source. This will create new migration scripts in `/supabase/migrations/`.
+
+#### For local instances
+
+Change the `--db-url` to match the URL of your local database.
+
+```
+npx supabase db pull --db-url postgresql://postgres:postgres@localhost:54322/postgres
+```
+
+#### For remote instances
+
+```
+npx supabase db pull --linked
+```
+
+Please include the migrations in your pull requests.
 
 ## License
 
