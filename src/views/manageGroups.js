@@ -167,4 +167,5 @@ module.exports = {
   addGroup,
   setupNewGroup,
   retrieveGroupList,
+  updateGroupList,
 };

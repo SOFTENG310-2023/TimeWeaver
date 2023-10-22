@@ -1,7 +1,8 @@
 const { loginModal, signupModal, accountModal } = require("./modals");
-const { retrieveGroupList } = require("./manageGroups");
+const { retrieveGroupList, updateGroupList } = require("./manageGroups");
 const config = require("../utils/config");
 const { createClient } = require("@supabase/supabase-js");
+const CalendarStore = require("../store/CalendarStore").instance();
 
 /** HTML Element Declarations */
 const openLoginBtn = document.getElementById("user-account-button");
@@ -141,6 +142,11 @@ function handleLogin() {
     // user is not logged in
     document.getElementById("view-account-button").style.display = "none";
     document.getElementById("user-account-button").style.display = "flex";
+
+    // Remove groups from the sidebar
+    CalendarStore.groupList = [];
+    updateGroupList();
+
   } else {
     // Retrieve all groups if user is logged in
     retrieveGroupList();
